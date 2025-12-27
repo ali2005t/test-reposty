@@ -1,0 +1,125 @@
+/* Course Content Manager Styles */
+
+.unit-card {
+    background: #1e293b;
+    border-radius: 16px;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+}
+
+.unit-header {
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.02);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+}
+
+.unit-header:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.unit-title-area {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.unit-toggle-icon {
+    transition: transform 0.3s;
+}
+
+.unit-body {
+    display: none; /* Collapsed by default */
+    padding: 0;
+}
+
+.unit-body.open {
+    display: block;
+}
+
+.unit-tabs {
+    display: flex;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(0,0,0,0.1);
+}
+
+.unit-tab {
+    padding: 1rem 1.5rem;
+    color: #94a3b8;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s;
+}
+
+.unit-tab.active {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    background: rgba(99, 102, 241, 0.05);
+}
+
+.tab-content {
+    display: none;
+    padding: 1.5rem;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Items List */
+.content-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+}
+
+.content-item:hover {
+    border-color: rgba(99, 102, 241, 0.3);
+    transform: translateX(-5px);
+}
+
+.item-meta {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin-top: 5px;
+    display: flex;
+    gap: 15px;
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.8); z-index: 2000;
+    display: none; align-items: center; justify-content: center;
+    backdrop-filter: blur(5px);
+}
+
+.modal {
+    background: #1e293b; width: 500px; max-width: 90%;
+    border-radius: 20px; padding: 2rem;
+    position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.modal h3 { margin-top: 0; margin-bottom: 1.5rem; color: white; }
+
+.form-group { margin-bottom: 1.2rem; }
+.form-label { display: block; margin-bottom: 0.5rem; color: #cbd5e1; font-size: 0.9rem; }
+.form-input, .form-select { 
+    width: 100%; padding: 0.8rem; background: #0f172a; border: 1px solid #334155; 
+    border-radius: 8px; color: white; font-family: inherit; 
+}
+
+.modal-footer {
+    margin-top: 2rem; display: flex; justify-content: flex-end; gap: 10px;
+}

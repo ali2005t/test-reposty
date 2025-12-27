@@ -1,0 +1,314 @@
+/* Student App Theme Variables */
+:root {
+    /* Light Mode (Default) */
+    --app-bg: #f8fafc;
+    --app-card-bg: #ffffff;
+    --app-text: #1e293b;
+    --app-text-muted: #64748b;
+    --app-border: #e2e8f0;
+    --app-primary: #f59e0b;
+    /* Changed from Blue to Gold/Amber */
+    --app-primary-hover: #d97706;
+    --app-accent: #2563eb;
+    /* Blue as accent now? Or keep secondary */
+    --app-input-bg: #f1f5f9;
+    --app-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --app-danger: #ef4444;
+    --app-success: #10b981;
+}
+
+[data-theme="dark"] {
+    /* Dark Mode */
+    --app-bg: #0f172a;
+    --app-card-bg: #1e293b;
+    --app-text: #f1f5f9;
+    --app-text-muted: #94a3b8;
+    --app-border: #334155;
+    --app-primary: #f59e0b;
+    --app-primary-hover: #fbbf24;
+    --app-input-bg: #334155;
+    --app-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+}
+
+body {
+    background-color: var(--app-bg);
+    color: var(--app-text);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Auth Pages (Login/Register) */
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    position: relative;
+}
+
+.auth-box {
+    background: var(--app-card-bg);
+    padding: 2.5rem;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: var(--app-shadow);
+    text-align: center;
+    border: 1px solid var(--app-border);
+}
+
+.auth-logo {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    display: block;
+    text-decoration: none;
+    /* Gradient like Splash */
+    background: linear-gradient(135deg, var(--app-primary) 0%, #d97706 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: var(--app-primary);
+    /* Fallback */
+}
+
+.auth-sub {
+    color: var(--app-text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+    text-align: right;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--app-text);
+    font-weight: 500;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: var(--app-input-bg);
+    border: 1px solid var(--app-border);
+    border-radius: 10px;
+    color: var(--app-text);
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--app-primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.btn-auth {
+    width: 100%;
+    padding: 1rem;
+    background: var(--app-primary);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-auth:hover {
+    background: var(--app-primary-hover);
+}
+
+.auth-footer {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--app-text-muted);
+}
+
+.auth-footer a {
+    color: var(--app-primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Theme Toggle Button */
+.theme-toggle-fixed {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: var(--app-card-bg);
+    border: 1px solid var(--app-border);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--app-text);
+    box-shadow: var(--app-shadow);
+    z-index: 100;
+}
+
+/* Improved Cards */
+.course-card {
+    background: var(--app-card-bg);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    /* Softer, deeper shadow */
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    /* Subtle border */
+    margin-bottom: 1rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.course-card:hover {
+    /* Desktop hover */
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.course-card:active {
+    transform: scale(0.98);
+}
+
+/* Welcome Banner */
+.welcome-banner {
+    background: linear-gradient(135deg, var(--app-primary) 0%, #a855f7 100%);
+    /* Primary to Purple Gradient */
+    color: white;
+    padding: 1.5rem;
+    border-radius: 16px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.welcome-banner h2 {
+    color: white !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-banner p {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Decorative Circle in Banner */
+.welcome-banner::after {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    width: 100px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+}
+
+/* Header */
+.app-header {
+    background: rgba(255, 255, 255, 0.8);
+    /* Glass effect */
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--app-border);
+    padding: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+[data-theme="dark"] .app-header {
+    background: rgba(30, 41, 59, 0.8);
+}
+
+.app-title {
+    font-size: 1.2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--app-primary) 0%, #a855f7 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+}
+
+/* Restored Missing Classes */
+.course-thumb {
+    height: 160px;
+    background: #cbd5e1;
+    position: relative;
+}
+
+.course-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.course-info {
+    padding: 1rem;
+}
+
+.course-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    color: var(--app-text);
+}
+
+.course-meta {
+    font-size: 0.85rem;
+    color: var(--app-text-muted);
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Bottom Nav */
+.bottom-nav {
+    background: var(--app-card-bg);
+    border-top: 1px solid var(--app-border);
+    padding: 0.5rem 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    z-index: 50;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="dark"] .bottom-nav {
+    background: rgba(30, 41, 59, 0.9);
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--app-text-muted);
+    text-decoration: none;
+    font-size: 0.75rem;
+    gap: 4px;
+}
+
+.nav-item i {
+    font-size: 1.2rem;
+}
+
+.nav-item.active {
+    color: var(--app-primary);
+    font-weight: bold;
+}
