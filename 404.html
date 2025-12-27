@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحة غير موجودة - Ta3leemy</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #f1f5f9;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            flex-direction: column;
+        }
+
+        .error-code {
+            font-size: 6rem;
+            font-weight: 800;
+            color: #6366f1;
+            margin: 0;
+            line-height: 1;
+        }
+
+        .error-message {
+            font-size: 1.5rem;
+            color: #94a3b8;
+            margin: 20px 0;
+        }
+
+        .home-btn {
+            background: #6366f1;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .home-btn:hover {
+            background: #4f46e5;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="error-code">...</div>
+    <div class="error-message">جاري التحويل...</div>
+
+    <script>
+        // SPA 404 Redirect Hack
+        (function () {
+            var path = window.location.pathname;
+            var segments = path.split('/').filter(Boolean);
+
+            // Heuristic: If it looks like a slug path (e.g. /my-school), redirect to student app
+            // Assuming root is served at domain.com/ or 127.0.0.1:5500/
+
+            // Check if we are aiming for student app slug
+            // User link: student-app/index.html#/slug  -> we want student-app/slug
+
+            // Construct redirect path
+            var redirect = path;
+
+            // Redirect to main entry point
+            // If local/LiveServer, root might be tricky. Using relative.
+
+            // Strategy: Redirect to reference index.html
+            // If path contains 'student-app', go there.
+
+            if (path.includes('/student-app/')) {
+                window.location.replace('index.html?redirect=' + encodeURIComponent(path));
+            } else {
+                // Root slug? e.g. /my-school
+                // Try to go to student-app/index.html with this slug
+                // This assumes "Main Landing" is student-app.
+                // Or user might want root landing.
+                // Let's stick to generic redirect for now or error if not found.
+
+                // Fallback to "Page Not Found" UI if after 2s no logic runs
+                setTimeout(() => {
+                    document.querySelector('.error-code').innerText = '404';
+                    document.querySelector('.error-message').innerText = 'الصفحة غير موجودة';
+                }, 100);
+            }
+        })();
+    </script>
+
+</body>
+
+</html>

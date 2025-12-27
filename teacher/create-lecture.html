@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إضافة محاضرة - Ta3leemy</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/create-lecture.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <style>
+        /* Custom Radio Style Override */
+        input[type="radio"] {
+            accent-color: #6366f1;
+            /* Purple */
+            transform: scale(1.2);
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+        .radio-group label {
+            margin-inline-end: 15px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .section-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: var(--text-main);
+            font-size: 1.05rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header"><a href="#" class="logo">Ta3leemy</a></div>
+            <div class="sidebar-menu">
+                <div class="menu-item" onclick="window.location.href='dashboard.html'"><i class="fas fa-home"></i>
+                    الرئيسية</div>
+                <div class="menu-item" onclick="window.location.href='trainings.html'"><i
+                        class="fas fa-layer-group"></i> الدورات</div>
+                <div class="menu-item active" onclick="window.location.href='lectures.html'"><i
+                        class="fas fa-video"></i> المحاضرات</div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <button class="btn btn-secondary" onclick="window.history.back()">
+                        <i class="fas fa-arrow-right"></i> العودة للخلف
+                    </button>
+                    <h3>إضافة محاضرة</h3>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <form id="create-lecture-form" style="max-width:1000px; margin:0 auto;">
+
+                    <div class="card" style="padding:1.5rem; margin-bottom:20px;">
+                        <h4 style="margin:0 0 15px 0; color:var(--text-light);">معلومات عامة</h4>
+
+                        <div class="form-group">
+                            <label class="form-label">نوع المحتوى <span style="color:red">*</span></label>
+                            <select id="content-type-select" class="form-input">
+                                <option value="lecture">محاضرة فيديو (Video Lecture)</option>
+                                <option value="book">ملزمة / كتاب (PDF/Book)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">الدورة التدريبية (Training) <span
+                                    style="color:red">*</span></label>
+                            <select id="select-training" class="form-input" required>
+                                <option value="">اختر الدورة...</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="card" style="padding:2rem; margin-bottom:2rem;">
+                        <!-- Name -->
+                        <div class="form-group">
+                            <label class="form-label">الاسم <span style="color:red">*</span></label>
+                            <input type="text" id="lecture-title" class="form-input" placeholder="أدخل الاسم" required>
+                        </div>
+
+                        <!-- Prices Grid -->
+                        <div class="form-grid" style="grid-template-columns: repeat(3, 1fr);">
+                            <div class="form-group">
+                                <label class="form-label">سعر البيع أونلاين</label>
+                                <input type="number" id="lecture-price" class="form-input" placeholder="أدخل السعر">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">سعر التجديد</label>
+                                <input type="number" id="lecture-renew-price" class="form-input"
+                                    placeholder="أدخل السعر">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">الخصم</label>
+                                <input type="number" id="lecture-discount" class="form-input" placeholder="أدخل الخصم">
+                            </div>
+                        </div>
+
+                        <!-- Has Video? -->
+                        <div class="form-group">
+                            <div class="section-label">
+                                <span>هل المحاضرة تحتوي علي فيديو؟</span>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="hasVideo" value="yes" checked> نعم</label>
+                                    <label><input type="radio" name="hasVideo" value="no"> لا</label>
+                                </div>
+                            </div>
+                            <div id="video-url-container">
+                                <label class="form-label">رابط المحاضرة علي (Youtube أو Vimeo)</label>
+                                <input type="url" id="video-url" class="form-input" placeholder="أدخل الرابط">
+                            </div>
+                        </div>
+
+                        <!-- Drive Link -->
+                        <div class="form-group">
+                            <label class="form-label">رابط المحاضرة علي (Drive)</label>
+                            <input type="url" id="drive-url" class="form-input" placeholder="أدخل الرابط">
+                        </div>
+
+                        <!-- Prerequisite (Compulsory) -->
+                        <div class="form-group">
+                            <label class="form-label">محاضرات اجباريه علي هذه المحاضرة</label>
+                            <select id="prerequisite-select" class="form-input">
+                                <option value="">لا يوجد (اختياري)</option>
+                                <!-- Populated via JS -->
+                            </select>
+                            <small style="color:var(--text-light); display:block; margin-top:5px;">هذه المحاضرة ستكون
+                                مغلقة حتى يتم إتمام المحاضرة المختارة.</small>
+                        </div>
+
+                        <!-- In Bundle? -->
+                        <div class="form-group">
+                            <div class="section-label">
+                                <span>هل تريد إضافة المحاضرة في الباندل؟</span>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="inBundle" value="yes" checked> نعم</label>
+                                    <label><input type="radio" name="inBundle" value="no"> لا</label>
+                                </div>
+                            </div>
+                            <!-- Courses Select (Unit) -->
+                            <div id="unit-container">
+                                <label class="form-label">الكورسات</label>
+                                <select id="select-unit" class="form-input">
+                                    <option value="">اختر الكورس...</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Is Live? -->
+                        <div class="form-group">
+                            <div class="section-label">
+                                <span>هل هذه المحاضرة لايف؟</span>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="isLive" value="yes"> نعم</label>
+                                    <label><input type="radio" name="isLive" value="no" checked> لا</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Split Parts? (Placeholder logic) -->
+                        <div class="form-group">
+                            <div class="section-label">
+                                <span>متقسم أجزاء</span>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="splitParts" value="yes"> نعم</label>
+                                    <label><input type="radio" name="splitParts" value="no" checked> لا</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Has Exams/Ratings? -->
+                        <div class="form-group">
+                            <div class="section-label">
+                                <span>هل المحاضرة تشمل تقييمات؟</span>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="hasExams" value="yes"> نعم</label>
+                                    <label><input type="radio" name="hasExams" value="no" checked> لا</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Limits & Order -->
+                        <div class="form-grid" style="grid-template-columns: repeat(3, 1fr);">
+                            <div class="form-group">
+                                <label class="form-label">ترتيب المحاضرة داخل الوحدة</label>
+                                <input type="number" id="lecture-order" class="form-input" placeholder="أدخل الترتيب">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">عدد المشاهدات للطالب الواحد</label>
+                                <input type="number" id="views-limit" class="form-input"
+                                    placeholder="أدخل عدد المشاهدات">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">عدد أيام الحجز <span style="color:red">*</span></label>
+                                <input type="number" id="days-limit" class="form-input"
+                                    placeholder="أدخل عدد أيام الحجز">
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="form-group">
+                            <label class="form-label">الوصف</label>
+                            <div id="editor-container"></div>
+                        </div>
+
+                        <!-- Thumbnail -->
+                        <div class="form-group">
+                            <label class="form-label">المرفقات (Thumbnail)</label>
+                            <div style="display:flex; gap:10px;">
+                                <input type="file" id="thumbnail-file" class="form-input">
+                            </div>
+                        </div>
+
+                        <div style="display:flex; justify-content:flex-end; gap:15px; margin-top:30px;">
+                            <button type="button" class="btn btn-secondary" onclick="window.history.back()">العودة
+                                للخلف</button>
+                            <button type="submit" class="btn btn-primary" id="save-btn" style="min-width: 150px;">
+                                <i class="fas fa-save"></i> حفظ
+                            </button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script type="module" src="../assets/js/firebase-config.js"></script>
+    <script type="module" src="../assets/js/create-lecture.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تعديل الدورة - Ta3leemy</title>
+
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header"><a href="#" class="logo">Ta3leemy</a></div>
+            <div class="sidebar-menu">
+                <div class="menu-item" onclick="window.location.href='dashboard.html'"><i class="fas fa-home"></i>
+                    الرئيسية</div>
+                <div class="menu-item active"><i class="fas fa-layer-group"></i> الدورات</div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <button class="btn btn-secondary" onclick="window.history.back()">
+                        <i class="fas fa-arrow-right"></i> عودة
+                    </button>
+                    <h3>تعديل الدورة التدريبية</h3>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <div class="auth-card" style="max-width: 900px; margin: 0 auto; padding: 2rem;">
+
+                    <form id="edit-training-form">
+
+                        <div class="form-group">
+                            <label>عنوان الدورة <span style="color:red">*</span></label>
+                            <input type="text" id="title" class="form-input" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>الوصف</label>
+                            <textarea id="description" class="form-input" rows="4"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>رابط صورة الغلاف (اختياري)</label>
+                            <input type="url" id="cover-image" class="form-input"
+                                placeholder="https://example.com/image.jpg">
+                        </div>
+
+                        <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
+                            <label class="switch">
+                                <input type="checkbox" id="public-toggle">
+                                <span class="slider round"></span>
+                            </label>
+                            <span>نشر الدورة فوراً؟</span>
+                        </div>
+
+                        <input type="hidden" id="training-id">
+
+                        <div class="form-footer"
+                            style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem;">
+                            <button type="submit" class="btn btn-primary" id="save-btn">
+                                <span id="btn-text">حفظ التعديلات</span>
+                                <i class="fas fa-spinner fa-spin" id="btn-loader" style="display: none;"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="../assets/js/firebase-config.js"></script>
+    <script type="module" src="../assets/js/edit-training.js"></script>
+</body>
+
+</html>

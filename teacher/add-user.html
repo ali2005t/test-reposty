@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إضافة موظف - Ta3leemy</title>
+
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header"><a href="#" class="logo">Ta3leemy</a></div>
+            <div class="sidebar-menu">
+                <div class="menu-item" onclick="window.location.href='dashboard.html'"><i class="fas fa-home"></i>
+                    الرئيسية</div>
+                <div class="menu-item active"><i class="fas fa-user-shield"></i> الموظفين</div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <button class="btn btn-secondary" onclick="window.history.back()">
+                        <i class="fas fa-arrow-right"></i> عودة
+                    </button>
+                    <h3>إضافة موظف جديد</h3>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <div class="auth-card" style="max-width: 600px; margin: 0 auto; padding: 2rem;">
+
+                    <form id="add-user-form">
+
+                        <div class="form-group">
+                            <label>الاسم بالكامل <span style="color:red">*</span></label>
+                            <input type="text" id="user-name" class="form-input" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>البريد الإلكتروني <span style="color:red">*</span></label>
+                            <input type="email" id="user-email" class="form-input" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>كلمة المرور الابتدائية <span style="color:red">*</span></label>
+                            <input type="text" id="user-password" class="form-input" value="123456" required>
+                            <small style="color:var(--text-muted);">يمكن للموظف تغييرها لاحقاً</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label>الصلاحية</label>
+                            <select id="user-role" class="form-input">
+                                <option value="assistant">مساعد (Assistant)</option>
+                                <option value="moderator">مشرف (Moderator)</option>
+                                <option value="admin">مدير (Admin)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-footer"
+                            style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem;">
+                            <button type="submit" class="btn btn-primary" id="save-btn">
+                                <span id="btn-text">إضافة الموظف</span>
+                                <i class="fas fa-spinner fa-spin" id="btn-loader" style="display: none;"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="../assets/js/firebase-config.js"></script>
+    <script type="module" src="../assets/js/add-user.js"></script>
+</body>
+
+</html>

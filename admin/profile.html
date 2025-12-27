@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الملف الشخصي - Ta3leemy Admin</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header" style="display:flex; justify-content:center; padding: 20px 0;">
+                <img src="../assets/images/Gemini_Generated_Image_gipfqrgipfqrgipf.png" alt="Ta3leemy"
+                    style="max-height: 80px; max-width: 90%; object-fit:contain;">
+            </div>
+            <div class="sidebar-menu">
+                <div class="menu-item" onclick="window.location.href='dashboard.html'"><i class="fas fa-home"></i>
+                    الرئيسية</div>
+                <div class="menu-item" onclick="window.location.href='teachers.html'"><i
+                        class="fas fa-chalkboard-teacher"></i> المعلمون</div>
+                <div class="menu-item" onclick="window.location.href='students.html'"><i
+                        class="fas fa-user-graduate"></i> الطلاب</div>
+                <div class="menu-item" onclick="window.location.href='settings.html'"><i class="fas fa-cogs"></i>
+                    الإعدادات</div>
+            </div>
+            <div class="sidebar-footer">
+                <div class="menu-item" id="admin-logout" style="color:#ef4444; cursor:pointer;"><i
+                        class="fas fa-sign-out-alt"></i> خروج
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div style="display:flex; align-items:center; gap:1rem;">
+                    <button class="btn-icon mobile-only" id="open-sidebar"><i class="fas fa-bars"></i></button>
+                    <h3>الملف الشخصي</h3>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <div class="content-card" style="max-width:600px; margin:0 auto;">
+                    <form id="profile-form">
+                        <div class="form-group" style="margin-bottom:20px; text-align:center;">
+                            <div
+                                style="width:100px; height:100px; margin:0 auto 10px; border-radius:50%; overflow:hidden; border:2px solid #6366f1; background:#0f172a;">
+                                <img id="profile-preview" src="../assets/images/avatar-placeholder.png"
+                                    style="width:100%; height:100%; object-fit:cover;"
+                                    onerror="this.src='../assets/images/gemini-icon.png'">
+                            </div>
+                            <label for="admin-photo-input" style="cursor:pointer; color:#6366f1; font-weight:bold;">
+                                <i class="fas fa-camera"></i> تغير الصورة
+                            </label>
+                            <input type="file" id="admin-photo-input" hidden accept="image/*"
+                                onchange="previewImage(event)">
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:15px;">
+                            <label style="display:block; margin-bottom:5px; color:#cbd5e1;">الاسم</label>
+                            <input type="text" id="admin-name" required
+                                style="width:100%; padding:10px; background:#1e293b; border:1px solid #334155; color:white; border-radius:8px;">
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:15px;">
+                            <label style="display:block; margin-bottom:5px; color:#cbd5e1;">البريد الإلكتروني (لا يمكن
+                                تغييره)</label>
+                            <input type="email" id="admin-email" disabled
+                                style="width:100%; padding:10px; background:#0f172a; border:1px solid #334155; color:#94a3b8; border-radius:8px;">
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:15px;">
+                            <label style="display:block; margin-bottom:5px; color:#cbd5e1;">كلمة المرور الجديدة
+                                (اختياري)</label>
+                            <input type="password" id="admin-password" placeholder="اتركه فارغاً إذا لم ترد التغيير"
+                                style="width:100%; padding:10px; background:#1e293b; border:1px solid #334155; color:white; border-radius:8px;">
+                        </div>
+
+                        <button type="submit" class="btn"
+                            style="width:100%; padding:12px; background:#6366f1; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">
+                            حفظ التغييرات
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module">
+        import { auth, db } from '../assets/js/firebase-config.js';
+        import { onAuthStateChanged, updatePassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        let currentProfileImage = null;
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const docSnap = await getDoc(doc(db, "admins", user.uid));
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    document.getElementById('admin-name').value = data.name;
+                    document.getElementById('admin-email').value = data.email;
+
+                    if (data.profileImage) {
+                        currentProfileImage = data.profileImage;
+                        updateProfileImages(data.profileImage);
+                    }
+                }
+            } else {
+                window.location.href = 'login.html';
+            }
+        });
+
+        function updateProfileImages(src) {
+            // Update the preview in the form
+            document.getElementById('profile-preview').src = src;
+            // Update sidebar logo (optional override) or create a profile widget in sidebar
+            // The prompt asked to update sidebar/header.
+            // Let's assume there's a header avatar place.
+            // Since we don't have a standardized ID for header avatar across pages, we'll try to find it.
+        }
+
+        // Image Preview Handler
+        window.previewImage = (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    document.getElementById('profile-preview').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        };
+
+        document.getElementById('profile-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerText;
+            btn.disabled = true;
+            btn.innerText = 'جاري الحفظ...';
+
+            try {
+                const name = document.getElementById('admin-name').value;
+                const password = document.getElementById('admin-password').value;
+                const fileInput = document.getElementById('admin-photo-input');
+                const user = auth.currentUser;
+
+                let newImageBase64 = currentProfileImage;
+
+                // Process Image if selected
+                if (fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    // Basic validation
+                    if (file.size > 1024 * 1024) throw new Error("حجم الصورة يجب أن يكون أقل من 1 ميجابايت");
+
+                    newImageBase64 = await new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = (e) => resolve(e.target.result);
+                        reader.onerror = reject;
+                        reader.readAsDataURL(file);
+                    });
+                }
+
+                // 1. Update Firestore
+                await updateDoc(doc(db, "admins", user.uid), {
+                    name: name,
+                    profileImage: newImageBase64
+                });
+
+                // 2. Update Password if set
+                if (password) {
+                    await updatePassword(user, password);
+                }
+
+                alert("تم تحديث البيانات بنجاح");
+
+                // Refresh to see changes across app if needed, or just update local
+                currentProfileImage = newImageBase64;
+
+            } catch (error) {
+                console.error(error);
+                alert("خطأ: " + error.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = originalText;
+            }
+        });
+
+        document.getElementById('admin-logout').onclick = () => auth.signOut();
+        document.getElementById('open-sidebar').onclick = () => document.getElementById('sidebar').classList.toggle('active');
+    </script>
+</body>
+
+</html>

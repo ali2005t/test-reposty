@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>تسجيل طالب جديد - Ta3leemy</title>
+
+    <link rel="stylesheet" href="../assets/css/auth.css">
+    <link rel="stylesheet" href="../assets/css/student.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <button class="theme-toggle-fixed theme-toggle-btn" title="تغيير المظهر">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <div class="auth-container">
+        <div class="auth-box">
+            <a href="#" class="auth-logo">Ta3leemy</a>
+            <p class="auth-sub">أنشئ حسابك الجديد وابدأ التعلم</p>
+
+            <form id="student-register-form">
+                <div class="form-group">
+                    <label class="form-label">الاسم الكامل</label>
+                    <input type="text" id="full-name" class="form-input" placeholder="اكتب اسمك هنا" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">رقم الهاتف</label>
+                    <input type="tel" id="details-phone" class="form-input" placeholder="010xxxxxxx" required>
+                </div>
+
+                <div class="form-group" id="year-group" style="display:none;">
+                    <label class="form-label">السنة الدراسية</label>
+                    <select id="academic-year" class="form-input">
+                        <option value="">اختر السنة الدراسية</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">البريد الإلكتروني</label>
+                    <input type="email" id="email" class="form-input" placeholder="name@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">كلمة المرور</label>
+                    <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="btn-auth" id="register-btn">
+                    <span id="btn-text">إنشاء الحساب</span>
+                    <i class="fas fa-spinner fa-spin" id="btn-loader" style="display: none;"></i>
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                لديك حساب بالفعل؟ <a href="login.html">سجل دخول</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="../assets/js/firebase-config.js"></script>
+    <script type="module" src="../assets/js/student-auth.js"></script>
+    <script src="../assets/js/theme.js"></script>
+</body>
+
+</html>

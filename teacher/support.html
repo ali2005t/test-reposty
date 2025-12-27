@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الدعم الفني - Ta3leemy Teacher</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .support-actions-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 400px;
+            margin: 50px auto;
+            text-align: center;
+        }
+
+        .support-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .support-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-tickets {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .btn-whatsapp {
+            background: #6366f1;
+            /* Using Primary Color instead of Whatsapp Green per image request, users image showed blue-ish button */
+            color: white;
+        }
+
+        .support-card {
+            background: #1e293b;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .icon-circle {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2.5rem;
+            color: #f59e0b;
+        }
+
+        /* Chat View Overlay */
+        .chat-view {
+            position: fixed;
+            inset: 0;
+            background: #0f172a;
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+        }
+
+        .chat-view.active {
+            display: flex;
+        }
+
+        .chat-header {
+            padding: 15px 20px;
+            background: #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #334155;
+        }
+
+        .chat-body {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px 18px;
+            border-radius: 12px;
+            line-height: 1.5;
+            color: white;
+            font-size: 0.95rem;
+        }
+
+        .msg-me {
+            align-self: flex-start;
+            background: #334155;
+            border-bottom-right-radius: 2px;
+        }
+
+        .msg-other {
+            align-self: flex-end;
+            background: #6366f1;
+            border-bottom-left-radius: 2px;
+        }
+
+        .chat-footer {
+            padding: 15px;
+            background: #1e293b;
+            border-top: 1px solid #334155;
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            background: #0f172a;
+            border: 1px solid #334155;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">Ta3leemy</div>
+            </div>
+            <div class="sidebar-menu">
+                <div class="menu-item" onclick="window.location.href='dashboard.html'"><i class="fas fa-home"></i>
+                    الرئيسية</div>
+                <div class="menu-item" onclick="window.location.href='subscriptions.html'"><i
+                        class="fas fa-play-circle"></i> الاشتراكات</div>
+                <div class="menu-item" onclick="window.location.href='students.html'"><i class="fas fa-users"></i>
+                    الطلاب</div>
+                <!-- Support Active -->
+                <div class="menu-item active" onclick="window.location.href='support.html'"><i
+                        class="fas fa-headset"></i> الدعم الفني</div>
+                <div class="menu-item" onclick="window.location.href='settings.html'"><i class="fas fa-cog"></i>
+                    الإعدادات</div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div style="display:flex; align-items:center; gap:1rem;">
+                    <button class="btn-icon mobile-only" id="open-sidebar"><i class="fas fa-bars"></i></button>
+                    <h3>الدعم الفني</h3>
+                </div>
+            </header>
+
+            <div class="page-content" style="display:flex; align-items:center; min-height:80vh;">
+
+                <div class="support-actions-container">
+                    <div class="support-card">
+                        <div class="icon-circle">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h2 style="color:white; margin-bottom:10px;">الدعم الفني</h2>
+                        <p style="color:#94a3b8; margin-bottom:30px;">نحن هنا لمساعدتك في أي وقت. اختر الوسيلة
+                            المناسبة.</p>
+
+                        <div style="display:flex; flex-direction:column; gap:15px;">
+                            <button class="support-btn btn-tickets" onclick="openTickets()">
+                                <i class="fas fa-ticket-alt"></i> تذاكر الدعم
+                            </button>
+
+                            <button class="support-btn btn-whatsapp" onclick="openWhatsapp()">
+                                <i class="fab fa-whatsapp"></i> تواصل معنا
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Chat View -->
+    <div class="chat-view" id="chat-view">
+        <header class="chat-header">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <button onclick="closeChat()" class="btn-icon" style="color:white;"><i
+                        class="fas fa-arrow-right"></i></button>
+                <h3 style="margin:0; color:white;">المحادثة مع الإدارة</h3>
+            </div>
+        </header>
+
+        <div class="chat-body" id="chat-body">
+            <!-- Messages -->
+            <div style="text-align:center; color:#64748b; margin-top:20px;">ابدأ المحادثة...</div>
+        </div>
+
+        <div class="chat-footer">
+            <input type="text" id="chat-input" class="chat-input" placeholder="اكتب رسالتك...">
+            <button onclick="sendMessage()" class="btn-icon"
+                style="background:#6366f1; width:45px; height:45px; border-radius:50%; display:flex; align-items:center; justify-content:center;">
+                <i class="fas fa-paper-plane" style="color:white;"></i>
+            </button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { auth, db } from '../assets/js/firebase-config.js';
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { collection, addDoc, query, where, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        let currentUser = null;
+        let unsubscribeChat = null;
+
+        // Admin Whatsapp Number (Default)
+        const ADMIN_WHATSAPP = "201000000000"; // Replace with actual admin number or fetch from config
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+            } else {
+                window.location.href = '../auth/login.html';
+            }
+        });
+
+        window.openWhatsapp = () => {
+            // In future, fetch this from an "Admin Settings" collection
+            window.open(`https://wa.me/${ADMIN_WHATSAPP}`, '_blank');
+        };
+
+        window.openTickets = () => {
+            const chatView = document.getElementById('chat-view');
+            chatView.classList.add('active');
+            loadMessages();
+        };
+
+        window.closeChat = () => {
+            document.getElementById('chat-view').classList.remove('active');
+            if (unsubscribeChat) unsubscribeChat();
+        };
+
+        async function loadMessages() {
+            if (!currentUser) return;
+
+            const q = query(
+                collection(db, "support_tickets_teacher"), // Separate collection for teacher -> admin
+                where("teacherId", "==", currentUser.uid),
+                orderBy("createdAt", "asc")
+            );
+
+            const chatBody = document.getElementById('chat-body');
+
+            unsubscribeChat = onSnapshot(q, (snapshot) => {
+                chatBody.innerHTML = '';
+                if (snapshot.empty) {
+                    chatBody.innerHTML = '<div style="text-align:center; color:#64748b; margin-top:50px;">لا توجد رسائل سابقة. ابدأ المحادثة الآن.</div>';
+                }
+
+                snapshot.forEach(doc => {
+                    const msg = doc.data();
+                    const isMe = msg.sender === 'teacher';
+                    const div = document.createElement('div');
+                    div.className = `message ${isMe ? 'msg-me' : 'msg-other'}`;
+                    div.textContent = msg.text;
+                    chatBody.appendChild(div);
+                });
+                chatBody.scrollTop = chatBody.scrollHeight;
+            });
+        }
+
+        window.sendMessage = async () => {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (!text || !currentUser) return;
+
+            input.value = '';
+
+            try {
+                await addDoc(collection(db, "support_tickets_teacher"), {
+                    teacherId: currentUser.uid,
+                    teacherName: currentUser.displayName || 'Teacher',
+                    text: text,
+                    sender: 'teacher', // 'teacher' or 'admin'
+                    createdAt: serverTimestamp(),
+                    read: false
+                });
+
+                // Optional: Notify Admin
+                await addDoc(collection(db, "notifications"), {
+                    target: 'admin',
+                    type: 'support_msg',
+                    title: 'رسالة دعم جديدة',
+                    message: `رسالة من ${currentUser.displayName || 'معلم'}`,
+                    link: 'support.html', // Admin support page
+                    createdAt: serverTimestamp(),
+                    read: false
+                });
+
+            } catch (e) {
+                console.error(e);
+                alert("فشل الإرسال");
+            }
+        };
+
+        // Sidebar Toggle
+        const btn = document.getElementById('open-sidebar');
+        const sb = document.getElementById('sidebar');
+        if (btn) btn.onclick = () => sb.classList.toggle('active');
+
+    </script>
+</body>
+
+</html>

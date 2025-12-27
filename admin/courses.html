@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة الكورسات - Ta3leemy Admin</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header" style="display:flex; justify-content:center; padding: 20px 0;">
+                <img src="../assets/images/icon title  and logo .png" alt="Ta3leemy"
+                    style="max-height: 50px; max-width: 90%; object-fit:contain;">
+            </div>
+            <div class="sidebar-menu">
+                <div class="menu-item" onclick="window.location.href='dashboard.html'"><i class="fas fa-home"></i>
+                    الرئيسية</div>
+                <div class="menu-item" onclick="window.location.href='teachers.html'"><i
+                        class="fas fa-chalkboard-teacher"></i> المعلمون</div>
+                <div class="menu-item" onclick="window.location.href='students.html'"><i
+                        class="fas fa-user-graduate"></i> الطلاب</div>
+                <div class="menu-item active" onclick="window.location.href='courses.html'"><i class="fas fa-book"></i>
+                    الكورسات</div>
+                <div class="menu-item" onclick="window.location.href='packages.html'"><i class="fas fa-box-open"></i>
+                    الباقات</div>
+                <div class="menu-item" onclick="window.location.href='subscriptions.html'"><i
+                        class="fas fa-file-invoice-dollar"></i> الاشتراكات</div>
+                <div class="menu-item" onclick="window.location.href='financials.html'"><i
+                        class="fas fa-dollar-sign"></i> المالية</div>
+                <div class="menu-item" onclick="window.location.href='app-requests.html'"><i
+                        class="fas fa-mobile-screen"></i> تجهيز التطبيقات</div>
+                <div class="menu-item" onclick="window.location.href='notifications.html'"><i class="fas fa-bell"></i>
+                    الإشعارات</div>
+                <div class="menu-item" onclick="window.location.href='banners.html'"><i class="fas fa-images"></i>
+                    البانرات</div>
+                <div class="menu-item" onclick="window.location.href='security.html'"><i class="fas fa-shield-alt"></i>
+                    الأمان</div>
+                <div class="menu-item" onclick="window.location.href='settings.html'"><i class="fas fa-cogs"></i>
+                    الإعدادات</div>
+            </div>
+            <div class="sidebar-footer">
+                <div class="menu-item" id="logout-btn" style="color:#ef4444;"><i class="fas fa-sign-out-alt"></i> خروج
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div style="display:flex; align-items:center; gap:1rem;">
+                    <button class="btn-icon mobile-only" id="open-sidebar"><i class="fas fa-bars"></i></button>
+                    <h3>قائمة الكورسات</h3>
+                </div>
+                <div class="top-actions">
+                    <div class="profile-widget">
+                        <span class="avatar">A</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <div class="content-card">
+                    <div class="filters-bar" style="display:flex; gap:10px; flex-wrap:wrap;">
+                        <input type="text" id="search-input" placeholder="بحث باسم الكورس..." class="form-input"
+                            style="background:#0f172a; border:1px solid #334155; padding:10px; border-radius:8px; color:white; flex:1;">
+
+                        <select id="teacher-filter" class="form-input"
+                            style="background:#0f172a; border:1px solid #334155; padding:10px; border-radius:8px; color:white;">
+                            <option value="all">كل المعلمين</option>
+                            <!-- Teachers loaded here -->
+                        </select>
+
+                        <select id="status-filter" class="form-input"
+                            style="background:#0f172a; border:1px solid #334155; padding:10px; border-radius:8px; color:white;">
+                            <option value="all">جميع الحالات</option>
+                            <option value="active">نشط</option>
+                            <option value="pending">قيد المراجعة</option>
+                            <option value="rejected">مرفوض</option>
+                        </select>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>عنوان الكورس</th>
+                                    <th>المعلم</th>
+                                    <th>السعر</th>
+                                    <th>الحالة</th>
+                                    <th>إجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="courses-list">
+                                <tr>
+                                    <td colspan="5" style="text-align:center; padding:2rem;">جاري التحميل...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../assets/js/ui-manager.js"></script>
+    <script type="module">
+        import { auth, db } from '../assets/js/firebase-config.js';
+        import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { doc, getDoc, collection, getDocs, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const adminDoc = await getDoc(doc(db, "admins", user.uid));
+                if (!adminDoc.exists()) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                loadCourses();
+            } else {
+                window.location.href = 'login.html';
+            }
+        });
+
+        document.getElementById('logout-btn').onclick = () => signOut(auth);
+        const btn = document.getElementById('open-sidebar');
+        const sb = document.getElementById('sidebar');
+        if (btn) btn.onclick = () => sb.classList.toggle('active');
+
+        let allCourses = [];
+
+        async function loadCourses() {
+            try {
+                // 1. Fetch Teachers for Dropdown
+                const teacherSnap = await getDocs(collection(db, "teachers"));
+                const teacherSelect = document.getElementById('teacher-filter');
+                const teacherMap = {};
+
+                // Get Teacher ID from URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const preSelectedTeacher = urlParams.get('teacherId');
+
+                teacherSnap.forEach(t => {
+                    const data = t.data();
+                    teacherMap[t.id] = data.name;
+                    const option = document.createElement('option');
+                    option.value = t.id;
+                    option.innerText = data.name;
+                    if (t.id === preSelectedTeacher) option.selected = true;
+                    teacherSelect.appendChild(option);
+                });
+
+                // 2. Fetch Courses
+                const snap = await getDocs(collection(db, "courses"));
+                allCourses = [];
+
+                snap.forEach(d => {
+                    const c = d.data();
+                    c.id = d.id;
+                    c.teacherName = teacherMap[c.teacherId] || 'غير معروف';
+                    allCourses.push(c);
+                });
+
+                renderCourses();
+
+            } catch (e) {
+                console.error(e);
+                document.getElementById('courses-list').innerHTML = '<tr><td colspan="5" style="text-align:center; color:red;">خطأ في التحميل</td></tr>';
+                UIManager.showToast('حدث خطأ أثناء تحميل البيانات', 'error');
+            }
+        }
+
+        function renderCourses() {
+            const tbody = document.getElementById('courses-list');
+            const statusFilter = document.getElementById('status-filter').value;
+            const teacherFilter = document.getElementById('teacher-filter').value;
+            const search = document.getElementById('search-input').value.toLowerCase();
+
+            tbody.innerHTML = '';
+
+            const filtered = allCourses.filter(c => {
+                const matchStatus = statusFilter === 'all' || c.status === statusFilter || (!c.status && statusFilter === 'all');
+                const matchTeacher = teacherFilter === 'all' || c.teacherId === teacherFilter;
+                const matchSearch = c.title.toLowerCase().includes(search);
+                return matchStatus && matchTeacher && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">لا توجد نتائج</td></tr>';
+                return;
+            }
+
+            filtered.forEach(c => {
+                const status = c.status || 'draft';
+                let badgeClass = 'badge-success';
+                let statusText = 'نشط';
+
+                if (status === 'pending') { badgeClass = 'badge-warning'; statusText = 'قيد المراجعة'; }
+                else if (status === 'rejected') { badgeClass = 'badge-danger'; statusText = 'مرفوض'; }
+                else if (status === 'draft') { badgeClass = 'badge-secondary'; statusText = 'مسودة'; }
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td style="font-weight:bold;">${c.title}</td>
+                    <td>${c.teacherName}</td>
+                    <td>${c.price ? c.price + ' ج.م' : 'مجاني'}</td>
+                    <td><span class="badge ${badgeClass}">${statusText}</span></td>
+                    <td>
+                        <div style="display:flex; gap:10px;">
+                            ${status !== 'active' ? `<button class="btn-icon-action approve-btn" data-id="${c.id}" style="color:#10b981;" title="موافقة"><i class="fas fa-check"></i></button>` : ''}
+                            ${status !== 'rejected' ? `<button class="btn-icon-action reject-btn" data-id="${c.id}" style="color:#f59e0b;" title="رفض"><i class="fas fa-times"></i></button>` : ''}
+                            <button class="btn-icon-action delete-btn" data-id="${c.id}" style="color:#ef4444;" title="حذف"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            attachListeners();
+        }
+
+        function attachListeners() {
+            document.querySelectorAll('.approve-btn').forEach(b => b.onclick = (e) => updateStatus(e.currentTarget.dataset.id, 'active'));
+            document.querySelectorAll('.reject-btn').forEach(b => b.onclick = (e) => updateStatus(e.currentTarget.dataset.id, 'rejected'));
+            document.querySelectorAll('.delete-btn').forEach(b => b.onclick = (e) => deleteCourse(e.currentTarget.dataset.id));
+        }
+
+        async function updateStatus(id, status) {
+            const confirmed = await UIManager.showConfirm(
+                'تأكيد الإجراء',
+                `هل أنت متأكد من تغيير الحالة إلى ${status === 'active' ? 'نشط' : 'مرفوض'}؟`,
+                'نعم، نفذ',
+                'إلغاء'
+            );
+
+            if (!confirmed) return;
+
+            try {
+                await updateDoc(doc(db, "courses", id), { status: status });
+                const idx = allCourses.findIndex(c => c.id === id);
+                if (idx > -1) allCourses[idx].status = status;
+                renderCourses();
+                UIManager.showToast('تم تحديث حالة الكورس بنجاح');
+            } catch (e) {
+                console.error(e);
+                UIManager.showToast('حدث خطأ أثناء التحديث', 'error');
+            }
+        }
+
+        async function deleteCourse(id) {
+            const confirmed = await UIManager.showConfirm(
+                'حذف الكورس',
+                'هل أنت متأكد من حذف هذا الكورس نهائياً؟ لا يمكن التراجع عن هذا الإجراء.',
+                'نعم، احذف',
+                'إلغاء'
+            );
+
+            if (!confirmed) return;
+
+            try {
+                await deleteDoc(doc(db, "courses", id));
+                allCourses = allCourses.filter(c => c.id !== id);
+                renderCourses();
+                UIManager.showToast('تم حذف الكورس بنجاح');
+            } catch (e) {
+                console.error(e);
+                UIManager.showToast('حدث خطأ أثناء الحذف', 'error');
+            }
+        }
+
+        document.getElementById('search-input').addEventListener('keyup', renderCourses);
+        document.getElementById('status-filter').addEventListener('change', renderCourses);
+        document.getElementById('teacher-filter').addEventListener('change', renderCourses);
+
+    </script>
+</body>
+
+</html>

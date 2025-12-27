@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة المشرف - Ta3leemy Admin</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+        <!-- Admin Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header" style="display:flex; justify-content:center; padding: 20px 0;">
+                <img src="../assets/images/Gemini_Generated_Image_gipfqrgipfqrgipf.png" alt="Ta3leemy"
+                    style="max-height: 80px; max-width: 90%; object-fit:contain;">
+            </div>
+            <div class="sidebar-menu">
+                <div class="menu-item active" onclick="window.location.href='dashboard.html'"><i
+                        class="fas fa-home"></i> الرئيسية</div>
+                <div class="menu-item" onclick="window.location.href='teachers.html'"><i
+                        class="fas fa-chalkboard-teacher"></i> المعلمون</div>
+                <div class="menu-item" onclick="window.location.href='students.html'"><i
+                        class="fas fa-user-graduate"></i> الطلاب</div>
+                <div class="menu-item" onclick="window.location.href='courses.html'"><i class="fas fa-book"></i>
+                    الكورسات</div>
+                <div class="menu-item" onclick="window.location.href='packages.html'"><i class="fas fa-box-open"></i>
+                    الباقات</div>
+                <div class="menu-item" onclick="window.location.href='subscriptions.html'"><i
+                        class="fas fa-file-invoice-dollar"></i> الاشتراكات</div>
+                <div class="menu-item" onclick="window.location.href='financials.html'"><i
+                        class="fas fa-dollar-sign"></i> المالية</div>
+                <div class="menu-item" onclick="window.location.href='app-requests.html'"><i
+                        class="fas fa-mobile-screen"></i> تجهيز التطبيقات</div>
+                <div class="menu-item" onclick="window.location.href='notifications.html'"><i class="fas fa-bell"></i>
+                    الإشعارات</div>
+                <div class="menu-item" onclick="window.location.href='banners.html'"><i class="fas fa-images"></i>
+                    البانرات</div>
+                <div class="menu-item" onclick="window.location.href='security.html'"><i class="fas fa-shield-alt"></i>
+                    الأمان</div>
+                <div class="menu-item" onclick="window.location.href='settings.html'"><i class="fas fa-cogs"></i>
+                    الإعدادات</div>
+            </div>
+            <div class="sidebar-footer">
+                <div class="menu-item" id="admin-logout" style="color:#ef4444;"><i class="fas fa-sign-out-alt"></i> خروج
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div style="display:flex; align-items:center; gap:1rem;">
+                    <button class="btn-icon mobile-only" id="open-sidebar"><i class="fas fa-bars"></i></button>
+                    <h3>لوحة التحكم</h3>
+                </div>
+                <div class="top-actions">
+                    <div class="profile-widget">
+                        <div class="avatar" style="background:#6366f1;">A</div>
+                        <span>المشرف العام</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3 id="count-teachers">-</h3>
+                            <p>المعلمون</p>
+                        </div>
+                        <div class="stat-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3 id="count-students">-</h3>
+                            <p>الطلاب</p>
+                        </div>
+                        <div class="stat-icon"><i class="fas fa-user-graduate"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3 id="count-courses">-</h3>
+                            <p>الكورسات</p>
+                        </div>
+                        <div class="stat-icon"><i class="fas fa-book"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3 id="total-revenue">-</h3>
+                            <p>الإيرادات</p>
+                        </div>
+                        <div class="stat-icon"><i class="fas fa-wallet"></i></div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="content-card">
+                    <div class="card-header" style="padding:1.5rem; border-bottom:1px solid rgba(255,255,255,0.05);">
+                        <h3>آخر المعلمين المسجلين</h3>
+                    </div>
+                    <div class="table-container" style="border:none; box-shadow:none;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>الاسم</th>
+                                    <th>البريد</th>
+                                    <th>الحالة</th>
+                                    <th>التاريخ</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recent-teachers-body">
+                                <tr>
+                                    <td colspan="4" style="text-align:center;">جاري التحميل...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="../assets/js/admin/admin-dashboard.js"></script>
+</body>
+
+</html>
