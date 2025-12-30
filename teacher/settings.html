@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إعدادات المنصة - Ta3leemy Teacher</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">Ta3leemy</div>
+            </div>
+            <div class="sidebar-menu">
+                <div class="menu-item" onclick="window.location.href='dashboard.html'"><i class="fas fa-home"></i>
+                    الرئيسية</div>
+                <div class="menu-item" onclick="window.location.href='trainings.html'"><i
+                        class="fas fa-layer-group"></i> الدورات</div>
+                <div class="menu-item" onclick="window.location.href='lectures.html'"><i class="fas fa-video"></i>
+                    المحاضرات</div>
+                <div class="menu-item" onclick="window.location.href='exams.html'"><i
+                        class="fas fa-clipboard-check"></i> الامتحانات</div>
+                <div class="menu-item" onclick="window.location.href='exam-results.html'"><i class="fas fa-poll"></i>
+                    النتائج والتصحيح</div>
+                <div class="menu-item" onclick="window.location.href='students.html'"><i class="fas fa-users"></i>
+                    الطلاب</div>
+                <div class="menu-item" onclick="window.location.href='generate-codes.html'"><i
+                        class="fas fa-barcode"></i> الأكواد</div>
+                <div class="menu-item" onclick="window.location.href='manual-access.html'"><i
+                        class="fas fa-lock-open"></i> فتح المحتوى للطالب</div>
+
+                <!-- Accounts Submenu -->
+                <div class="menu-item" onclick="toggleSubmenu('accounts-submenu')"
+                    style="display:flex; justify-content:space-between; align-items:center; cursor:pointer;">
+                    <span><i class="fas fa-wallet"></i> الحسابات</span>
+                    <i class="fas fa-chevron-down" style="font-size:0.8rem;"></i>
+                </div>
+                <div id="accounts-submenu" style="display:none; background:rgba(0,0,0,0.2); padding-right:15px;">
+                    <div class="menu-item" onclick="window.location.href='permissions.html'"
+                        style="font-size:0.9rem; padding:10px;"><i class="fas fa-file-invoice-dollar"></i> الأذونات
+                    </div>
+                    <div class="menu-item" onclick="window.location.href='invoices.html'"
+                        style="font-size:0.9rem; padding:10px;"><i class="fas fa-file-invoice"></i> الفواتير</div>
+                    <div class="menu-item" onclick="window.location.href='subscriptions.html'"
+                        style="font-size:0.9rem; padding:10px;"><i class="fas fa-box-open"></i> الاشتراكات</div>
+                </div>
+
+                <div class="menu-item" onclick="window.location.href='app-settings.html'">
+                    <i class="fas fa-mobile-alt"></i> تجهيز التطبيق
+                </div>
+
+                <div class="menu-item" onclick="window.location.href='support.html'"><i class="fas fa-headset"></i>
+                    الدعم الفني</div>
+
+                <!-- Settings Submenu -->
+                <div class="menu-item active" onclick="toggleSubmenu('settings-submenu')"
+                    style="margin-top:auto; border-top:1px solid rgba(255,255,255,0.05); display:flex; justify-content:space-between; align-items:center; cursor:pointer;">
+                    <span><i class="fas fa-cog"></i> الإعدادات</span>
+                    <i class="fas fa-chevron-down" style="font-size:0.8rem;"></i>
+                </div>
+                <div id="settings-submenu"
+                    style="display:block; background:rgba(0,0,0,0.2); padding-right:15px; margin-bottom:1rem;">
+                    <div class="menu-item" onclick="window.location.href='settings.html'"
+                        style="font-size:0.9rem; padding:10px; color:white;"><i class="fas fa-sliders-h"></i> إعدادات
+                        المنصة</div>
+                    <div class="menu-item" onclick="window.location.href='notifications.html'"
+                        style="font-size:0.9rem; padding:10px;"><i class="fas fa-bell"></i> الإشعارات</div>
+                    <div class="menu-item" onclick="window.location.href='profile.html'"
+                        style="font-size:0.9rem; padding:10px;"><i class="fas fa-user-circle"></i> الملف الشخصي</div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div style="display:flex; align-items:center; gap:1rem;">
+                    <button class="btn-icon mobile-only" id="open-sidebar"><i class="fas fa-bars"></i></button>
+                    <h3>إعدادات المنصة والتطبيق</h3>
+                </div>
+            </header>
+
+            <div class="page-content">
+
+                <!-- General Settings -->
+                <div class="content-card" style="margin-bottom:2rem;">
+                    <div class="card-header" style="padding:1.5rem; border-bottom:1px solid rgba(255,255,255,0.05);">
+                        <h3 style="margin:0;">هوية المنصة</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group" style="margin-bottom:1.5rem;">
+                            <label style="display:block; margin-bottom:0.5rem; color:#94a3b8;">اسم المنصة</label>
+                            <input type="text" id="platform-name" class="form-input"
+                                style="width:100%; padding:10px; background:#0f172a; border:1px solid #334155; color:white; border-radius:8px;">
+                        </div>
+                        <div class="form-group" style="margin-bottom:1.5rem;">
+                            <label style="display:block; margin-bottom:0.5rem; color:#94a3b8;">رابط المنصة (English
+                                ID)</label>
+                            <div
+                                style="display:flex; align-items:center; background:#0f172a; border:1px solid #334155; border-radius:8px; padding-left:10px;">
+                                <span style="color:#64748b; font-size:0.9rem;">#/</span>
+                                <input type="text" id="platform-slug" class="form-input" placeholder="my-school"
+                                    style="flex:1; padding:10px; background:transparent; border:none; color:white; outline:none;">
+                            </div>
+                            <p style="font-size:0.8rem; color:#64748b; margin-top:5px;">استخدم حروف إنجليزية وأرقام
+                                وعلامة (-) فقط. هذا سيجعل رابط تطبيقك احترافياً.</p>
+                        </div>
+                        <div class="form-group" style="margin-bottom:1.5rem;">
+                            <label style="display:block; margin-bottom:0.5rem; color:#94a3b8;">لون المنصة
+                                الرئيسي</label>
+                            <div style="display:flex; gap:10px; align-items:center;">
+                                <input type="color" id="platform-color" value="#6366f1"
+                                    style="height:40px; border:none; background:none;">
+                                <span style="color:#64748b; font-size:0.9rem;">سيتم تطبيق هذا اللون على التطبيق والموقع
+                                    الخاص بك.</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label style="display:block; margin-bottom:0.5rem; color:#94a3b8;">شعار المنصة</label>
+                            <div style="display:flex; align-items:center; gap:15px;">
+                                <img id="img-preview" src=""
+                                    style="width:60px; height:60px; border-radius:12px; object-fit:cover; display:none; border:2px solid #334155; background:#1e293b;">
+                                <div style="flex:1;">
+                                    <input type="file" id="logo-upload" accept="image/*" class="form-input"
+                                        style="width:100%; padding:10px; background:#0f172a; border:1px solid #334155; color:white; border-radius:8px;">
+                                    <input type="hidden" id="profile-image">
+                                </div>
+                            </div>
+                            <p style="font-size:0.8rem; color:#64748b; margin-top:5px;">يفضل استخدام صورة مربعة بحجم
+                                512x512</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Landing Page Settings -->
+                <div class="content-card" style="margin-bottom:2rem;">
+                    <div class="card-header" style="padding:1.5rem; border-bottom:1px solid rgba(255,255,255,0.05);">
+                        <h3 style="margin:0;">واجهة التطبيق الترحيبية (Bio & Info)</h3>
+                        <p style="color:#64748b; font-size:0.9rem;">تخصيص البيانات التي تظهر للطلاب في الصفحة الرئيسية.
+                        </p>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group" style="margin-bottom:1.5rem;">
+                            <label style="display:block; margin-bottom:0.5rem; color:#94a3b8;">نبذة عن المعلم
+                                (Bio)</label>
+                            <textarea id="teacher-bio" class="form-input" rows="4"
+                                placeholder="اكتب نبذة مختصرة عنك تظهر للطلاب..."
+                                style="width:100%; padding:10px; background:#0f172a; border:1px solid #334155; color:white; border-radius:8px;"></textarea>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:1.5rem;">
+                            <label style="display:block; margin-bottom:0.5rem; color:#94a3b8;">العنوان / الموقع
+                                (Location)</label>
+                            <input type="text" id="teacher-location" class="form-input"
+                                placeholder="مثال: القاهرة، مدينة نصر، شارع..."
+                                style="width:100%; padding:10px; background:#0f172a; border:1px solid #334155; color:white; border-radius:8px;">
+                        </div>
+
+                        <div class="form-group" style="margin-bottom:1.5rem;">
+                            <label style="display:block; margin-bottom:0.5rem; color:#94a3b8;">عداد الطلاب (رقم
+                                للتفاخر)</label>
+                            <input type="number" id="student-counter" class="form-input" placeholder="مثال: 1500"
+                                style="width:100%; padding:10px; background:#0f172a; border:1px solid #334155; color:white; border-radius:8px;">
+                            <p style="font-size:0.8rem; color:#64748b; margin-top:5px;">هذا الرقم سيظهر بشكل متحرك في
+                                واجهة الطالب. اتركه فارغاً لإخفائه.</p>
+                        </div>
+
+                        <!-- Toggles -->
+                        <div
+                            style="display:flex; flex-wrap:wrap; gap:20px; align-items:center; margin-top:15px; border-top:1px solid #334155; padding-top:15px;">
+                            <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+                                <input type="checkbox" id="show-location-toggle"
+                                    style="width:18px; height:18px; accent-color:#6366f1;">
+                                <span style="color:#cbd5e1;">عرض الموقع في الصفحة الرئيسية</span>
+                            </label>
+
+                            <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+                                <input type="checkbox" id="show-gallery-toggle"
+                                    style="width:18px; height:18px; accent-color:#6366f1;">
+                                <span style="color:#cbd5e1;">عرض معرض الصور</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Student Gallery -->
+                <div class="content-card" style="margin-bottom:2rem;">
+                    <div class="card-header" style="padding:1.5rem; border-bottom:1px solid rgba(255,255,255,0.05);">
+                        <h3 style="margin:0;">معرض صور الطلاب</h3>
+                        <p style="color:#64748b; font-size:0.9rem;">ارفع صور لتكريم الطلاب أو فعاليات المنصة (تظهر في
+                            المتحرك).</p>
+                    </div>
+                    <div class="card-body">
+                        <div style="border: 2px dashed #334155; border-radius: 12px; padding: 25px; text-align: center; cursor: pointer; transition: background 0.2s;"
+                            onmouseover="this.style.background='rgba(255,255,255,0.05)'"
+                            onmouseout="this.style.background='transparent'"
+                            onclick="document.getElementById('gallery-upload').click()">
+                            <i class="fas fa-cloud-upload-alt"
+                                style="font-size: 2rem; color: #64748b; margin-bottom: 10px;"></i>
+                            <p style="color: #94a3b8; margin: 0;">اضغط هنا لرفع صور (يمكنك اختيار أكثر من صورة)</p>
+                            <input type="file" id="gallery-upload" multiple accept="image/*" style="display: none;">
+                        </div>
+                        <div id="gallery-preview" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px;">
+                            <!-- JS will populate -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Homepage Arrangement -->
+                <div class="content-card" style="margin-bottom:2rem;">
+                    <div class="card-header" style="padding:1.5rem; border-bottom:1px solid rgba(255,255,255,0.05);">
+                        <h3 style="margin:0;">ترتيب الصفحة الرئيسية</h3>
+                        <p style="color:#64748b; font-size:0.9rem;">تحكم في ترتيب ظهور الأقسام في صفحتك.</p>
+                    </div>
+                    <div class="card-body">
+                        <div id="section-order-list">
+                            <!-- JS will populate -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Academic Years -->
+                <div class="content-card" style="margin-bottom:2rem;">
+                    <div class="card-header" style="padding:1.5rem; border-bottom:1px solid rgba(255,255,255,0.05);">
+                        <h3 style="margin:0;">السنوات الدراسية</h3>
+                        <p style="color:#64748b; font-size:0.9rem;">حدد السنوات التي تدرسها لتظهر للطلاب عند التسجيل.
+                        </p>
+                    </div>
+                    <div class="card-body">
+                        <div style="display:flex; gap:10px; margin-bottom:1rem;">
+                            <input type="text" id="new-year-input"
+                                placeholder="أضف سنة دراسية (مثال: الصف الأول الثانوي)"
+                                style="flex:1; padding:10px; background:#0f172a; border:1px solid #334155; color:white; border-radius:8px;">
+                            <button id="add-year-btn" class="btn"
+                                style="background:#6366f1; color:white; border:none; padding:0 20px; border-radius:8px; cursor:pointer;">إضافة</button>
+                        </div>
+                        <div id="years-list" style="display:flex; flex-wrap:wrap; gap:10px;">
+                            <!-- Tags go here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Support Data -->
+                <div class="content-card" style="margin-bottom:2rem;">
+                    <div class="card-header" style="padding:1.5rem; border-bottom:1px solid rgba(255,255,255,0.05);">
+                        <h3 style="margin:0;">بيانات الدعم الفني</h3>
+                        <p style="color:#64748b; font-size:0.9rem;">أرقام التواصل التي ستظهر للطلاب عند الحاجة للمساعدة.
+                        </p>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group" style="margin-bottom:1.5rem;">
+                            <label style="display:block; margin-bottom:0.5rem; color:#94a3b8;">رقم واتساب (الدعم
+                                الفني)</label>
+                            <input type="text" id="whatsapp-support" class="form-input" placeholder="مثال: +2010xxxxxxx"
+                                style="width:100%; padding:10px; background:#0f172a; border:1px solid #334155; color:white; border-radius:8px;">
+                        </div>
+                        <div class="form-group" style="margin-bottom:1.5rem;">
+                            <label style="display:block; margin-bottom:0.5rem; color:#94a3b8;">رابط تليجرام (أو
+                                المعرف)</label>
+                            <input type="text" id="telegram-support" class="form-input"
+                                placeholder="مثال: @username أو https://t.me/..."
+                                style="width:100%; padding:10px; background:#0f172a; border:1px solid #334155; color:white; border-radius:8px;">
+                        </div>
+                        <div class="form-group" style="margin-bottom:1.5rem;">
+                            <label style="display:block; margin-bottom:0.5rem; color:#94a3b8;">رقم فريق الأونلاين
+                                (اختياري)</label>
+                            <input type="text" id="online-team-phone" class="form-input"
+                                placeholder="مثال: +2011xxxxxxx"
+                                style="width:100%; padding:10px; background:#0f172a; border:1px solid #334155; color:white; border-radius:8px;">
+                        </div>
+                        <div class="form-group">
+                            <label style="display:block; margin-bottom:0.5rem; color:#94a3b8;">رقم الدعم العلمي
+                                (اختياري)</label>
+                            <input type="text" id="scientific-support-phone" class="form-input"
+                                placeholder="مثال: +2012xxxxxxx"
+                                style="width:100%; padding:10px; background:#0f172a; border:1px solid #334155; color:white; border-radius:8px;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Save Button -->
+                <button id="save-btn"
+                    style="width:100%; padding:15px; background:#10b981; color:white; border:none; border-radius:8px; font-weight:bold; font-size:1.1rem; cursor:pointer;">حفظ
+                    التغييرات</button>
+
+            </div>
+        </main>
+    </div>
+
+    <script type="module">
+        import { auth, db, storage } from '../assets/js/firebase-config.js';
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { doc, getDoc, updateDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+        import '../assets/js/dashboard.js';
+        import { getEffectiveUserUid } from '../assets/js/impersonation-manager.js';
+
+        let currentYears = [];
+        let currentGallery = [];
+        let currentUserUid = null;
+        let sectionOrder = ['gallery', 'location', 'bio', 'counter']; // Default order
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUserUid = await getEffectiveUserUid(user);
+                if (currentUserUid) loadSettings(currentUserUid);
+            } else {
+                window.location.href = '../auth/login.html';
+            }
+        });
+
+        async function loadSettings(uid) {
+            const docRef = doc(db, "teachers", uid);
+            const snap = await getDoc(docRef);
+            if (snap.exists()) {
+                const data = snap.data();
+                document.getElementById('platform-name').value = data.platformName || '';
+                document.getElementById('platform-slug').value = data.slug || '';
+                document.getElementById('platform-color').value = data.platformColor || '#6366f1';
+
+                // Branding Load
+                document.getElementById('teacher-bio').value = data.bio || '';
+                document.getElementById('teacher-location').value = data.location || '';
+                document.getElementById('student-counter').value = data.studentCounter || '';
+
+                // Toggles
+                document.getElementById('show-location-toggle').checked = !!data.showLocation;
+                document.getElementById('show-gallery-toggle').checked = !!data.showGallery;
+
+                // Support Data
+                document.getElementById('whatsapp-support').value = data.supportPhone || '';
+                document.getElementById('telegram-support').value = data.telegramSupport || '';
+                document.getElementById('online-team-phone').value = data.onlineSupportPhone || '';
+                document.getElementById('scientific-support-phone').value = data.scientificSupportPhone || '';
+
+                const imgUrl = data.profileImage || '';
+                document.getElementById('profile-image').value = imgUrl;
+
+                const imgPreview = document.getElementById('img-preview');
+                if (imgUrl) {
+                    imgPreview.src = imgUrl;
+                    imgPreview.style.display = 'block';
+                }
+
+                currentYears = data.academicYears || [];
+                renderYears();
+
+                currentGallery = data.galleryImages || [];
+                renderGalleryPreview();
+
+                if (data.sectionOrder) {
+                    sectionOrder = data.sectionOrder;
+                }
+                renderSectionOrder();
+            }
+        }
+
+        function renderSectionOrder() {
+            const container = document.getElementById('section-order-list');
+            if (!container) return;
+            container.innerHTML = '';
+
+            const labels = {
+                'gallery': 'معرض الصور',
+                'location': 'الموقع والعنوان',
+                'bio': 'نبذة عن المعلم',
+                'counter': 'عداد الطلاب'
+            };
+
+            sectionOrder.forEach((section, index) => {
+                const div = document.createElement('div');
+                div.style.cssText = 'background:#1e293b; padding:10px 15px; margin-bottom:10px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; border:1px solid #334155; transition:background 0.2s;';
+
+                div.innerHTML = `
+                    <span style="color:#e2e8f0; font-weight:500;">${labels[section] || section}</span>
+                    <div style="display:flex; gap:8px;">
+                        <button onclick="moveSectionBox('${index}', -1)" type="button" style="background:rgba(255,255,255,0.05); border:1px solid #475569; color:${index === 0 ? '#475569' : '#cbd5e1'}; cursor:${index === 0 ? 'default' : 'pointer'}; padding:5px 10px; border-radius:5px;"><i class="fas fa-arrow-up"></i></button>
+                        <button onclick="moveSectionBox('${index}', 1)" type="button" style="background:rgba(255,255,255,0.05); border:1px solid #475569; color:${index === sectionOrder.length - 1 ? '#475569' : '#cbd5e1'}; cursor:${index === sectionOrder.length - 1 ? 'default' : 'pointer'}; padding:5px 10px; border-radius:5px;"><i class="fas fa-arrow-down"></i></button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        window.moveSectionBox = function (index, direction) {
+            index = parseInt(index);
+            if (direction === -1 && index > 0) {
+                [sectionOrder[index], sectionOrder[index - 1]] = [sectionOrder[index - 1], sectionOrder[index]];
+            } else if (direction === 1 && index < sectionOrder.length - 1) {
+                [sectionOrder[index], sectionOrder[index + 1]] = [sectionOrder[index + 1], sectionOrder[index]];
+            }
+            renderSectionOrder();
+        };
+
+        function renderGalleryPreview() {
+            const container = document.getElementById('gallery-preview');
+            container.innerHTML = '';
+            currentGallery.forEach((url, index) => {
+                const div = document.createElement('div');
+                div.style.cssText = 'position:relative; width:80px; height:80px; border-radius:8px; overflow:hidden; border:1px solid #475569;';
+                div.innerHTML = `
+            <img src="${url}" style="width:100%; height:100%; object-fit:cover;">
+            <div onclick="removeGalleryImage(${index})" style="position:absolute; top:2px; right:2px; background:rgba(220, 38, 38, 0.9); color:white; width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:12px; font-weight:bold;">×</div>
+        `;
+                container.appendChild(div);
+            });
+        }
+
+        window.removeGalleryImage = function (index) {
+            if (confirm('هل تريد حذف هذه الصورة؟')) {
+                currentGallery.splice(index, 1);
+                renderGalleryPreview();
+            }
+        }
+
+        function renderYears() {
+            const container = document.getElementById('years-list');
+            if (container) {
+                container.innerHTML = '';
+                currentYears.forEach((year, index) => {
+                    const tag = document.createElement('div');
+                    tag.style.cssText = 'background:#1e293b; padding:5px 12px; border-radius:20px; font-size:0.9rem; display:flex; align-items:center; gap:8px; border:1px solid #334155;';
+                    tag.innerHTML = `
+                ${year}
+                <i class="fas fa-times" style="cursor:pointer; color:#ef4444;" onclick="removeYear(${index})"></i>
+            `;
+                    container.appendChild(tag);
+                });
+            }
+        }
+
+        window.removeYear = function (index) {
+            currentYears.splice(index, 1);
+            renderYears();
+        }
+
+        document.getElementById('add-year-btn').addEventListener('click', () => {
+            const input = document.getElementById('new-year-input');
+            const val = input.value.trim();
+            if (val) {
+                currentYears.push(val);
+                input.value = '';
+                renderYears();
+            }
+        });
+
+        // Client-side Image Compression Helper
+        const compressImage = (file, maxWidth, quality) => {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        let width = img.width;
+                        let height = img.height;
+                        if (width > maxWidth) {
+                            height = Math.round((height * maxWidth) / width);
+                            width = maxWidth;
+                        }
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        resolve(canvas.toDataURL('image/jpeg', quality));
+                    };
+                    img.onerror = (err) => reject(err);
+                };
+                reader.onerror = (err) => reject(err);
+            });
+        };
+
+        document.getElementById('save-btn').addEventListener('click', async () => {
+            const btn = document.getElementById('save-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...';
+            btn.disabled = true;
+
+            try {
+                let imageUrl = document.getElementById('profile-image').value;
+                const fileInput = document.getElementById('logo-upload');
+                const galleryInput = document.getElementById('gallery-upload');
+
+                // Platform Slug Logic
+                const slugInput = document.getElementById('platform-slug');
+                let slug = slugInput.value.trim().toLowerCase();
+                if (slug) {
+                    if (!/^[a-z0-9-]+$/.test(slug)) {
+                        throw new Error("رابط المنصة يجب أن يحتوي على حروف إنجليزية وأرقام وعلامة (-) فقط");
+                    }
+                    const q = query(collection(db, "teachers"), where("slug", "==", slug));
+                    const querySnapshot = await getDocs(q);
+                    if (!querySnapshot.empty) {
+                        let exists = false;
+                        querySnapshot.forEach(d => {
+                            if (d.id !== currentUserUid) exists = true;
+                        });
+                        if (exists) throw new Error("هذا الرابط مستخدم بالفعل، يرجى اختيار اسم آخر");
+                    }
+                }
+
+                // Profile Image Upload
+                if (fileInput.files.length > 0) {
+                    imageUrl = await compressImage(fileInput.files[0], 500, 0.7); // Compress Profile (Smaller)
+                }
+
+                // Gallery Uploads (Base64)
+                if (galleryInput.files.length > 0) {
+                    const uploadPromises = Array.from(galleryInput.files).map(async (file) => {
+                        return await compressImage(file, 1024, 0.7); // Compress Gallery Images
+                    });
+
+                    const newUrls = await Promise.all(uploadPromises);
+                    currentGallery = [...currentGallery, ...newUrls];
+                    renderGalleryPreview();
+                    // Clear input
+                    galleryInput.value = '';
+                }
+
+                await updateDoc(doc(db, "teachers", currentUserUid), {
+                    platformName: document.getElementById('platform-name').value,
+                    slug: slug,
+                    platformColor: document.getElementById('platform-color').value,
+
+                    bio: document.getElementById('teacher-bio').value,
+                    location: document.getElementById('teacher-location').value,
+                    studentCounter: document.getElementById('student-counter').value,
+
+                    // Toggles
+                    showLocation: document.getElementById('show-location-toggle').checked,
+                    showGallery: document.getElementById('show-gallery-toggle').checked,
+                    galleryImages: currentGallery,
+                    sectionOrder: sectionOrder,
+
+                    supportPhone: document.getElementById('whatsapp-support').value,
+                    telegramSupport: document.getElementById('telegram-support').value,
+                    onlineSupportPhone: document.getElementById('online-team-phone').value,
+                    scientificSupportPhone: document.getElementById('scientific-support-phone').value,
+
+                    profileImage: imageUrl,
+                    academicYears: currentYears
+                });
+
+                alert('تم حفظ الإعدادات بنجاح!');
+                document.getElementById('profile-image').value = imageUrl;
+
+            } catch (e) {
+                console.error(e);
+                alert('خطأ: ' + e.message);
+            } finally {
+                btn.innerHTML = 'حفظ التغييرات';
+                btn.disabled = false;
+            }
+        });
+
+        // Toggle sidebar
+        const sbBtn = document.getElementById('open-sidebar');
+        if (sbBtn) sbBtn.onclick = () => document.getElementById('sidebar').classList.toggle('active');
+
+    </script>
+</body>
+
+</html>

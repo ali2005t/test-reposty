@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الإشعارات - Ta3leemy</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .notif-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            color: #94a3b8;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header"><a href="#" class="logo">Ta3leemy</a></div>
+            <div class="sidebar-menu">
+                <div class="menu-item" onclick="window.location.href='dashboard.html'"><i class="fas fa-home"></i>
+                    الرئيسية</div>
+                <div class="menu-item" onclick="window.location.href='teachers.html'"><i
+                        class="fas fa-chalkboard-teacher"></i> المعلمون</div>
+                <div class="menu-item" onclick="window.location.href='students.html'"><i
+                        class="fas fa-user-graduate"></i> الطلاب</div>
+                <div class="menu-item" onclick="window.location.href='courses.html'"><i class="fas fa-book"></i>
+                    الكورسات</div>
+                <div class="menu-item" onclick="window.location.href='packages.html'"><i class="fas fa-box-open"></i>
+                    الباقات</div>
+                <div class="menu-item" onclick="window.location.href='subscriptions.html'"><i
+                        class="fas fa-file-invoice-dollar"></i> الاشتراكات</div>
+                <div class="menu-item" onclick="window.location.href='financials.html'"><i
+                        class="fas fa-dollar-sign"></i> المالية</div>
+                <div class="menu-item" onclick="window.location.href='app-requests.html'"><i
+                        class="fas fa-mobile-screen"></i> تجهيز التطبيقات</div>
+                <div class="menu-item active" onclick="window.location.href='notifications.html'"><i
+                        class="fas fa-bell"></i> الإشعارات</div>
+                <div class="menu-item" onclick="window.location.href='banners.html'"><i class="fas fa-images"></i>
+                    البانرات</div>
+                <div class="menu-item" onclick="window.location.href='security.html'"><i class="fas fa-shield-alt"></i>
+                    الأمان</div>
+                <div class="menu-item" onclick="window.location.href='settings.html'"><i class="fas fa-cogs"></i>
+                    الإعدادات</div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar-redesigned"
+                style="display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: #0f172a; border-bottom: 1px solid #1e293b;">
+                <div class="header-title">
+                    <div style="display:flex; align-items:center; gap:1rem;">
+                        <button class="btn-icon mobile-only" id="open-sidebar"><i class="fas fa-bars"></i></button>
+                        <h3 style="margin:0; color:white; font-size:1.2rem;">مركز الإشعارات</h3>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-content">
+
+                <!-- Send New Notification -->
+                <div class="notif-card">
+                    <h3 style="color:white; margin-bottom:1rem;"><i class="fas fa-paper-plane"></i> إرسال إشعار جديد
+                    </h3>
+                    <form id="send-notif-form">
+                        <div class="form-group" style="margin-bottom:1rem;">
+                            <label>إلى:</label>
+                            <select id="target-audience" class="form-input">
+                                <option value="all">الكل (معلمين وطلاب)</option>
+                                <option value="all_teachers">كل المعلمين</option>
+                                <option value="all_students">كل الطلاب</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom:1rem;">
+                            <label>عنوان الإشعار</label>
+                            <input type="text" id="notif-title" class="form-input"
+                                placeholder="مثال: تحديث هام في المنصة" required>
+                        </div>
+                        <div class="form-group" style="margin-bottom:1rem;">
+                            <label>نص الرسالة</label>
+                            <textarea id="notif-body" class="form-input" rows="3" placeholder="اكتب رسالتك هنا..."
+                                required></textarea>
+                        </div>
+                        <div style="text-align:left;">
+                            <button type="submit" class="btn btn-primary" id="send-btn">
+                                <i class="fas fa-paper-plane"></i> إرسال الآن
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- History -->
+                <h3 style="color:white; margin-bottom:1rem;">سجل الإشعارات المرسلة</h3>
+                <div class="card">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>العنوان</th>
+                                    <th>الرسالة</th>
+                                    <th>المستلمون</th>
+                                    <th>التاريخ</th>
+                                </tr>
+                            </thead>
+                            <tbody id="notif-history-body">
+                                <!-- JS Loading -->
+                            </tbody>
+                        </table>
+                        <div id="loading-indicator" class="loading-state"><i class="fas fa-spinner fa-spin"></i> جاري
+                            التحميل...</div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="../assets/js/firebase-config.js"></script>
+    <script type="module" src="../assets/js/dashboard.js"></script>
+    <script type="module" src="../assets/js/admin/admin-notifications.js"></script>
+</body>
+
+</html>

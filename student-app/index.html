@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحميل...</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="../assets/css/student-home.css">
+</head>
+
+<body>
+
+    <!-- Splash Screen -->
+    <div id="splash-screen">
+        <div class="splash-logo">
+            <i class="fas fa-graduation-cap"></i>
+            <span id="splash-name">جاري التحميل...</span>
+        </div>
+        <div class="splash-loader"></div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container nav-content">
+            <div class="logo-area">
+                <img id="platform-logo" src="" class="logo-img">
+                <span id="platform-name">منصتي</span>
+            </div>
+            <div style="display:flex; gap:10px;">
+                <a href="login.html" class="nav-btn btn-outline">دخول</a>
+                <a href="register.html" class="nav-btn btn-solid">حساب جديد</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main -->
+    <main class="container">
+
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-text">
+                <span
+                    style="background:rgba(99,102,241,0.1); color:var(--primary); padding:5px 15px; border-radius:20px; font-weight:700; font-size:0.9rem; margin-bottom:15px; display:inline-block;">✨
+                    مرحباً بك</span>
+                <h1>تعلم بذكاء في منصة <br><span id="hero-platform-name" class="gradient-text">...</span></h1>
+                <p>اكتشف عالم من المعرفة وطور مهاراتك مع أفضل الكورسات. منصتنا توفر لك تجربة تعليمية سلسة وممتعة.</p>
+                <div class="hero-btns">
+                    <a href="login.html" class="nav-btn btn-outline" style="padding: 1rem 3rem; font-size:1.1rem;">تسجيل
+                        الدخول</a>
+                </div>
+            </div>
+
+            <div class="hero-image">
+                <!-- Animated SVG -->
+                <svg width="100%" viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg" style="max-width:500px;">
+                    <!-- Background Blob -->
+                    <path class="anim-float"
+                        d="M410.5,316.5Q380,383,303.5,394Q227,405,160.5,366.5Q94,328,66,248.5Q38,169,102.5,108Q167,47,249,59Q331,71,386,135.5Q441,200,410.5,316.5Z"
+                        fill="var(--primary)" opacity="0.1" />
+
+                    <!-- Laptop -->
+                    <rect class="anim-float-delayed" x="65" y="100" width="370" height="230" rx="20" fill="#1e293b" />
+                    <!-- Frame -->
+                    <rect class="anim-float-delayed" x="85" y="120" width="330" height="190" fill="#334155" />
+                    <!-- Screen BG -->
+                    <path class="anim-float-delayed" d="M65 330 H435 L405 350 H95 Z" fill="#0f172a" /> <!-- Base -->
+
+                    <!-- Chart Line -->
+                    <path class="anim-float-delayed anim-draw" d="M100 270 Q140 250 180 280 T260 200 T340 240 T400 150"
+                        fill="none" stroke="var(--primary)" stroke-width="6" stroke-linecap="round" />
+                    <!-- Chart Dots -->
+                    <circle class="anim-float-delayed" cx="100" cy="270" r="4" fill="white" />
+                    <circle class="anim-float-delayed" cx="180" cy="280" r="4" fill="white" />
+                    <circle class="anim-float-delayed" cx="260" cy="200" r="4" fill="white" />
+                    <circle class="anim-float-delayed" cx="340" cy="240" r="4" fill="white" />
+                    <circle class="anim-float-delayed" cx="400" cy="150" r="6" fill="#f59e0b" stroke="white"
+                        stroke-width="2" />
+
+                    <!-- Floating Icons -->
+                    <g class="anim-float" style="animation-duration:5s;">
+                        <circle cx="440" cy="80" r="30" fill="#ffffff"
+                            filter="drop-shadow(0 4px 6px rgba(0,0,0,0.1))" />
+                        <path d="M440 65 L455 75 L440 85 L425 75 Z" fill="#4f46e5" /> <!-- Cap top -->
+                        <path d="M425 75 V85 L440 95 L455 85 V75" fill="#4338ca" />
+                    </g>
+
+                    <g class="anim-float-delayed" style="animation-duration:6s;">
+                        <circle cx="60" cy="300" r="25" fill="#ffffff"
+                            filter="drop-shadow(0 4px 6px rgba(0,0,0,0.1))" />
+                        <rect x="50" y="290" width="20" height="20" rx="3" fill="#f59e0b" />
+                        <path d="M55 295 H65" stroke="white" stroke-width="2" />
+                        <path d="M55 300 H65" stroke="white" stroke-width="2" />
+                    </g>
+                </svg>
+            </div>
+        </section>
+
+        <!-- Student Counter Section -->
+        <section id="student-counter"
+            style="padding: 3rem 0; display:none; text-align:center; background:linear-gradient(to right, rgba(30,41,59,0.5), rgba(15,23,42,0.5)); margin: 2rem 0; border-radius:15px; border:1px solid #334155;">
+            <div class="container">
+                <i class="fas fa-users" style="font-size:2.5rem; color:var(--primary); margin-bottom:15px;"></i>
+                <div style="font-size:3.5rem; font-weight:800; color:white; margin-bottom:5px; line-height:1;"
+                    id="counter-number">0</div>
+                <p style="color:#94a3b8; font-size:1.2rem; margin:0;">طالب يثقون بنا</p>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery" style="padding: 4rem 0; display:none;">
+            <div class="section-title" style="margin-bottom: 2rem;">
+                <h2>⭐ صور من الواقع</h2>
+                <p style="color:var(--text-muted);">لحظات مميزة من رحلة نجاح طلابنا</p>
+            </div>
+
+            <div class="swiper gallery-slider" style="padding-bottom: 40px;">
+                <div class="swiper-wrapper" id="gallery-wrapper">
+                    <!-- Slides -->
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </section>
+
+        <!-- Location Section -->
+        <section id="location" style="padding: 4rem 0; background: var(--surface); display:none;">
+            <div class="container">
+                <div class="section-title">
+                    <h2>📍 موقعنا</h2>
+                </div>
+                <div id="location-content" style="text-align:center;">
+                    <!-- Content via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" style="padding: 4rem 0; display:none;">
+            <div class="container">
+                <div class="section-title">
+                    <h2>👨‍🏫 عن المعلم</h2>
+                </div>
+                <div id="about-content"
+                    style="line-height:1.8; color:var(--text-muted); font-size:1.1rem; max-width:800px; margin:0 auto; text-align:center;">
+                    <!-- Content via JS -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer style="background:#1e293b; color:white; padding:4rem 0; text-align:center; margin-top:auto;">
+        <div class="container">
+            <h2 id="footer-platform-name" style="margin-bottom:1rem;">منصتي</h2>
+            <p style="opacity:0.7;">جميع الحقوق محفوظة &copy; 2024</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script type="module" src="../assets/js/student-home.js"></script>
+</body>
+
+</html>

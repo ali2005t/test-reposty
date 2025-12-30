@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>البانرات - Ta3leemy</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/admin/banners.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header"><a href="#" class="logo">Ta3leemy</a></div>
+            <div class="sidebar-menu">
+                <div class="menu-item" onclick="window.location.href='dashboard.html'"><i class="fas fa-home"></i>
+                    الرئيسية</div>
+                <div class="menu-item" onclick="window.location.href='teachers.html'"><i
+                        class="fas fa-chalkboard-teacher"></i> المعلمون</div>
+                <div class="menu-item" onclick="window.location.href='students.html'"><i
+                        class="fas fa-user-graduate"></i> الطلاب</div>
+                <div class="menu-item" onclick="window.location.href='courses.html'"><i class="fas fa-book"></i>
+                    الكورسات</div>
+                <div class="menu-item" onclick="window.location.href='packages.html'"><i class="fas fa-box-open"></i>
+                    الباقات</div>
+                <div class="menu-item" onclick="window.location.href='subscriptions.html'"><i
+                        class="fas fa-file-invoice-dollar"></i> الاشتراكات</div>
+                <div class="menu-item" onclick="window.location.href='financials.html'"><i
+                        class="fas fa-dollar-sign"></i> المالية</div>
+                <div class="menu-item" onclick="window.location.href='app-requests.html'"><i
+                        class="fas fa-mobile-screen"></i> تجهيز التطبيقات</div>
+                <div class="menu-item" onclick="window.location.href='notifications.html'"><i class="fas fa-bell"></i>
+                    الإشعارات</div>
+                <div class="menu-item active" onclick="window.location.href='banners.html'"><i
+                        class="fas fa-images"></i> البانرات</div>
+                <div class="menu-item" onclick="window.location.href='security.html'"><i class="fas fa-shield-alt"></i>
+                    الأمان</div>
+                <div class="menu-item" onclick="window.location.href='settings.html'"><i class="fas fa-cogs"></i>
+                    الإعدادات</div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar-redesigned"
+                style="display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: #0f172a; border-bottom: 1px solid #1e293b;">
+                <div class="header-title">
+                    <div style="display:flex; align-items:center; gap:1rem;">
+                        <button class="btn-icon mobile-only" id="open-sidebar"><i class="fas fa-bars"></i></button>
+                        <h3 style="margin:0; color:white; font-size:1.2rem;">إدارة البانرات (Slider)</h3>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <p style="color:#94a3b8;">هذه التصاميم ستظهر في الصفحة الرئيسية لتطبيق الطالب.</p>
+
+                <div class="banner-grid" id="banners-container">
+                    <!-- Add New Card -->
+                    <div class="banner-card add-card" id="open-add-modal">
+                        <i class="fas fa-plus" style="font-size:2rem; color:#94a3b8; margin-bottom:10px;"></i>
+                        <span style="color:#94a3b8;">إضافة تصميم جديد</span>
+                    </div>
+
+                    <!-- JS Rendered Banners -->
+                </div>
+                <div id="loading-indicator" class="loading-state"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Banner Modal -->
+    <div id="banner-modal" class="modal">
+        <div class="modal-content">
+            <h3 style="margin-top:0; margin-bottom:1.5rem;">إضافة بانر جديد</h3>
+            <form id="banner-form">
+
+                <div class="form-group">
+                    <label>الفئة المستهدفة</label>
+                    <select id="banner-target" class="form-input">
+                        <option value="all">الكل (معلمين وطلاب)</option>
+                        <option value="student">الطلاب فقط</option>
+                        <option value="teacher">المعلمين فقط</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>نوع البانر</label>
+                    <select id="banner-type" class="form-input" onchange="toggleBannerFields()">
+                        <option value="simple">نصي بسيط (ألوان)</option>
+                        <option value="image">صورة (كامل الشاشة)</option>
+                        <option value="video">فيديو (يوتيوب - صامت)</option>
+                        <option value="html">كود مخصص (HTML)</option>
+                    </select>
+                </div>
+
+                <!-- Fields for Simple -->
+                <div id="type-simple-fields">
+                    <div class="form-group">
+                        <label>عنوان البانر</label>
+                        <input type="text" id="banner-title" class="form-input" placeholder="مثال: تنبيه هام">
+                    </div>
+
+                    <div class="form-group">
+                        <label>نص الرسالة (يمكنك إضافة روابط)</label>
+                        <textarea id="banner-body" class="form-input" rows="3"
+                            placeholder="اكتب نص البانر هنا..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Fields for Image/Video -->
+                <div id="type-media-fields" style="display:none;">
+                    <div class="form-group">
+                        <label id="media-url-label">رابط الصورة/الفيديو</label>
+                        <input type="url" id="banner-url" class="form-input" placeholder="https://...">
+                        <small style="color:#64748b; font-size:0.8rem;" id="media-helper">للفيديو: استخدم رابط يوتيوب
+                            (مثال: https://youtu.be/XYZ)</small>
+                    </div>
+                </div>
+
+                <!-- Fields for HTML -->
+                <div id="type-html-fields" style="display:none;">
+                    <div class="form-group">
+                        <label>كود HTML</label>
+                        <textarea id="banner-html" class="form-input" rows="5" placeholder="<div style='...'>...</div>"
+                            style="font-family:monospace; direction:ltr;"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group" id="color-options">
+                    <label>لون الخلفية (للنوع البسيط)</label>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                        <label style="cursor:pointer;">
+                            <input type="radio" name="banner-style" value="blue" checked> <span
+                                style="padding:5px 10px; background:#3b82f6; border-radius:5px;">أزرق</span>
+                        </label>
+                        <label style="cursor:pointer;">
+                            <input type="radio" name="banner-style" value="red"> <span
+                                style="padding:5px 10px; background:#ef4444; border-radius:5px;">أحمر</span>
+                        </label>
+                        <label style="cursor:pointer;">
+                            <input type="radio" name="banner-style" value="green"> <span
+                                style="padding:5px 10px; background:#10b981; border-radius:5px;">أخضر</span>
+                        </label>
+                        <label style="cursor:pointer;">
+                            <input type="radio" name="banner-style" value="yellow"> <span
+                                style="padding:5px 10px; background:#f59e0b; color:black; border-radius:5px;">أصفر</span>
+                        </label>
+                        <label style="cursor:pointer;">
+                            <input type="radio" name="banner-style" value="purple"> <span
+                                style="padding:5px 10px; background:#8b5cf6; border-radius:5px;">بنفسجي</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <div class="form-group">
+                        <label>نص الزر (اختياري)</label>
+                        <input type="text" id="banner-btn-text" class="form-input" placeholder="اضغط هنا">
+                    </div>
+                    <div class="form-group">
+                        <label>رابط الزر</label>
+                        <input type="url" id="banner-link" class="form-input" placeholder="https://...">
+                    </div>
+                </div>
+
+                <script>
+                    function toggleBannerFields() {
+                        const type = document.getElementById('banner-type').value;
+                        document.getElementById('type-simple-fields').style.display = (type === 'simple') ? 'block' : 'none';
+                        document.getElementById('type-media-fields').style.display = (type === 'image' || type === 'video') ? 'block' : 'none';
+                        document.getElementById('type-html-fields').style.display = (type === 'html') ? 'block' : 'none';
+                        document.getElementById('color-options').style.display = (type === 'simple') ? 'block' : 'none';
+
+                        // Helper Text
+                        if (type === 'video') {
+                            document.getElementById('media-url-label').innerText = 'رابط يوتيوب (Video URL)';
+                            document.getElementById('media-helper').style.display = 'block';
+                        } else if (type === 'image') {
+                            document.getElementById('media-url-label').innerText = 'رابط الصورة (Image URL)';
+                            document.getElementById('media-helper').style.display = 'none';
+                        }
+                    }
+                </script>
+                <div style="text-align:right; margin-top:1rem;">
+                    <button type="button" class="btn btn-secondary" id="close-modal"
+                        onclick="document.getElementById('banner-modal').style.display='none'">إلغاء</button>
+                    <button type="submit" class="btn btn-primary" id="save-banner-btn">حفظ ونشر</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="../assets/js/firebase-config.js"></script>
+    <script type="module" src="../assets/js/dashboard.js"></script>
+    <script src="../assets/js/ui-manager.js"></script>
+    <script type="module" src="../assets/js/admin/admin-banners.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام الإحالة - Ta3leemy</title>
+
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/dashboard-new.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .referral-card {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .referral-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+        }
+
+        .referral-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .copy-link-box {
+            background: #0f172a;
+            border: 1px dashed #334155;
+            padding: 1rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 2rem auto 0;
+            max-width: 600px;
+            gap: 10px;
+        }
+
+        .link-text {
+            color: #60a5fa;
+            font-family: monospace;
+            font-size: 1.1rem;
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            direction: ltr;
+        }
+
+        .progress-container {
+            margin: 2rem 0;
+            background: rgba(255, 255, 255, 0.1);
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #f59e0b;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .milestone-marker {
+            position: absolute;
+            top: -25px;
+            right: 0;
+            /* Changed dynamically */
+            transform: translateX(50%);
+            font-size: 0.8rem;
+            color: #f59e0b;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+
+        <!-- Sidebar (Shared) -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header"><a href="#" class="logo">Ta3leemy</a></div>
+            <div class="sidebar-menu">
+                <div class="menu-item" onclick="window.location.href='dashboard.html'"><i class="fas fa-home"></i>
+                    الرئيسية</div>
+                <div class="menu-item" onclick="window.location.href='trainings.html'"><i
+                        class="fas fa-layer-group"></i> الدورات</div>
+                <div class="menu-item active" onclick="window.location.reload()"><i class="fas fa-users-cog"></i> نظام
+                    الإحالة</div>
+                <div class="menu-item" onclick="window.location.href='support.html'"><i class="fas fa-headset"></i>
+                    الدعم الفني</div>
+            </div>
+            <!-- Full sidebar should be dynamically injected or copied, using simple version for now -->
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar-redesigned"
+                style="display:flex; justify-content:space-between; align-items:center; padding:15px 25px; background:#0f172a; border-bottom:1px solid #1e293b;">
+                <div class="header-title">
+                    <h3 style="margin:0; color:white; font-size:1.2rem;">برنامج الإحالة والمكافآت 🎁</h3>
+                </div>
+            </header>
+
+            <div class="page-content">
+
+                <!-- Enabled View -->
+                <div id="referral-enabled-view" style="display:none;">
+                    <div class="referral-card">
+                        <i class="fas fa-trophy" style="font-size: 3rem; color: #f59e0b; margin-bottom: 1rem;"></i>
+                        <h2 style="color: white; margin-bottom: 0.5rem;">تحدي الأبطال: ادعُ زملاءك واربح!</h2>
+                        <p style="color: #cbd5e1; max-width: 600px; margin: 0 auto;">
+                            قم بدعوة <span style="color:#f59e0b; font-weight:bold;">5 معلمين</span> للاشتراك في المنصة،
+                            واحصل على
+                            <span style="color:#f59e0b; font-weight:bold;">6 أشهر اشتراك مجاني</span> (باقة Pro).
+                        </p>
+
+                        <!-- Progress -->
+                        <div style="max-width: 600px; margin: 0 auto;">
+                            <div
+                                style="display:flex; justify-content:space-between; margin-top:2rem; color:#94a3b8; font-size:0.9rem;">
+                                <span>البداية (0)</span>
+                                <span>الهدف (5)</span>
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar" id="referral-progress" style="width: 0%;"></div>
+                            </div>
+                            <p id="progress-text" style="color:#60a5fa; font-weight:bold;">لديك 0 دعوات ناجحة حالياً</p>
+                        </div>
+
+                        <!-- Link -->
+                        <div class="copy-link-box">
+                            <i class="fas fa-link" style="color: #94a3b8;"></i>
+                            <span id="referral-link" class="link-text">...</span>
+                            <button class="btn btn-primary" onclick="copyLink()">نسخ الرابط</button>
+                        </div>
+                    </div>
+
+                    <div class="referral-stats">
+                        <div class="stat-box">
+                            <div class="stat-number" id="stats-total">0</div>
+                            <div class="stat-label">إجمالي المسجلين (المحالين)</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number" id="stats-active" style="color:#10b981;">0</div>
+                            <div class="stat-label">المشتركين النشطين</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number" id="stats-reward">0</div>
+                            <div class="stat-label">أشهر مجانية مكتسبة</div>
+                        </div>
+                    </div>
+
+                    <h3 style="color:white; margin-top:2rem; margin-bottom:1rem;">سجل الإحالات</h3>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>المعلم</th>
+                                    <th>تاريخ التسجيل</th>
+                                    <th>حالة الحساب</th>
+                                </tr>
+                            </thead>
+                            <tbody id="referrals-table-body">
+                                <tr>
+                                    <td colspan="3" style="text-align:center;">جاري التحميل...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Disabled View -->
+                <div id="referral-disabled-view" style="display:none; text-align:center; padding:4rem;">
+                    <i class="fas fa-lock" style="font-size:4rem; color:#334155; margin-bottom:1.5rem;"></i>
+                    <h2 style="color:white;">الخدمة غير مفعلة</h2>
+                    <p style="color:#94a3b8;">يرجى التواصل مع الإدارة لتفعيل نظام الإحالة لحسابك.</p>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="../assets/js/firebase-config.js"></script>
+    <script type="module">
+        import { auth, db } from '../assets/js/firebase-config.js';
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { doc, getDoc, collection, query, where, getDocs, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { initHeader } from '../assets/js/header-manager.js';
+
+        let myLink = "";
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                initHeader(user);
+                await loadReferralData(user.uid);
+            } else {
+                window.location.href = '../auth/login.html';
+            }
+        });
+
+        async function loadReferralData(uid) {
+            try {
+                // 1. Check Teacher Profile for "referralEnabled" toggle
+                const teacherDoc = await getDoc(doc(db, "teachers", uid));
+                if (!teacherDoc.exists()) return;
+
+                const data = teacherDoc.data();
+                if (!data.referralEnabled) {
+                    document.getElementById('referral-disabled-view').style.display = 'block';
+                    return;
+                }
+
+                document.getElementById('referral-enabled-view').style.display = 'block';
+
+                // 2. Generate Link
+                const baseUrl = window.location.origin + window.location.pathname.replace('teacher/referrals.html', 'auth/register.html');
+                // Or simplified if straightforward structure
+                const simpleBase = window.location.href.includes('127.0.0.1') || window.location.href.includes('localhost')
+                    ? '../auth/register.html'
+                    : 'https://ta3leemy.com/auth/register.html'; // Adjust as needed
+
+                // Construct absolute link
+                const absLink = new URL('../auth/register.html', window.location.href);
+                absLink.searchParams.set('role', 'teacher');
+                absLink.searchParams.set('ref', uid);
+
+                myLink = absLink.href;
+                document.getElementById('referral-link').innerText = myLink;
+
+                // 3. Load Referrals from DB
+                // Query teachers where referredBy == uid
+                const q = query(collection(db, "teachers"), where("referredBy", "==", uid), orderBy("createdAt", "desc"));
+                const snap = await getDocs(q);
+
+                let total = 0;
+                let active = 0;
+                const tbody = document.getElementById('referrals-table-body');
+                tbody.innerHTML = '';
+
+                if (snap.empty) {
+                    tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:#94a3b8;">لم تقم بدعوة أحد بعد.</td></tr>';
+                }
+
+                snap.forEach(docSnap => {
+                    total++;
+                    const row = docSnap.data();
+                    const isVerified = row.isVerified;
+                    if (isVerified) active++;
+
+                    const date = row.createdAt ? row.createdAt.toDate().toLocaleDateString('ar-EG') : '-';
+                    const status = isVerified
+                        ? '<span class="status-badge" style="background:#dcfce7; color:#166534;">نشط</span>'
+                        : '<span class="status-badge" style="background:#f1f5f9; color:#64748b;">معلق</span>';
+
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${row.name}</td>
+                            <td>${date}</td>
+                            <td>${status}</td>
+                        </tr>
+                    `;
+                });
+
+                // Update Stats
+                document.getElementById('stats-total').innerText = total;
+                document.getElementById('stats-active').innerText = active;
+
+                // Calculate Reward Progress (Challenge: 5 Active)
+                // Just using 'total' or 'active'? Plan said "Invite 5 -> Get Reward". Usually implies Signups.
+                // Let's use 'Total Signups' for easier gratification, or 'Active' for value?
+                // Let's use 'Total' for now as the prompt said "Invite 5 teachers".
+                const target = 5;
+                const progress = Math.min((total / target) * 100, 100);
+
+                document.getElementById('referral-progress').style.width = `${progress}%`;
+                document.getElementById('progress-text').innerText = `لديك ${total} دعوات ناجحة. (الهدف: ${target})`;
+
+            } catch (e) {
+                console.error(e);
+                alert("خطأ في تحميل البيانات");
+            }
+        }
+
+        window.copyLink = () => {
+            navigator.clipboard.writeText(myLink).then(() => {
+                alert("تم نسخ الرابط! 📋");
+            });
+        }
+    </script>
+</body>
+
+</html>

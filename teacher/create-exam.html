@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء / تعديل تقييم - Ta3leemy</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/create-exam.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header"><a href="#" class="logo">Ta3leemy</a></div>
+            <div class="sidebar-menu">
+                <div class="menu-item" onclick="window.location.href='dashboard.html'"><i class="fas fa-home"></i>
+                    الرئيسية</div>
+                <div class="menu-item" onclick="window.location.href='trainings.html'"><i
+                        class="fas fa-layer-group"></i> الدورات</div>
+                <div class="menu-item" onclick="window.location.href='lectures.html'"><i class="fas fa-video"></i>
+                    المحاضرات</div>
+                <div class="menu-item active" onclick="window.location.href='exams.html'"><i
+                        class="fas fa-clipboard-check"></i> التقييمات</div>
+                <div class="menu-item" onclick="window.location.href='students.html'"><i class="fas fa-users"></i>
+                    الطلاب</div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar-redesigned"
+                style="display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: #0f172a; border-bottom: 1px solid #1e293b;">
+                <div class="header-title">
+                    <div style="display:flex; align-items:center; gap:1rem;">
+                        <button class="btn-icon mobile-only" id="open-sidebar"><i class="fas fa-bars"></i></button>
+                        <h3 style="margin:0; color:white; font-size:1.2rem;">تفاصيل التقييم</h3>
+                    </div>
+                </div>
+
+                <!-- Left: Actions -->
+                <div class="top-actions">
+                    <button class="btn btn-secondary" onclick="window.location.href='exams.html'">
+                        <i class="fas fa-arrow-right"></i> رجوع
+                    </button>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <div class="exam-form-container">
+                    <h2 id="page-title" style="color:white; margin-bottom:1.5rem;">إنشاء تقييم جديد</h2>
+                    <form id="create-exam-form">
+
+                        <!-- Title & Course -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>عنوان التقييم *</label>
+                                <input type="text" id="exam-title" class="form-input"
+                                    placeholder="مثال: اختبار منتصف الفصل" required>
+                            </div>
+                            <div class="form-group">
+                                <label>تابعة للدورة التدريبية *</label>
+                                <select id="exam-training" class="form-input" required>
+                                    <option value="">جار التحميل...</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Dates -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>تاريخ البدء</label>
+                                <input type="datetime-local" id="exam-start" class="form-input">
+                                <small style="color:#94a3b8;">اتركه فارغاً للبدء فوراً</small>
+                            </div>
+                            <div class="form-group">
+                                <label>تاريخ الانتهاء</label>
+                                <input type="datetime-local" id="exam-end" class="form-input">
+                                <small style="color:#94a3b8;">اتركه فارغاً ليكون متاحاً دائماً</small>
+                            </div>
+                        </div>
+
+                        <!-- Settings -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>المدة (بالدقائق)</label>
+                                <input type="number" id="exam-duration" class="form-input" placeholder="مثال: 60"
+                                    min="5">
+                            </div>
+                            <div class="form-group">
+                                <label>درجة النجاح (%)</label>
+                                <input type="number" id="exam-pass-score" class="form-input" value="50" min="0"
+                                    max="100">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>وصف التقييم / تعليمات</label>
+                            <textarea id="exam-desc" class="form-input" rows="4"
+                                placeholder="تعليمات تظهر للطالب قبل البدء..."></textarea>
+                        </div>
+
+                        <!-- Toggles -->
+                        <div class="toggles-container">
+                            <div class="toggle-item">
+                                <label class="switch">
+                                    <input type="checkbox" id="exam-published">
+                                    <span class="slider round"></span>
+                                </label>
+                                <span>نشر التقييم فوراً</span>
+                            </div>
+                            <div class="toggle-item">
+                                <label class="switch">
+                                    <input type="checkbox" id="exam-show-results" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                                <span>إظهار النتيجة للطالب فور الانتهاء</span>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary" id="save-btn">
+                                <i class="fas fa-save"></i> حفظ ومتابعة للأسئلة
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals or Loaders -->
+    <div id="full-loader"
+        style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:9999; justify-content:center; align-items:center;">
+        <i class="fas fa-spinner fa-spin" style="font-size:3rem; color:var(--accent-color);"></i>
+    </div>
+
+    <script type="module" src="../assets/js/firebase-config.js"></script>
+    <script type="module" src="../assets/js/dashboard.js"></script> <!-- Reuse for sidebar logic -->
+    <script type="module" src="../assets/js/create-exam.js"></script>
+</body>
+
+</html>

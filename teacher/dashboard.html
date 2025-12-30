@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - Ta3leemy</title>
+
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/dashboard-new.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header"><a href="#" class="logo">Ta3leemy</a></div>
+            <div class="sidebar-menu">
+                <div class="menu-item active" onclick="window.location.reload()"><i class="fas fa-home"></i> الرئيسية
+                </div>
+                <div class="menu-item" onclick="window.location.href='trainings.html'"><i
+                        class="fas fa-layer-group"></i> الدورات</div>
+                <div class="menu-item" onclick="window.location.href='lectures.html'"><i class="fas fa-video"></i>
+                    المحاضرات</div>
+                <div class="menu-item" onclick="window.location.href='exams.html'"><i
+                        class="fas fa-clipboard-check"></i> الامتحانات</div>
+                <div class="menu-item" onclick="window.location.href='exam-results.html'"><i class="fas fa-poll"></i>
+                    النتائج والتصحيح</div>
+                <div class="menu-item" onclick="window.location.href='students.html'"><i class="fas fa-users"></i>
+                    الطلاب</div>
+                <div class="menu-item" onclick="window.location.href='generate-codes.html'"><i
+                        class="fas fa-barcode"></i>
+                    الأكواد</div>
+                <div class="menu-item" onclick="window.location.href='manual-access.html'"><i
+                        class="fas fa-lock-open"></i>
+                    فتح المحتوى للطالب</div>
+
+                <div class="menu-item" id="nav-referral" style="display:none;"
+                    onclick="window.location.href='referrals.html'">
+                    <i class="fas fa-users-cog"></i> نظام الإحالة
+                </div>
+
+                <!-- Accounts Submenu -->
+                <div class="menu-item" onclick="toggleSubmenu('accounts-submenu')"
+                    style="display:flex; justify-content:space-between; align-items:center; cursor:pointer;">
+                    <span><i class="fas fa-wallet"></i> الحسابات</span>
+                    <i class="fas fa-chevron-down" style="font-size:0.8rem;"></i>
+                </div>
+                <div id="accounts-submenu" style="display:none; background:rgba(0,0,0,0.2); padding-right:15px;">
+                    <div class="menu-item" onclick="window.location.href='permissions.html'"
+                        style="font-size:0.9rem; padding:10px;"><i class="fas fa-file-invoice-dollar"></i> الأذونات
+                    </div>
+                    <div class="menu-item" onclick="window.location.href='invoices.html'"
+                        style="font-size:0.9rem; padding:10px;"><i class="fas fa-file-invoice"></i> الفواتير</div>
+                    <div class="menu-item" onclick="window.location.href='subscriptions.html'"
+                        style="font-size:0.9rem; padding:10px;"><i class="fas fa-box-open"></i> الاشتراكات</div>
+                </div>
+
+                <div class="menu-item" onclick="window.location.href='app-settings.html'">
+                    <i class="fas fa-mobile-alt"></i> تجهيز التطبيق
+                </div>
+
+                <div class="menu-item" onclick="window.location.href='support.html'"><i class="fas fa-headset"></i>
+                    الدعم الفني</div>
+
+                <!-- Settings Submenu -->
+                <div class="menu-item" onclick="toggleSubmenu('settings-submenu')"
+                    style="margin-top:auto; border-top:1px solid rgba(255,255,255,0.05); display:flex; justify-content:space-between; align-items:center; cursor:pointer;">
+                    <span><i class="fas fa-cog"></i> الإعدادات</span>
+                    <i class="fas fa-chevron-down" style="font-size:0.8rem;"></i>
+                </div>
+                <div id="settings-submenu"
+                    style="display:none; background:rgba(0,0,0,0.2); padding-right:15px; margin-bottom:1rem;">
+                    <div class="menu-item" onclick="window.location.href='settings.html'"
+                        style="font-size:0.9rem; padding:10px;"><i class="fas fa-sliders-h"></i> إعدادات المنصة</div>
+                    <div class="menu-item" onclick="window.location.href='notifications.html'"
+                        style="font-size:0.9rem; padding:10px;"><i class="fas fa-bell"></i> الإشعارات</div>
+                    <div class="menu-item" onclick="window.location.href='profile.html'"
+                        style="font-size:0.9rem; padding:10px;"><i class="fas fa-user-circle"></i> الملف الشخصي</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <header class="top-bar-redesigned"
+                style="display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: #0f172a; border-bottom: 1px solid #1e293b;">
+                <!-- Right: Page Title -->
+                <div class="header-title">
+                    <h3 style="margin:0; color:white; font-size:1.2rem;">لوحة التحكم</h3>
+                    <p id="platform-name" style="margin:0; font-size:0.8rem; color:#94a3b8;">منصتي التعليمية</p>
+                </div>
+
+                <!-- Left: Actions -->
+                <div class="top-actions" style="display:flex; align-items:center; gap:20px;">
+
+                    <!-- Site Link -->
+                    <a href="#" class="action-link mobile-hide" target="_blank" id="site-link"
+                        style="color:#94a3b8; text-decoration:none; display:flex; align-items:center; gap:5px; transition:color 0.2s;">
+                        <i class="fas fa-external-link-alt"></i> <span class="mobile-hide">الموقع</span>
+                    </a>
+
+                    <!-- Notifications -->
+                    <div class="notification-container" style="position:relative;">
+                        <div class="notification-bell" id="notif-bell-trigger"
+                            style="cursor:pointer; position:relative;">
+                            <i class="fas fa-bell" style="font-size:1.2rem; color:#94a3b8; transition:color 0.2s;"></i>
+                            <span class="badge-count"
+                                style="position:absolute; top:-8px; right:-5px; background:#ef4444; color:white; border-radius:50%; font-size:0.7rem; padding:2px 6px; border:2px solid #0f172a;">3</span>
+                        </div>
+
+                        <!-- Notifications Dropdown -->
+                        <div class="custom-dropdown" id="notif-dropdown"
+                            style="display:none; position:absolute; left:-10px; top:50px; background:#1e293b; border:1px solid #334155; border-radius:12px; width:320px; z-index:1000; box-shadow:0 20px 25px -5px rgba(0,0,0,0.3); overflow:hidden;">
+                            <div
+                                style="padding:15px; border-bottom:1px solid #334155; font-weight:bold; color:white; display:flex; justify-content:space-between; align-items:center;">
+                                <span>الإشعارات</span>
+                                <span style="font-size:0.8rem; color:#6366f1; cursor:pointer;">تحديد الكل كمقروء</span>
+                            </div>
+                            <div class="notif-list" style="max-height:350px; overflow-y:auto;">
+                                <div class="notif-item"
+                                    style="padding:15px; border-bottom:1px solid #334155; color:#cbd5e1; font-size:0.9rem; transition:background 0.2s; cursor:pointer;">
+                                    <div
+                                        style="font-weight:bold; color:#f1f5f9; margin-bottom:5px; display:flex; align-items:center; gap:8px;">
+                                        <i class="fas fa-info-circle" style="color:#60a5fa;"></i> إشعار إداري
+                                    </div>
+                                    <p style="margin:0; font-size:0.85rem; line-height:1.4;">تم تفعيل حسابك بنجاح، يمكنك
+                                        الآن البدء في نشر الدورات.</p>
+                                    <div style="font-size:0.75rem; color:#64748b; margin-top:8px;">منذ 2 ساعة</div>
+                                </div>
+                                <div class="notif-item"
+                                    style="padding:15px; border-bottom:1px solid #334155; color:#cbd5e1; font-size:0.9rem; transition:background 0.2s; cursor:pointer;">
+                                    <div
+                                        style="font-weight:bold; color:#f1f5f9; margin-bottom:5px; display:flex; align-items:center; gap:8px;">
+                                        <i class="fas fa-user-check" style="color:#34d399;"></i> طالب جديد
+                                    </div>
+                                    <p style="margin:0; font-size:0.85rem; line-height:1.4;">قام الطالب "أحمد محمد"
+                                        بالاشتراك في دورتك.</p>
+                                    <div style="font-size:0.75rem; color:#64748b; margin-top:8px;">منذ 5 ساعات</div>
+                                </div>
+                            </div>
+                            <a href="#"
+                                style="display:block; padding:12px; text-align:center; color:#6366f1; text-decoration:none; font-size:0.9rem; font-weight:600; background:#1e293b;">عرض
+                                كل الإشعارات</a>
+                        </div>
+                    </div>
+
+                    <!-- Profile Dropdown Trigger -->
+                    <div class="profile-container" style="position:relative;">
+                        <div class="profile-trigger" id="profile-widget-trigger"
+                            style="display:flex; align-items:center; gap:12px; cursor:pointer; padding:5px; border-radius:8px; transition:background 0.2s;">
+                            <div class="avatar"
+                                style="width:40px; height:40px; background:linear-gradient(135deg, #6366f1, #8b5cf6); border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-weight:bold; font-size:1.1rem; box-shadow:0 4px 6px -1px rgba(99, 102, 241, 0.3);">
+                                <span id="user-avatar-char">T</span>
+                            </div>
+                            <div class="info mobile-hide" style="text-align:right;">
+                                <div id="user-name" style="font-weight:bold; color:white; font-size:0.9rem;">المعلم
+                                </div>
+                                <div style="font-size:0.75rem; color:#94a3b8;">محاضر</div>
+                            </div>
+                            <i class="fas fa-chevron-down mobile-hide" style="font-size:0.8rem; color:#94a3b8;"></i>
+                        </div>
+
+                        <!-- Profile Dropdown Menu -->
+                        <div class="custom-dropdown" id="profile-dropdown-menu"
+                            style="display:none; position:absolute; left:0; top:60px; background:#1e293b; border:1px solid #334155; border-radius:12px; width:220px; z-index:1000; box-shadow:0 20px 25px -5px rgba(0,0,0,0.3); overflow:hidden;">
+                            <a href="profile.html" class="dropdown-item"
+                                style="display:flex; gap:10px; padding:12px 15px; color:#cbd5e1; text-decoration:none; border-bottom:1px solid #334155; align-items:center; transition:background 0.2s;">
+                                <i class="fas fa-user-circle" style="width:20px; text-align:center;"></i> الحساب الشخصي
+                            </a>
+                            <a href="subscriptions.html" class="dropdown-item"
+                                style="display:flex; gap:10px; padding:12px 15px; color:#cbd5e1; text-decoration:none; border-bottom:1px solid #334155; align-items:center; transition:background 0.2s;">
+                                <i class="fas fa-box-open" style="width:20px; text-align:center;"></i> الاشتراكات
+                            </a>
+                            <a href="profile.html" class="dropdown-item"
+                                style="display:flex; gap:10px; padding:12px 15px; color:#cbd5e1; text-decoration:none; border-bottom:1px solid #334155; align-items:center; transition:background 0.2s;">
+                                <i class="fas fa-cog" style="width:20px; text-align:center;"></i> الإعدادات
+                            </a>
+                            <a href="#" id="logout-link-dropdown" class="dropdown-item"
+                                style="display:flex; gap:10px; padding:12px 15px; color:#ef4444; text-decoration:none; align-items:center; transition:background 0.2s; font-weight:600;">
+                                <i class="fas fa-power-off" style="width:20px; text-align:center;"></i> تسجيل الخروج
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </header>
+
+            <div class="page-content">
+
+                <!-- Banners Area -->
+                <div id="dashboard-banners" style="display:none; margin-bottom: 20px;"></div>
+
+                <div class="welcome-box" style="margin-bottom: 2rem;">
+                    <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem;">مساء الخير د/ <span
+                            id="welcome-name">...</span> 👋</h2>
+                    <p style="color: var(--text-muted);">نتمنى لك يوماً سعيداً</p>
+                </div>
+
+                <!-- Shortcuts Grid (Replicating Image) -->
+                <div class="shortcuts-grid">
+
+                    <div class="shortcut-card" onclick="window.location.href='create-training.html'">
+                        <div class="shortcut-icon-circle" style="background:rgba(99, 102, 241, 0.1); color:#818cf8;">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <span class="shortcut-title">إنشاء دورة جديدة</span>
+                    </div>
+
+                    <div class="shortcut-card" onclick="window.location.href='create-lecture.html'">
+                        <div class="shortcut-icon-circle" style="background:rgba(168, 85, 247, 0.1); color:#c084fc;">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <span class="shortcut-title">إضافة محاضرة جديدة</span>
+                    </div>
+
+                    <div class="shortcut-card" onclick="window.location.href='users.html'">
+                        <div class="shortcut-icon-circle" style="background:rgba(236, 72, 153, 0.1); color:#f472b6;">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <span class="shortcut-title">الموظفين والمساعدين</span>
+                    </div>
+
+                    <div class="shortcut-card" onclick="window.location.href='generate-codes.html'">
+                        <div class="shortcut-icon-circle" style="background:rgba(59, 130, 246, 0.1); color:#60a5fa;">
+                            <i class="fas fa-unlock-alt"></i>
+                        </div>
+                        <span class="shortcut-title">أكواد التفعيل</span>
+                    </div>
+
+                    <div class="shortcut-card" onclick="window.location.href='manual-access.html'">
+                        <div class="shortcut-icon-circle" style="background:rgba(239, 68, 68, 0.1); color:#ef4444;">
+                            <i class="fas fa-lock-open"></i>
+                        </div>
+                        <span class="shortcut-title">فتح المحتوى للطالب</span>
+                    </div>
+
+                    <div class="shortcut-card" onclick="window.location.href='students.html'">
+                        <div class="shortcut-icon-circle" style="background:rgba(16, 185, 129, 0.1); color:#34d399;">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <span class="shortcut-title">الطلاب</span>
+                    </div>
+
+                    <div class="shortcut-card" onclick="window.location.href='trainings.html'">
+                        <div class="shortcut-icon-circle" style="background:rgba(245, 158, 11, 0.1); color:#fbbf24;">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <span class="shortcut-title">الدورات التدريبية</span>
+                    </div>
+
+                    <div class="shortcut-card" onclick="window.location.href='subscriptions.html'">
+                        <div class="shortcut-icon-circle" style="background:rgba(6, 182, 212, 0.1); color:#06b6d4;">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <span class="shortcut-title">الحسابات والاشتراكات</span>
+                    </div>
+
+                    <div class="shortcut-card" onclick="window.location.href='https://wa.me/?text=دعم_فني'">
+                        <div class="shortcut-icon-circle" style="background:rgba(249, 115, 22, 0.1); color:#f97316;">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <span class="shortcut-title">الدعم الفني</span>
+                    </div>
+
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="../assets/js/firebase-config.js"></script>
+    <script type="module" src="../assets/js/dashboard.js"></script>
+    <script type="module">
+        // Small script to update the UI specifically for this new layout
+        // Re-uses dashboard.js logic but might need overrides if IDs changed
+        // dashboard.js targets 'teacher-name' etc.    <script type="module">
+        import { auth, db } from '../assets/js/firebase-config.js';
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { doc, getDoc, collection, query, where, getDocs, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { initHeader } from '../assets/js/header-manager.js';
+        import { initSubscriptionCheck } from '../assets/js/subscription-check.js';
+        import { initBannerSystem } from '../assets/js/banner-system.js'; // Import
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                let targetUid = user.uid;
+
+                // Impersonation / View As Logic
+                const params = new URLSearchParams(window.location.search);
+                const viewAs = params.get('viewAs');
+
+                if (viewAs) {
+                    // Valid Admin Check
+                    try {
+                        const adminRef = doc(db, "admins", user.uid);
+                        const adminSnap = await getDoc(adminRef);
+
+                        if (adminSnap.exists()) {
+                            targetUid = viewAs;
+                            // Set Session for other pages to pick up
+                            sessionStorage.setItem('impersonatedTeacherId', viewAs);
+
+                            showImpersonationBanner(viewAs);
+                        } else {
+                            console.warn("Unauthorized ViewAs Attempt");
+                            alert("فشل التحقق: حسابك لا يملك صلاحيات المسؤول (Admin Document Not Found).");
+                            sessionStorage.removeItem('impersonatedTeacherId');
+                        }
+                    } catch (e) {
+                        console.error("Admin Check Error", e);
+                        alert("خطأ أثناء التحقق من الصلاحيات: " + e.message);
+                    }
+                } else {
+                    // Normal Login - Clear any stuck impersonation
+                    sessionStorage.removeItem('impersonatedTeacherId');
+                }
+
+                await loadDashboardData(targetUid);
+                initHeader(user);
+                if (targetUid === user.uid) initSubscriptionCheck(user);
+
+                // Init Banners
+                initBannerSystem('teacher', 'dashboard-banners');
+            } else {
+                window.location.href = '../auth/login.html';
+            }
+        });
+
+        function showImpersonationBanner(tid) {
+            const banner = document.createElement('div');
+            banner.style.cssText = "background:#f59e0b; color:black; padding:10px; text-align:center; font-weight:bold; position:fixed; top:0; left:0; width:100%; z-index:9999;";
+            banner.innerHTML = `⚠️ وضع المعاينة (Admin View): أنت تشاهد لوحة تحكم المعلم الآن. <button onclick="exitImpersonation()" style="margin-right:10px; padding:2px 8px; cursor:pointer;">خروج</button>`;
+            document.body.prepend(banner);
+            document.body.style.paddingTop = '40px';
+        }
+
+        window.exitImpersonation = () => {
+            sessionStorage.removeItem('impersonatedTeacherId');
+            window.close();
+        };
+
+        async function loadDashboardData(uid) {
+            try {
+                const docRef = doc(db, "teachers", uid);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    const name = data.name || "المعلم";
+                    document.getElementById('welcome-name').innerText = name.split(' ')[0];
+                } else {
+                    console.log("No such document!");
+                }
+            } catch (error) {
+                console.log("Error getting document:", error);
+            }
+        }
+
+        window.toggleSubmenu = function (id) {
+            const el = document.getElementById(id);
+            if (el) {
+                if (el.style.display === 'none' || el.style.display === '') {
+                    el.style.display = 'block';
+                } else {
+                    el.style.display = 'none';
+                }
+            }
+        };
+
+    </script>
+
+    <!-- Floating Support Buttons (Removed - handled by support-widget.js) -->
+</body>
+
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>تسجيل طالب جديد - Ta3leemy</title>
+
+    <link rel="stylesheet" href="../assets/css/auth.css">
+    <link rel="stylesheet" href="../assets/css/student.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <button class="theme-toggle-fixed theme-toggle-btn" title="تغيير المظهر">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <div class="auth-container">
+        <div class="auth-box">
+            <a href="#" class="auth-logo">Ta3leemy</a>
+            <p class="auth-sub">أنشئ حسابك الجديد وابدأ التعلم</p>
+
+            <form id="student-register-form">
+                <div class="form-group">
+                    <label class="form-label">الاسم الكامل</label>
+                    <input type="text" id="full-name" class="form-input" placeholder="اكتب اسمك هنا" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">رقم الهاتف</label>
+                    <input type="tel" id="details-phone" class="form-input" placeholder="010xxxxxxx" required>
+                </div>
+
+                <div class="form-group" id="year-group" style="display:none;">
+                    <label class="form-label">السنة الدراسية</label>
+                    <select id="academic-year" class="form-input">
+                        <option value="">اختر السنة الدراسية</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">البريد الإلكتروني</label>
+                    <input type="email" id="email" class="form-input" placeholder="name@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">كلمة المرور</label>
+                    <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="btn-auth" id="register-btn">
+                    <span id="btn-text">إنشاء الحساب</span>
+                    <i class="fas fa-spinner fa-spin" id="btn-loader" style="display: none;"></i>
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                لديك حساب بالفعل؟ <a href="login.html">سجل دخول</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recaptcha Container (Invisible/Visible) -->
+    <div id="recaptcha-container"></div>
+
+    <!-- OTP Verification Modal -->
+    <div id="otp-modal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:2000; align-items:center; justify-content:center;">
+        <div class="auth-box"
+            style="text-align: center; border: 1px solid rgba(255,255,255,0.1); max-width: 90%; width: 400px;">
+            <div style="margin-bottom: 20px;">
+                <i class="fas fa-sms" style="font-size: 3rem; color: var(--app-primary);"></i>
+            </div>
+            <h3 style="color: white; margin-bottom: 10px;">تأكيد رقم الهاتف 📱</h3>
+            <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 20px;">
+                أدخل رمز التحقق المرسل إلى <span id="otp-phone-display"
+                    style="color: var(--app-primary); direction: ltr;"></span>
+            </p>
+
+            <input type="text" id="otp-input" class="form-input" placeholder="XXXXXX" maxlength="6"
+                style="text-align: center; letter-spacing: 5px; font-size: 1.2rem; margin-bottom: 20px;">
+
+            <button id="verify-otp-btn" class="btn-auth">
+                تأكيد
+            </button>
+            <button type="button" onclick="document.getElementById('otp-modal').style.display='none'" class="btn-auth"
+                style="margin-top: 10px; background: transparent; border: 1px solid #334155; color: #94a3b8;">
+                إلغاء
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="../assets/js/firebase-config.js"></script>
+    <script type="module" src="../assets/js/student-auth.js"></script>
+    <script src="../assets/js/theme.js"></script>
+</body>
+
+</html>

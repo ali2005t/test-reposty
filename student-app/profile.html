@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>حسابي - Ta3leemy</title>
+
+    <link rel="stylesheet" href="../assets/css/student.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/student-desktop.css">
+    <script src="../assets/js/student-common.js" defer></script>
+    <style>
+        .profile-header {
+            text-align: center;
+            padding: 2rem 1rem;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            border: 4px solid white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            background: #f1f5f9;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 5px;
+        }
+
+        .profile-email {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        .info-card {
+            background: #1e293b;
+            /* Dark theme as in screenshot */
+            color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .info-label {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-bottom: 5px;
+        }
+
+        .info-val {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .action-list {
+            background: #1e293b;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .action-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .action-item:last-child {
+            border-bottom: none;
+        }
+
+        .action-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .action-icon {
+            width: 30px;
+            color: #94a3b8;
+        }
+
+        .action-text {
+            flex: 1;
+            font-weight: 600;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+            color: #1e293b;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="app-header" style="background:white;">
+        <h1 class="app-title" style="margin-right:auto;">حسابي</h1>
+    </header>
+
+    <main class="app-content" style="padding: 0;">
+
+        <div class="profile-header">
+            <div class="profile-avatar">
+                <img src="../assets/images/student-avatar.png" alt="Profile">
+            </div>
+            <h2 class="profile-name" id="user-name">...</h2>
+            <div
+                style="background:#f1f5f9; padding:5px 15px; border-radius:15px; display:inline-block; font-size:0.8rem; color:#64748b; margin-bottom:10px;">
+                طالب</div>
+            <p class="profile-email" id="user-email">...</p>
+        </div>
+
+        <div style="padding: 1rem;">
+
+            <div class="info-card">
+                <div>
+                    <div class="info-label">رقم الهاتف</div>
+                    <div class="info-val" id="user-phone">...</div>
+                </div>
+                <div style="text-align:left;">
+                    <div class="info-label">تاريخ الانضمام</div>
+                    <div class="info-val" id="join-date">...</div>
+                </div>
+            </div>
+
+            <div class="action-list">
+                <div class="action-item" id="notif-toggle-row">
+                    <div class="action-icon"><i class="fas fa-bell"></i></div>
+                    <div class="action-text">الإشعارات</div>
+                    <div>
+                        <i id="notif-status-icon" class="fas fa-toggle-off"
+                            style="font-size:1.5rem; color:#cbd5e1;"></i>
+                    </div>
+                </div>
+                <div class="action-item" id="change-pass-btn">
+                    <div class="action-icon"><i class="fas fa-lock"></i></div>
+                    <div class="action-text">تغيير كلمة المرور</div>
+                    <i class="fas fa-chevron-left" style="opacity:0.5;"></i>
+                </div>
+                <div class="action-item" id="support-btn">
+                    <div class="action-icon"><i class="fas fa-headset"></i></div>
+                    <div class="action-text">الدعم الفني</div>
+                    <i class="fas fa-chevron-left" style="opacity:0.5;"></i>
+                </div>
+            </div>
+
+            <button id="logout-btn"
+                style="width:100%; padding:15px; border:1px solid #ef4444; color:#ef4444; background:rgba(239,68,68,0.05); border-radius:12px; font-weight:bold; cursor:pointer;">
+                <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+            </button>
+
+        </div>
+
+    </main>
+
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>الرئيسية</span>
+        </a>
+        <a href="my-courses.html" class="nav-item">
+            <i class="fas fa-book-reader"></i>
+            <span>مشترياتي</span>
+        </a>
+        <a href="support.html" class="nav-item">
+            <i class="fas fa-headset"></i>
+            <span>الدعم</span>
+        </a>
+        <a href="profile.html" class="nav-item active">
+            <i class="fas fa-user"></i>
+            <span>حسابي</span>
+        </a>
+    </nav>
+
+    <!-- Change Password Modal -->
+    <div id="pass-modal" class="modal">
+        <div class="modal-content">
+            <h3 style="margin-bottom:15px;">تغيير كلمة المرور</h3>
+            <div class="form-group">
+                <input type="password" id="new-pass" class="form-input" placeholder="كلمة المرور الجديدة">
+            </div>
+            <button id="confirm-pass-btn" class="app-btn">حفظ</button>
+            <button onclick="document.getElementById('pass-modal').style.display='none'"
+                style="background:none; border:none; color:#64748b; margin-top:10px; cursor:pointer;">إلغاء</button>
+        </div>
+    </div>
+
+    <script type="module" src="../assets/js/firebase-config.js"></script>
+    <script type="module" src="../assets/js/context-resolver.js"></script>
+    <script type="module">
+        import { auth, db } from '../assets/js/firebase-config.js';
+        import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { onAuthStateChanged, signOut, updatePassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            let currentUser = null;
+            let currentTeacherId = sessionStorage.getItem('currentTeacherId');
+
+            onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    currentUser = user;
+                    loadUserData(user.uid);
+                    checkOneSignal();
+                } else {
+                    window.location.href = 'login.html';
+                }
+            });
+
+            async function loadUserData(uid) {
+                const docSnap = await getDoc(doc(db, "students", uid));
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    document.getElementById('user-name').innerText = data.fullName || 'طالب';
+                    document.getElementById('user-phone').innerText = data.phone || '---';
+                    document.getElementById('user-email').innerText = (data.email || user.email).split('@')[0] + '@...';
+
+                    const date = data.createdAt ? new Date(data.createdAt.seconds * 1000).toLocaleDateString('ar-EG') : 'حديث';
+                    document.getElementById('join-date').innerText = date;
+                } else {
+                    document.getElementById('user-email').innerText = currentUser.email;
+                }
+            }
+
+            // Logout
+            document.getElementById('logout-btn').onclick = () => {
+                signOut(auth).then(() => window.location.href = 'login.html');
+            };
+
+            // Support Logic
+            document.getElementById('support-btn').onclick = () => {
+                window.location.href = 'support.html';
+            };
+
+            // Change Password Logic
+            document.getElementById('change-pass-btn').onclick = () => {
+                document.getElementById('pass-modal').style.display = 'flex';
+            };
+
+            document.getElementById('confirm-pass-btn').onclick = async () => {
+                const newPass = document.getElementById('new-pass').value;
+                if (!newPass || newPass.length < 6) {
+                    alert("كلمة المرور يجب أن تكون 6 أحرف على الأقل");
+                    return;
+                }
+                const btn = document.getElementById('confirm-pass-btn');
+                btn.innerText = "جاري التغيير...";
+
+                try {
+                    await updatePassword(currentUser, newPass);
+                    alert("تم تغيير كلمة المرور بنجاح");
+                    document.getElementById('pass-modal').style.display = 'none';
+                    document.getElementById('new-pass').value = '';
+                } catch (e) {
+                    console.error(e);
+                    if (e.code === 'auth/requires-recent-login') {
+                        alert("لأمان حسابك، يرجى تسجيل الخروج والدخول مرة أخرى ثم المحاولة");
+                    } else {
+                        alert("حدث خطأ: " + e.message);
+                    }
+                } finally {
+                    btn.innerText = "حفظ";
+                }
+            };
+
+            // Notification Toggle (OneSignal)
+            function checkOneSignal() {
+                if (window.OneSignalDeferred) {
+                    OneSignalDeferred.push(async function (OneSignal) {
+                        // v16 API: OneSignal.Notifications.permission (property)
+                        const permission = OneSignal.Notifications.permission; // boolean or string
+                        const icon = document.getElementById('notif-status-icon');
+
+                        // Check if granted (it returns boolean in v16 usually, or 'granted' string in some contexts, safer to check both or log)
+                        if (permission === true || permission === 'granted') {
+                            icon.className = 'fas fa-toggle-on';
+                            icon.style.color = '#10b981'; // Green
+                        } else {
+                            icon.className = 'fas fa-toggle-off';
+                            icon.style.color = '#cbd5e1';
+                        }
+
+                        document.getElementById('notif-toggle-row').onclick = async () => {
+                            // v16 API
+                            await OneSignal.Notifications.requestPermission();
+                            // Update icon after request
+                            const newPerm = OneSignal.Notifications.permission;
+                            if (newPerm === true || newPerm === 'granted') {
+                                icon.className = 'fas fa-toggle-on';
+                                icon.style.color = '#10b981';
+                            }
+                        };
+                    });
+                }
+            }
+
+        });
+    </script>
+    <script type="module">
+        import { applyTheme } from '../assets/js/theme-loader.js';
+        applyTheme();
+    </script>
+    <!-- SPA Router Removed -->
+</body>
+
+</html>

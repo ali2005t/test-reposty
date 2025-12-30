@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الفواتير - Ta3leemy</title>
+
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header"><a href="#" class="logo">Ta3leemy</a></div>
+            <div class="sidebar-menu">
+                <div class="menu-item" onclick="window.location.href='dashboard.html'"><i class="fas fa-home"></i>
+                    الرئيسية</div>
+                <div class="menu-item" onclick="window.location.href='permissions.html'"><i
+                        class="fas fa-file-invoice-dollar"></i> الأذونات</div>
+                <div class="menu-item active"><i class="fas fa-file-invoice"></i> الفواتير</div>
+                <div class="menu-item" onclick="window.location.href='subscriptions.html'"><i
+                        class="fas fa-box-open"></i> الاشتراكات</div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <button class="btn-icon mobile-only" id="open-sidebar"><i class="fas fa-bars"></i></button>
+                    <h3>سجل الفواتير</h3>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>الحالة</th>
+                                <th>الاججمالي</th>
+                                <th>(خصم) عليه</th>
+                                <th>(إضافة) له</th>
+                                <th>تاريخ الانشاء</th>
+                                <th>المزيد</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Mock Data matching Image 3 -->
+                            <tr>
+                                <td>2022</td>
+                                <td><span class="status-badge" style="background:#e0e7ff; color:#4338ca;">محصلة</span>
+                                </td>
+                                <td>5820.00</td>
+                                <td>6220.00</td>
+                                <td>400.00</td>
+                                <td>2025-11-30 22:05</td>
+                                <td><i class="fas fa-ellipsis-v"></i></td>
+                            </tr>
+                            <tr>
+                                <td>1902</td>
+                                <td><span class="status-badge" style="background:#e0e7ff; color:#4338ca;">محصلة</span>
+                                </td>
+                                <td>350.00</td>
+                                <td>350.00</td>
+                                <td>0.00</td>
+                                <td>2025-10-31 22:05</td>
+                                <td><i class="fas fa-ellipsis-v"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+
+        <!-- Floating Buttons -->
+        <div class="floating-btns">
+            <button class="float-btn ticket" onclick="alert('فتح تذكرة دعم جديدة')">
+                <i class="fas fa-ticket-alt"></i> تذاكر الدعم
+            </button>
+            <button class="float-btn" onclick="window.location.href='https://wa.me/?text=help'">
+                تواصل معنا <i class="fab fa-whatsapp"></i>
+            </button>
+        </div>
+        <style>
+            .floating-btns {
+                position: fixed;
+                bottom: 20px;
+                left: 20px;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                z-index: 1000;
+            }
+
+            .float-btn {
+                background: #6366f1;
+                color: white;
+                padding: 10px 20px;
+                border-radius: 50px;
+                box-shadow: 0 4px 10px rgba(99, 102, 241, 0.4);
+                cursor: pointer;
+                border: none;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                font-weight: bold;
+                transition: transform 0.2s;
+            }
+
+            .float-btn:hover {
+                transform: translateY(-2px);
+            }
+
+            .float-btn.ticket {
+                background: #8b5cf6;
+            }
+        </style>
+        <!-- Scripts -->
+        <script src="../assets/js/ui-manager.js"></script>
+        <script type="module" src="../assets/js/teacher/financials.js"></script>
+        <script>
+            const btn = document.getElementById('open-sidebar');
+            const sb = document.getElementById('sidebar');
+            if (btn) btn.onclick = () => sb.classList.toggle('active');
+        </script>
+</body>
+
+</html>

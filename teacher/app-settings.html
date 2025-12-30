@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تجهيز التطبيق - Ta3leemy</title>
+
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/app-settings.css">
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header"><a href="#" class="logo">Ta3leemy</a></div>
+            <div class="sidebar-menu">
+                <div class="menu-item" onclick="window.location.href='dashboard.html'"><i class="fas fa-home"></i>
+                    الرئيسية</div>
+                <div class="menu-item" onclick="window.location.href='trainings.html'"><i
+                        class="fas fa-layer-group"></i> الدورات</div>
+                <div class="menu-item" onclick="window.location.href='lectures.html'"><i class="fas fa-video"></i>
+                    المحاضرات</div>
+                <div class="menu-item" onclick="window.location.href='exams.html'"><i
+                        class="fas fa-clipboard-check"></i> الامتحانات</div>
+                <div class="menu-item" onclick="window.location.href='exam-results.html'"><i class="fas fa-poll"></i>
+                    النتائج والتصحيح</div>
+                <div class="menu-item" onclick="window.location.href='students.html'"><i class="fas fa-users"></i>
+                    الطلاب</div>
+                <div class="menu-item" onclick="window.location.href='generate-codes.html'"><i
+                        class="fas fa-barcode"></i> الأكواد</div>
+
+                <!-- Accounts with Toggle (Standardized) -->
+                <div class="menu-item accounts-toggle" onclick="toggleSubmenu('accounts-submenu')">
+                    <span><i class="fas fa-wallet"></i> الحسابات</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div id="accounts-submenu" class="submenu">
+                    <div class="menu-item submenu-item" onclick="window.location.href='permissions.html'"><i
+                            class="fas fa-file-invoice-dollar"></i> الأذونات
+                    </div>
+                    <div class="menu-item submenu-item" onclick="window.location.href='invoices.html'"><i
+                            class="fas fa-file-invoice"></i> الفواتير</div>
+                    <div class="menu-item submenu-item" onclick="window.location.href='subscriptions.html'"><i
+                            class="fas fa-box-open"></i> الاشتراكات</div>
+                </div>
+
+                <div class="menu-item active" onclick="window.location.href='app-settings.html'">
+                    <i class="fas fa-mobile-alt"></i> تجهيز التطبيق
+                </div>
+
+                <div class="menu-item" onclick="window.location.href='support.html'"><i class="fas fa-headset"></i>
+                    الدعم الفني</div>
+
+                <div class="menu-item profile-item" onclick="window.location.href='profile.html'"><i
+                        class="fas fa-cog"></i>
+                    الإعدادات</div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar-redesigned">
+                <div class="header-right">
+                    <button class="btn-icon mobile-only" id="open-sidebar"><i class="fas fa-bars"></i></button>
+                    <div class="header-title">
+                        <h3>تجهيز التطبيق الخاص</h3>
+                        <p>خصص مظهر تطبيقك ليناسب هويتك</p>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-content">
+
+                <!-- Status View (For Pending/Completed cards) -->
+                <div id="status-view" style="display:none; text-align:center;"></div>
+
+                <!-- Settings Form View -->
+                <div id="settings-view">
+                    <div class="app-settings-grid">
+
+                        <!-- Settings Column -->
+                        <div>
+                            <!-- App Name Card -->
+                            <div class="card app-settings-card">
+                                <h3><i class="fas fa-signature"></i> اسم التطبيق</h3>
+                                <p>اسم تطبيقك كما سيظهر للطلاب.</p>
+                                <input type="text" id="app-name-input" class="form-input full-width custom-input-dark"
+                                    placeholder="مثال: أكاديمية النجاح" oninput="updateAppName(this.value)">
+                            </div>
+
+                            <div class="card app-settings-card">
+                                <h3><i class="fas fa-palette"></i> ألوان الهوية
+                                </h3>
+                                <p>اختر اللون الرئيسي لتطبيقك. سيظهر هذا اللون
+                                    في الأزرار، الرأس، والعناصر التفاعلية.</p>
+
+                                <div class="color-picker-container">
+                                    <div class="color-picker-item active" data-color="#6366f1"
+                                        style="background-color: #6366f1;" onclick="setBrandColor('#6366f1', this)">
+                                    </div>
+                                    <!-- Indigo -->
+                                    <div class="color-picker-item" data-color="#3b82f6"
+                                        style="background-color: #3b82f6;" onclick="setBrandColor('#3b82f6', this)">
+                                    </div> <!-- Blue -->
+                                    <div class="color-picker-item" data-color="#f43f5e"
+                                        style="background-color: #f43f5e;" onclick="setBrandColor('#f43f5e', this)">
+                                    </div> <!-- Rose -->
+                                    <div class="color-picker-item" data-color="#10b981"
+                                        style="background-color: #10b981;" onclick="setBrandColor('#10b981', this)">
+                                    </div> <!-- Emerald -->
+                                    <div class="color-picker-item" data-color="#f59e0b"
+                                        style="background-color: #f59e0b;" onclick="setBrandColor('#f59e0b', this)">
+                                    </div> <!-- Amber -->
+                                    <div class="color-picker-item" data-color="#8b5cf6"
+                                        style="background-color: #8b5cf6;" onclick="setBrandColor('#8b5cf6', this)">
+                                    </div> <!-- Purple -->
+                                    <div class="color-picker-item" data-color="#0f172a"
+                                        style="background-color: #0f172a;" onclick="setBrandColor('#0f172a', this)">
+                                    </div> <!-- Dark -->
+
+                                    <!-- Custom Color Picker -->
+                                    <label class="color-picker-item custom-color-wrapper">
+                                        <input type="color" id="custom-color-input" class="hidden-color-input"
+                                            oninput="setBrandColor(this.value, this.parentElement)">
+                                        <i class="fas fa-plus custom-plus-icon"></i>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="card app-settings-card">
+                                <h3><i class="fas fa-image"></i> شعار التطبيق
+                                    (Logo)</h3>
+
+                                <div class="logo-upload-area"
+                                    onclick="document.getElementById('app-logo-upload').click()">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p>اضغط لرفع الشعار</p>
+                                    <p>يفضل أن يكون PNG بخلفية شفافة</p>
+                                </div>
+                                <input type="file" id="app-logo-upload" hidden accept="image/*"
+                                    onchange="previewLogo(event)">
+
+                                <div class="save-settings-section">
+                                    <button class="btn btn-primary full-width" onclick="saveAppSettings()">
+                                        <i class="fas fa-save"></i> حفظ وإرسال للتجهيز
+                                    </button>
+                                    <p>
+                                        سيتم مراجعة التغييرات وتحديث التطبيق خلال 24 ساعة.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Preview Column -->
+                        <div class="preview-column">
+                            <div class="device-preview-container">
+                                <h4>معاينة حية</h4>
+
+                                <div class="device-preview">
+                                    <div class="phone-case-glow"></div>
+                                    <div class="phone-notch-island"></div>
+                                    <div class="phone-buttons-right"></div>
+                                    <div class="phone-buttons-left"></div>
+
+                                    <div class="screen-content">
+                                        <!-- Status Bar -->
+                                        <div class="status-bar">
+                                            <div class="time">9:41</div>
+                                            <div class="icons">
+                                                <i class="fas fa-signal"></i>
+                                                <i class="fas fa-wifi"></i>
+                                                <i class="fas fa-battery-full"></i>
+                                            </div>
+                                        </div>
+
+                                        <!-- App Header (White with Brand Text) -->
+                                        <div class="preview-header-white">
+                                            <div class="header-brand-text brand-color-text" id="preview-header-name">اسم
+                                                المنصة</div>
+                                            <div class="header-notif">
+                                                <i class="fas fa-bell"></i>
+                                                <span class="red-dot"></span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Welcome Screen Body -->
+                                        <div class="preview-welcome-body">
+                                            <!-- The White Card -->
+                                            <div class="preview-welcome-card">
+                                                <div class="preview-logo-circle">
+                                                    <img src="../assets/images/icon title  and logo .png"
+                                                        id="preview-logo-img" alt="Logo">
+                                                </div>
+                                                ...
+                                                <script src="../assets/js/ui-manager.js"></script>
+                                                <script type="module" src="../assets/js/firebase-config.js"></script>
+
+                                                <h2 id="preview-app-name-card" class="preview-app-title">اسم المنصة</h2>
+                                                <p class="preview-app-subtitle">اضغط للدخول إلى المناهج</p>
+
+                                                <button class="preview-action-btn brand-gradient-bg">
+                                                    تصفح المحتوى <i class="fas fa-arrow-left"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- Bottom Nav -->
+                                        <div class="app-bottom-nav">
+                                            <div class="app-bottom-nav-inner">
+                                                <div class="nav-item active">
+                                                    <i class="fas fa-home"></i>
+                                                    <span>الرئيسية</span>
+                                                </div>
+                                                <div class="nav-item">
+                                                    <i class="fas fa-shopping-bag"></i>
+                                                    <span>مشترياتي</span>
+                                                </div>
+                                                <div class="nav-item">
+                                                    <i class="fas fa-headset"></i>
+                                                    <span>الدعم</span>
+                                                </div>
+                                                <div class="nav-item">
+                                                    <i class="fas fa-user"></i>
+                                                    <span>حسابي</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+        </main>
+    </div>
+
+    <!-- Upgrade Wall Modal -->
+    <div id="upgrade-wall" class="upgrade-wall">
+        <div class="upgrade-card">
+            <div class="upgrade-icon">🚀</div>
+            <h2>ميزة حصرية للباقات المتقدمة</h2>
+            <p>
+                ميزة "تطبيقك الخاص" متاحة فقط في باقة <strong>الاحترافية (Pro)</strong> وما فوق.<br>
+                احصل على تطبيقك الخاص باسمك وشعارك على Google Play و App Store.
+            </p>
+            <button class="btn btn-primary full-width upgrade-button"
+                onclick="window.location.href='subscriptions.html'">
+                ترقية الباقة الآن
+            </button>
+            <button class="btn btn-secondary full-width back-button" onclick="history.back()">
+                العودة للخلف
+            </button>
+        </div>
+    </div>
+
+    <script src="../assets/js/ui-manager.js"></script>
+    <script type="module" src="../assets/js/firebase-config.js"></script>
+    <script type="module" src="../assets/js/header-manager.js"></script>
+    <script type="module" src="../assets/js/app-settings.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>تفعيل الكورس - Ta3leemy</title>
+
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/student.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/student-desktop.css">
+    <script src="../assets/js/student-common.js" defer></script>
+</head>
+
+<body>
+
+    <header class="app-header">
+        <button class="btn-icon" onclick="window.history.back()"
+            style="color: white; background: none; border: none; font-size: 1.2rem;">
+            <i class="fas fa-arrow-right"></i>
+        </button>
+        <h3 style="margin: 0; font-size: 1.1rem;">تفعيل الكورس</h3>
+        <div style="width: 24px;"></div>
+    </header>
+
+    <div class="app-auth-container" style="justify-content: flex-start; padding-top: 2rem;">
+
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <div
+                style="width: 80px; height: 80px; background: rgba(251, 191, 36, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                <i class="fas fa-ticket-alt" style="font-size: 2rem; color: var(--app-accent);"></i>
+            </div>
+            <h2>هل لديك كود؟</h2>
+            <p style="color: var(--app-text-muted);">أدخل الكود الذي حصلت عليه من المعلم لتفعيل هذا الكورس.</p>
+        </div>
+
+        <form id="code-form">
+            <div style="margin-bottom: 1.5rem;">
+                <input type="text" id="access-code" class="app-search-input"
+                    style="text-align: center; font-size: 1.5rem; letter-spacing: 2px; text-transform: uppercase;"
+                    placeholder="CODE-123" required>
+            </div>
+
+            <div id="error-msg" style="color: red; text-align: center; margin-bottom: 1rem; display: none;">
+                الكود غير صحيح أو مستخدم مسبقاً
+            </div>
+
+            <button type="submit" class="app-btn" id="activate-btn">
+                <span id="btn-text">تفعيل</span>
+                <i class="fas fa-spinner fa-spin" id="btn-loader" style="display: none;"></i>
+            </button>
+        </form>
+
+    </div>
+
+    <script type="module" src="../assets/js/firebase-config.js"></script>
+    <script type="module" src="../assets/js/context-resolver.js"></script>
+    <script type="module" src="../assets/js/code-entry.js"></script>
+
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>الرئيسية</span>
+        </a>
+        <a href="my-courses.html" class="nav-item">
+            <i class="fas fa-book-reader"></i>
+            <span>مشترياتي</span>
+        </a>
+        <a href="support.html" class="nav-item">
+            <i class="fas fa-headset"></i>
+            <span>الدعم</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>حسابي</span>
+        </a>
+    </nav>
+</body>
+
+</html>

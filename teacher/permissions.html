@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الأذونات - Ta3leemy</title>
+
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header"><a href="#" class="logo">Ta3leemy</a></div>
+            <div class="sidebar-menu">
+                <div class="menu-item" onclick="window.location.href='dashboard.html'"><i class="fas fa-home"></i>
+                    الرئيسية</div>
+                <div class="menu-item active"><i class="fas fa-file-invoice-dollar"></i> الأذونات</div>
+                <div class="menu-item" onclick="window.location.href='invoices.html'"><i
+                        class="fas fa-file-invoice"></i> الفواتير</div>
+                <div class="menu-item" onclick="window.location.href='subscriptions.html'"><i
+                        class="fas fa-box-open"></i> الاشتراكات</div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar-redesigned"
+                style="display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: #0f172a; border-bottom: 1px solid #1e293b; position:sticky; top:0; z-index:900;">
+                <!-- Right: Title & Hamburger -->
+                <div class="header-right" style="display:flex; align-items:center; gap:15px;">
+                    <button class="btn-icon mobile-only" id="open-sidebar"
+                        style="background:transparent; border:none; color:white; font-size:1.2rem; cursor:pointer;"><i
+                            class="fas fa-bars"></i></button>
+                    <div class="header-title">
+                        <h3 style="margin:0; color:white; font-size:1.2rem;">الأذونات المالية</h3>
+                    </div>
+                </div>
+
+                <!-- Left: Actions -->
+                <div class="top-actions" style="display:flex; align-items:center; gap:20px;">
+                    <a href="#" class="action-link mobile-hide" target="_blank" id="site-link"
+                        style="color:#94a3b8; text-decoration:none; display:flex; align-items:center; gap:5px; transition:color 0.2s;">
+                        <i class="fas fa-external-link-alt"></i> <span class="mobile-hide">الموقع</span>
+                    </a>
+
+                    <div class="notification-container" style="position:relative;">
+                        <div class="notification-bell" id="notif-bell-trigger"
+                            style="cursor:pointer; position:relative;">
+                            <i class="fas fa-bell" style="font-size:1.2rem; color:#94a3b8; transition:color 0.2s;"></i>
+                            <span class="badge-count"
+                                style="position:absolute; top:-8px; right:-5px; background:#ef4444; color:white; border-radius:50%; font-size:0.7rem; padding:2px 6px; border:2px solid #0f172a; display:none;">0</span>
+                        </div>
+                        <div class="custom-dropdown" id="notif-dropdown"
+                            style="display:none; position:absolute; left:-10px; top:50px; background:#1e293b; border:1px solid #334155; border-radius:12px; width:320px; z-index:1000; box-shadow:0 20px 25px -5px rgba(0,0,0,0.3); overflow:hidden;">
+                            <div
+                                style="padding:15px; border-bottom:1px solid #334155; font-weight:bold; color:white; display:flex; justify-content:space-between; align-items:center;">
+                                <span>الإشعارات</span>
+                            </div>
+                            <div class="notif-list" style="max-height:350px; overflow-y:auto;">
+                                <!-- Notifs load here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-container" style="position:relative;">
+                        <div class="profile-trigger" id="profile-widget-trigger"
+                            style="display:flex; align-items:center; gap:12px; cursor:pointer; padding:5px; border-radius:8px; transition:background 0.2s;">
+                            <div class="avatar"
+                                style="width:40px; height:40px; background:linear-gradient(135deg, #6366f1, #8b5cf6); border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-weight:bold; font-size:1.1rem; box-shadow:0 4px 6px -1px rgba(99, 102, 241, 0.3);">
+                                <span id="user-avatar-char">T</span>
+                            </div>
+                            <div class="info mobile-hide" style="text-align:right;">
+                                <div id="user-name" style="font-weight:bold; color:white; font-size:0.9rem;">المعلم
+                                </div>
+                                <div style="font-size:0.75rem; color:#94a3b8;" id="platform-name">منصتي</div>
+                            </div>
+                            <i class="fas fa-chevron-down mobile-hide" style="font-size:0.8rem; color:#94a3b8;"></i>
+                        </div>
+                        <div class="custom-dropdown" id="profile-dropdown-menu"
+                            style="display:none; position:absolute; left:0; top:60px; background:#1e293b; border:1px solid #334155; border-radius:12px; width:220px; z-index:1000; box-shadow:0 20px 25px -5px rgba(0,0,0,0.3); overflow:hidden;">
+                            <a href="profile.html" class="dropdown-item"
+                                style="display:flex; gap:10px; padding:12px 15px; color:#cbd5e1; text-decoration:none; border-bottom:1px solid #334155; align-items:center; transition:background 0.2s;">
+                                <i class="fas fa-user-circle" style="width:20px; text-align:center;"></i> الحساب
+                                الشخصي
+                            </a>
+                            <a href="subscriptions.html" class="dropdown-item"
+                                style="display:flex; gap:10px; padding:12px 15px; color:#cbd5e1; text-decoration:none; border-bottom:1px solid #334155; align-items:center; transition:background 0.2s;">
+                                <i class="fas fa-box-open" style="width:20px; text-align:center;"></i> الاشتراكات
+                            </a>
+                            <a href="profile.html" class="dropdown-item"
+                                style="display:flex; gap:10px; padding:12px 15px; color:#cbd5e1; text-decoration:none; border-bottom:1px solid #334155; align-items:center; transition:background 0.2s;">
+                                <i class="fas fa-cog" style="width:20px; text-align:center;"></i> الإعدادات
+                            </a>
+                            <a href="#" id="logout-link-dropdown" class="dropdown-item"
+                                style="display:flex; gap:10px; padding:12px 15px; color:#ef4444; text-decoration:none; align-items:center; transition:background 0.2s; font-weight:600;">
+                                <i class="fas fa-power-off" style="width:20px; text-align:center;"></i> تسجيل الخروج
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Script -->
+            <!-- Script -->
+            <script src="../assets/js/ui-manager.js"></script>
+            <script type="module" src="../assets/js/teacher/financials.js"></script>
+            <script>
+                const btn = document.getElementById('open-sidebar');
+                const sb = document.getElementById('sidebar');
+                if (btn) btn.onclick = () => sb.classList.toggle('active');
+            </script>
+
+            <div class="page-content">
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>الحالة</th>
+                                <th>النوع</th>
+                                <th>المبلغ</th>
+                                <th>السبب</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Mock Data matching Image 2 -->
+                            <tr>
+                                <td>221</td>
+                                <td><span class="status-badge" style="background:#e0e7ff; color:#4338ca;">معلقة</span>
+                                </td>
+                                <td><span class="status-badge" style="background:#dbeafe; color:#1e40af;">(إضافة)
+                                        له</span></td>
+                                <td>765.00</td>
+                                <td>له خصم 50% سنتر لوك</td>
+                            </tr>
+                            <tr>
+                                <td>225</td>
+                                <td><span class="status-badge" style="background:#e0e7ff; color:#4338ca;">معلقة</span>
+                                </td>
+                                <td><span class="status-badge" style="background:#dbeafe; color:#1e40af;">(إضافة)
+                                        له</span></td>
+                                <td>3540.00</td>
+                                <td>خصم له 50 في المية</td>
+                            </tr>
+                            <tr>
+                                <td>605</td>
+                                <td><span class="status-badge" style="background:#e0e7ff; color:#4338ca;">محصلة</span>
+                                </td>
+                                <td><span class="status-badge" style="background:#fce7f3; color:#9d174d;">(خصم)
+                                        عليه</span></td>
+                                <td>5000.00</td>
+                                <td>باقي الاشتراك السنوي</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+
+        <!-- Floating Buttons -->
+        <div class="floating-btns">
+            <button class="float-btn ticket" onclick="alert('فتح تذكرة دعم جديدة')">
+                <i class="fas fa-ticket-alt"></i> تذاكر الدعم
+            </button>
+            <button class="float-btn" onclick="window.location.href='https://wa.me/?text=help'">
+                تواصل معنا <i class="fab fa-whatsapp"></i>
+            </button>
+        </div>
+        <style>
+            .floating-btns {
+                position: fixed;
+                bottom: 20px;
+                left: 20px;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                z-index: 1000;
+            }
+
+            .float-btn {
+                background: #6366f1;
+                color: white;
+                padding: 10px 20px;
+                border-radius: 50px;
+                box-shadow: 0 4px 10px rgba(99, 102, 241, 0.4);
+                cursor: pointer;
+                border: none;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                font-weight: bold;
+                transition: transform 0.2s;
+            }
+
+            .float-btn:hover {
+                transform: translateY(-2px);
+            }
+
+            .float-btn.ticket {
+                background: #F59E0B;
+            }
+        </style>
+    </div>
+</body>
+
+</html>

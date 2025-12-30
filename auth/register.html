@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء حساب جديد - Ta3leemy</title>
+
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="auth-container">
+        <a href="../index.html" class="logo" style="position: absolute; top: 2rem; right: 2rem;">Ta3leemy<span
+                class="dot">.</span></a>
+
+        <div class="auth-card">
+            <div class="auth-header">
+                <h2>ابدأ رحلتك التعليمية 🚀</h2>
+                <p>أنشئ حسابك وابدأ في بناء منصتك الخاصة</p>
+            </div>
+
+            <div id="error-message" class="error-message"></div>
+
+            <form id="register-form">
+                <div class="form-group">
+                    <label>الاسم الكامل</label>
+                    <input type="text" id="full-name" class="form-input" placeholder="مثال: أحمد محمد" required>
+                </div>
+
+                <div class="form-group">
+                    <label>البريد الإلكتروني</label>
+                    <input type="email" id="email" class="form-input" placeholder="name@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label>رقم الهاتف</label>
+                    <input type="tel" id="phone" class="form-input" placeholder="010xxxxxxxx" required>
+                </div>
+
+                <div class="form-group">
+                    <label>كلمة المرور</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+                        <i class="fas fa-eye password-toggle" id="toggle-password"></i>
+                    </div>
+                </div>
+
+                <!-- Hidden Input for Plan (passed via URL) -->
+                <input type="hidden" id="selected-plan">
+
+                <button type="submit" class="btn btn-primary full-width" id="submit-btn">
+                    <span id="btn-text">إنشاء الحساب</span>
+                    <i class="fas fa-spinner fa-spin" id="btn-loader" style="display: none;"></i>
+                </button>
+            </form>
+
+            <div class="form-footer">
+                لديك حساب بالفعل؟ <a href="login.html">تسجيل الدخول</a>
+            </div>
+        </div>
+        <!-- Recaptcha Container (Invisible/Visible) -->
+        <div id="recaptcha-container"></div>
+
+        <!-- OTP Verification Modal -->
+        <div id="otp-modal"
+            style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:2000; align-items:center; justify-content:center;">
+            <div class="auth-card"
+                style="max-width: 400px; text-align: center; border: 1px solid rgba(255,255,255,0.1);">
+                <div style="margin-bottom: 20px;">
+                    <i class="fas fa-sms" style="font-size: 3rem; color: #38bdf8;"></i>
+                </div>
+                <h3 style="color: white; margin-bottom: 10px;">تأكيد رقم الهاتف 📱</h3>
+                <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 20px;">
+                    أدخل رمز التحقق المرسل إلى <span id="otp-phone-display"
+                        style="color: #38bdf8; direction: ltr;"></span>
+                </p>
+
+                <input type="text" id="otp-input" class="form-input" placeholder="XXXXXX" maxlength="6"
+                    style="text-align: center; letter-spacing: 5px; font-size: 1.2rem; margin-bottom: 20px;">
+
+                <button id="verify-otp-btn" class="btn btn-primary full-width">
+                    تأكيد
+                </button>
+                <button onclick="document.getElementById('otp-modal').style.display='none'"
+                    class="btn btn-secondary full-width"
+                    style="margin-top: 10px; background: transparent; border: 1px solid #334155;">
+                    إلغاء
+                </button>
+            </div>
+        </div>
+
+        <!-- Success Modal -->
+        <div id="success-modal"
+            style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:2000; align-items:center; justify-content:center;">
+            <div class="auth-card"
+                style="max-width: 400px; text-align: center; border: 1px solid rgba(16, 185, 129, 0.3); background: #0f172a;">
+                <div style="margin-bottom: 20px;">
+                    <i class="fas fa-check-circle" style="font-size: 4rem; color: #10b981;"></i>
+                </div>
+                <h3 style="color: white; margin-bottom: 10px;">تم إنشاء الحساب بنجاح! 🚀</h3>
+                <div
+                    style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.2); padding: 15px; border-radius: 8px; margin: 20px 0; text-align: right;">
+                    <h4 style="color: #f59e0b; margin: 0 0 5px 0; font-size: 0.95rem;">خطوة أخيرة هامة ⚠️</h4>
+                    <p style="color: #cbd5e1; font-size: 0.85rem; margin: 0; line-height: 1.5;">
+                        تم إرسال رابط التفعيل إلى بريدك الإلكتروني. يجب عليك فتح الرسالة والضغط على الرابط لتتمكن من
+                        الدخول.
+                    </p>
+                </div>
+                <button onclick="window.location.href='login.html'" class="btn btn-primary full-width"
+                    style="background: #10b981; border-color: #10b981;">
+                    تسجيل الدخول الآن
+                </button>
+            </div>
+        </div>
+
+        <script type="module" src="../assets/js/firebase-config.js"></script>
+        <script type="module" src="../assets/js/register.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تفعيل الحساب - Ta3leemy</title>
+
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="auth-container">
+        <a href="../index.html" class="logo" style="position: absolute; top: 2rem; right: 2rem;">Ta3leemy<span
+                class="dot">.</span></a>
+
+        <div class="auth-card" style="text-align: center; padding: 50px 30px;">
+            <div id="loader">
+                <i class="fas fa-spinner fa-spin" style="font-size: 3rem; color: #38bdf8; margin-bottom: 20px;"></i>
+                <h3>جاري التحقق من التفعيل...</h3>
+            </div>
+
+            <div id="success-message" style="display: none;">
+                <div
+                    style="width: 80px; height: 80px; background: rgba(34, 197, 94, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; border: 1px solid rgba(34, 197, 94, 0.2);">
+                    <i class="fas fa-check" style="font-size: 2.5rem; color: #4ade80;"></i>
+                </div>
+                <h2 style="color: white; margin-bottom: 10px;">تم تفعيل الحساب بنجاح! 🎉</h2>
+                <p style="color: #94a3b8; margin-bottom: 30px;">شكراً لتأكيد بريدك الإلكتروني. يمكنك الآن استخدام المنصة
+                    بكامل ميزاتها.</p>
+                <a href="login.html" class="btn btn-primary">تسجيل الدخول</a>
+            </div>
+
+            <div id="error-message" style="display: none;">
+                <div
+                    style="width: 80px; height: 80px; background: rgba(239, 68, 68, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; border: 1px solid rgba(239, 68, 68, 0.2);">
+                    <i class="fas fa-times" style="font-size: 2.5rem; color: #ef4444;"></i>
+                </div>
+                <h2 style="color: white; margin-bottom: 10px;">رابط غير صالح ⚠️</h2>
+                <p style="color: #94a3b8; margin-bottom: 30px;">الرابط الذي استخدمته منتهي الصلاحية أو غير صحيح.</p>
+                <a href="login.html" class="btn btn-secondary">العودة للرئيسية</a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="../assets/js/firebase-config.js"></script>
+    <script type="module" src="../assets/js/verify_email.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة الاشتراك - Ta3leemy</title>
+
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .plan-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-5px);
+            border-color: #6366f1;
+            box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.3);
+        }
+
+        .plan-card.active-plan {
+            border: 2px solid #10b981;
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .plan-card.active-plan::after {
+            content: 'الخطة الحالية';
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background: #10b981;
+            color: white;
+            padding: 5px 30px;
+            transform: rotate(45deg);
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .plan-price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: white;
+            margin: 15px 0;
+        }
+
+        .plan-price span {
+            font-size: 1rem;
+            color: #94a3b8;
+            font-weight: normal;
+        }
+
+        .plan-features {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+            text-align: right;
+        }
+
+        .plan-features li {
+            padding: 8px 0;
+            color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .plan-features li i {
+            color: #10b981;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: #0f172a;
+            margin: 5% auto;
+            padding: 30px;
+            border: 1px solid #334155;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 16px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header"><a href="#" class="logo">Ta3leemy</a></div>
+            <div class="sidebar-menu">
+                <div class="menu-item" onclick="window.location.href='dashboard.html'"><i class="fas fa-home"></i>
+                    الرئيسية</div>
+                <div class="menu-item" onclick="window.location.href='trainings.html'"><i
+                        class="fas fa-layer-group"></i> الدورات</div>
+                <div class="menu-item" onclick="window.location.href='students.html'"><i class="fas fa-users"></i>
+                    الطلاب</div>
+                <div class="menu-item active" onclick="window.location.href='subscriptions.html'"><i
+                        class="fas fa-box-open"></i> الاشتراكات</div>
+                <div class="menu-item" onclick="window.location.href='profile.html'"><i class="fas fa-cog"></i>
+                    الإعدادات</div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar-redesigned"
+                style="display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: #0f172a; border-bottom: 1px solid #1e293b;">
+                <div class="header-right" style="display:flex; align-items:center; gap:15px;">
+                    <button class="btn-icon mobile-only" id="open-sidebar"
+                        style="color:white; background:none; border:none; font-size:1.2rem;"><i
+                            class="fas fa-bars"></i></button>
+                    <h3 style="margin:0; color:white;">إدارة الاشتراك</h3>
+                </div>
+            </header>
+
+            <div class="page-content">
+
+                <!-- Current Subscription Status -->
+                <div class="content-card"
+                    style="background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid #334155; margin-bottom: 30px;">
+                    <div
+                        style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;">
+                        <div>
+                            <h4 style="margin:0 0 10px 0; color:#94a3b8;">باقتك الحالية</h4>
+                            <h1 id="current-plan-name" style="margin:0; color:white; font-size:2rem;">جاري التحميل...
+                            </h1>
+                            <p id="expiry-date" style="margin:10px 0 0 0; color:#cbd5e1;"><i
+                                    class="fas fa-calendar"></i> ينتهي في: ...</p>
+                        </div>
+                        <div style="text-align:left;">
+                            <div class="status-badge" id="plan-status"
+                                style="display:inline-block; padding:8px 16px; border-radius:20px; font-weight:bold; background:#334155; color:white;">
+                                ...
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Time Progress Bar -->
+                    <div id="time-progress-container"
+                        style="margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); display:none;">
+                        <div
+                            style="display:flex; justify-content:space-between; color:#cbd5e1; font-size:0.9rem; margin-bottom:8px;">
+                            <span><i class="fas fa-play-circle"></i> بدأ: <span id="sub-start-date">--</span></span>
+                            <span><i class="fas fa-flag-checkered"></i> ينتهي: <span id="sub-end-date">--</span></span>
+                        </div>
+                        <div
+                            style="background:#334155; height:12px; border-radius:6px; overflow:hidden; position:relative;">
+                            <div id="sub-time-progress"
+                                style="width:0%; height:100%; background: linear-gradient(90deg, #10b981, #3b82f6); transition:width 1s; box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);">
+                            </div>
+                        </div>
+                        <div style="text-align:center; margin-top:8px; font-size:0.9rem; color:#94a3b8; font-weight:bold;"
+                            id="sub-days-remaining-text">
+                            ...
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Usage Stats -->
+                <div
+                    style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:20px; margin-bottom:40px;">
+
+                    <!-- Students Usage -->
+                    <div class="stat-card"
+                        style="background:#1e293b; padding:20px; border-radius:12px; border:1px solid #334155;">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                            <h5 style="margin:0; color:#94a3b8;">الطلاب المشتركين</h5>
+                            <span id="students-count-text" style="color:white; font-weight:bold;">-- / --</span>
+                        </div>
+                        <div style="background:#334155; height:8px; border-radius:4px; overflow:hidden;">
+                            <div id="students-progress"
+                                style="width:0%; height:100%; background:#6366f1; transition:width 0.5s;"></div>
+                        </div>
+                        <div style="margin-top:8px; font-size:0.8rem; color:#64748b;" id="students-msg">...</div>
+                    </div>
+
+                    <!-- Storage Usage -->
+                    <div class="stat-card"
+                        style="background:#1e293b; padding:20px; border-radius:12px; border:1px solid #334155;">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                            <h5 style="margin:0; color:#94a3b8;">المساحة المستخدمة</h5>
+                            <span id="storage-count-text" style="color:white; font-weight:bold;">-- / -- GB</span>
+                        </div>
+                        <div style="background:#334155; height:8px; border-radius:4px; overflow:hidden;">
+                            <div id="storage-progress"
+                                style="width:0%; height:100%; background:#10b981; transition:width 0.5s;"></div>
+                        </div>
+                        <div style="margin-top:8px; font-size:0.8rem; color:#64748b;" id="storage-msg">يتم تحديث المساحة
+                            يومياً</div>
+                    </div>
+
+                </div>
+
+                <div
+                    style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px; flex-wrap:wrap; gap:15px;">
+                    <h3 style="color:white; margin:0;">خطط الاشتراك المتاحة</h3>
+
+                    <!-- Billing Toggle -->
+                    <div
+                        style="background:#1e293b; padding:5px; border-radius:50px; border:1px solid #334155; display:flex; position:relative;">
+                        <button id="btn-monthly" class="toggle-btn active" onclick="switchBilling('monthly')"
+                            style="border:none; background:#6366f1; color:white; padding:8px 20px; border-radius:30px; cursor:pointer; font-weight:bold; transition:all 0.3s; z-index:2;">شهري</button>
+                        <button id="btn-yearly" class="toggle-btn" onclick="switchBilling('yearly')"
+                            style="border:none; background:transparent; color:#94a3b8; padding:8px 20px; border-radius:30px; cursor:pointer; font-weight:bold; transition:all 0.3s; z-index:2;">
+                            سنوي <span
+                                style="font-size:0.7rem; background:#10b981; color:white; padding:2px 6px; border-radius:10px; margin-right:5px;">وفر
+                                20%</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Plans Grid (Populated by JS) -->
+                <div class="plans-grid"
+                    style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:25px;">
+                    <!-- Loading State -->
+                    <div style="grid-column: 1/-1; text-align:center; padding:40px; color:#94a3b8;">
+                        <i class="fas fa-spinner fa-spin fa-2x"></i>
+                        <p style="margin-top:10px;">جاري تحميل الباقات...</p>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <div style="text-align:center; margin-bottom:20px;">
+                <i class="fas fa-credit-card" style="font-size:3rem; color:#6366f1; margin-bottom:15px;"></i>
+                <h2 style="color:white; margin:0;">تأكيد الاشتراك</h2>
+                <p style="color:#94a3b8;">أنت على وشك الترقية إلى <span id="modal-plan-name"
+                        style="color:white; font-weight:bold;"></span></p>
+            </div>
+
+            <div style="background:#1e293b; padding:15px; border-radius:8px; margin-bottom:20px; text-align:right;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                    <span style="color:#94a3b8;">سعر الباقة</span>
+                    <span style="color:white; font-weight:bold;" id="modal-price">--</span>
+                </div>
+                <div style="border-top:1px solid #334155; margin:10px 0;"></div>
+                <div style="display:flex; justify-content:space-between;">
+                    <span style="color:white;">الإجمالي للدفع</span>
+                    <span style="color:#10b981; font-weight:bold; font-size:1.2rem;" id="modal-total">--</span>
+                </div>
+            </div>
+
+            <button onclick="processPayment()" class="btn btn-primary full-width"
+                style="padding:15px; font-size:1.1rem; margin-bottom:10px;">
+                <i class="fas fa-lock"></i> دفع آمن وتفعيل فوري
+            </button>
+            <button onclick="closePaymentModal()" class="btn btn-text" style="color:#94a3b8;">إلغاء</button>
+        </div>
+    </div>
+
+    <script type="module" src="../assets/js/firebase-config.js"></script>
+    <script src="../assets/js/ui-manager.js"></script>
+    <script type="module" src="../assets/js/subscriptions.js"></script>
+    <script>
+        document.getElementById('open-sidebar')?.addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('active');
+        });
+    </script>
+</body>
+
+</html>

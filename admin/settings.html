@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إعدادات المنصة - Ta3leemy</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/admin-settings.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header"><a href="#" class="logo">Ta3leemy</a></div>
+            <div class="sidebar-menu">
+                <div class="menu-item" onclick="window.location.href='dashboard.html'"><i class="fas fa-home"></i>
+                    الرئيسية</div>
+                <div class="menu-item" onclick="window.location.href='teachers.html'"><i
+                        class="fas fa-chalkboard-teacher"></i> المعلمون</div>
+                <div class="menu-item" onclick="window.location.href='students.html'"><i
+                        class="fas fa-user-graduate"></i> الطلاب</div>
+                <div class="menu-item" onclick="window.location.href='courses.html'"><i class="fas fa-book"></i>
+                    الكورسات</div>
+                <div class="menu-item" onclick="window.location.href='packages.html'"><i class="fas fa-box-open"></i>
+                    الباقات</div>
+                <div class="menu-item" onclick="window.location.href='subscriptions.html'"><i
+                        class="fas fa-file-invoice-dollar"></i> الاشتراكات</div>
+                <div class="menu-item" onclick="window.location.href='financials.html'"><i
+                        class="fas fa-dollar-sign"></i> المالية</div>
+                <div class="menu-item" onclick="window.location.href='app-requests.html'"><i
+                        class="fas fa-mobile-screen"></i> تجهيز التطبيقات</div>
+                <div class="menu-item" onclick="window.location.href='notifications.html'"><i class="fas fa-bell"></i>
+                    الإشعارات</div>
+                <div class="menu-item" onclick="window.location.href='banners.html'"><i class="fas fa-images"></i>
+                    البانرات</div>
+                <div class="menu-item active" onclick="window.location.href='settings.html'"><i class="fas fa-cogs"></i>
+                    الإعدادات</div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar-redesigned"
+                style="display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: #0f172a; border-bottom: 1px solid #1e293b;">
+                <div class="header-title">
+                    <div style="display:flex; align-items:center; gap:1rem;">
+                        <button class="btn-icon mobile-only" id="open-sidebar"><i class="fas fa-bars"></i></button>
+                        <h3 style="margin:0; color:white; font-size:1.2rem;">إعدادات المنصة</h3>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <form id="settings-form">
+
+                    <!-- Section 1: General Identity -->
+                    <div class="settings-card">
+                        <div class="card-header">
+                            <i class="fas fa-globe"></i>
+                            <h3>الهوية العامة</h3>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>اسم المنصة</label>
+                                <input type="text" id="platform-name" class="form-input" placeholder="Ta3leemy">
+                            </div>
+                            <div class="form-group">
+                                <label>رابط الشرح / الفيديو التعريفي (Youtube)</label>
+                                <input type="url" id="platform-video" class="form-input">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>وصف المنصة (SEO)</label>
+                            <textarea id="platform-desc" class="form-input" rows="3"
+                                placeholder="وصف يظهر في محركات البحث..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Contact Info -->
+                    <div class="settings-card">
+                        <div class="card-header">
+                            <i class="fas fa-headset"></i>
+                            <h3>معلومات التواصل</h3>
+                        </div>
+                        <div class="form-grid">
+                            <!-- Support Button Config -->
+                            <div class="form-group">
+                                <label>رابط زر الدعم (واتساب/تليجرام)</label>
+                                <input type="text" id="contact-support-link" class="form-input"
+                                    placeholder="https://wa.me/...">
+                            </div>
+                            <div class="form-group">
+                                <label>نص الزر</label>
+                                <input type="text" id="contact-support-text" class="form-input"
+                                    placeholder="تواصل معنا">
+                            </div>
+                            <div class="form-group">
+                                <label>أيقونة الزر</label>
+                                <select id="contact-support-icon" class="form-input">
+                                    <option value="fab fa-whatsapp">واتساب (WhatsApp)</option>
+                                    <option value="fab fa-telegram">تليجرام (Telegram)</option>
+                                    <option value="fab fa-facebook-messenger">ماسنجر (Messenger)</option>
+                                    <option value="fas fa-headset">دعم عام (Headset)</option>
+                                    <option value="fas fa-phone">هاتف (Phone)</option>
+                                </select>
+                            </div>
+                            <!-- Email -->
+                            <div class="form-group">
+                                <label>البريد الإلكتروني للدعم</label>
+                                <input type="email" id="contact-email" class="form-input">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Financial & Config -->
+                    <div class="settings-card">
+                        <div class="card-header">
+                            <i class="fas fa-coins"></i>
+                            <h3>الإعدادات المالية</h3>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>نسبة ضريبة القيمة المضافة (%)</label>
+                                <input type="number" id="config-tax" class="form-input" value="14">
+                            </div>
+                            <div class="form-group">
+                                <label>مدة الفترة التجريبية للمعلم (أيام)</label>
+                                <input type="number" id="config-trial-days" class="form-input" value="14">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 4 (New): Safety & Access -->
+                    <div class="settings-card">
+                        <div class="card-header">
+                            <i class="fas fa-shield-alt"></i>
+                            <h3>الأمان والتحكم</h3>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group" style="grid-column: 1 / -1;">
+                                <div class="toggle-wrapper"
+                                    style="display:flex; justify-content:space-between; align-items:center; background:#1e293b; padding:15px; border-radius:8px; border:1px solid #334155;">
+                                    <div>
+                                        <h4 style="margin:0 0 5px 0; color:white;">وضع الصيانة (Maintenance Mode)</h4>
+                                        <p style="margin:0; font-size:0.9rem; color:#94a3b8;">تفعيل هذا الوضع سيمنع جميع
+                                            الزوار من دخول الموقع (باستثناء الأدمن).</p>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" id="config-maintenance">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <!-- Maintenance Start/End Time -->
+                            <div id="maintenance-time-group"
+                                style="margin-top:15px; display:none; background:#1e293b; padding:15px; border-radius:8px; border:1px solid #334155;">
+                                <label style="color:#cbd5e1; margin-bottom:5px; display:block;">موعد انتهاء الصيانة
+                                    المتوقع</label>
+                                <div style="display: flex; gap: 10px;">
+                                    <div>
+                                        <label style="font-size:0.8rem; color:#94a3b8;">التاريخ</label>
+                                        <input type="date" id="config-maintenance-date" class="form-input">
+                                    </div>
+                                    <div>
+                                        <label style="font-size:0.8rem; color:#94a3b8;">الوقت</label>
+                                        <input type="time" id="config-maintenance-time" class="form-input">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>عناوين IP المحظورة (كل عنوان في سطر)</label>
+                            <textarea id="config-blocked-ips" class="form-input" rows="4"
+                                placeholder="192.168.1.1&#10;10.0.0.5"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>النطاقات المحظورة (Email Domains)</label>
+                            <textarea id="config-blocked-domains" class="form-input" rows="4"
+                                placeholder="tempmail.com&#10;spam.org"></textarea>
+                        </div>
+                    </div>
+            </div>
+
+            <!-- Section 4: Policies -->
+            <div class="settings-card">
+                <div class="card-header">
+                    <i class="fas fa-file-contract"></i>
+                    <h3>السياسات والقوانين</h3>
+                </div>
+                <div class="form-tabs"
+                    style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 15px; border-bottom: 1px solid #334155; padding-bottom: 10px;">
+                    <div style="display:flex; gap:10px;">
+                        <button type="button" class="tab-btn active" data-tab="terms">الشروط والأحكام</button>
+                        <button type="button" class="tab-btn" data-tab="privacy">سياسة الخصوصية</button>
+                    </div>
+                    <button type="button" id="btn-generate-policy"
+                        style="background: transparent; border: 1px dashed #38bdf8; color: #38bdf8; border-radius: 8px; padding: 6px 12px; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;">
+                        <i class="fas fa-magic"></i> توليد نموذج جاهز
+                    </button>
+                </div>
+
+                <div id="tab-terms" class="tab-content active">
+                    <textarea id="policy-terms" class="form-input" rows="10"></textarea>
+                </div>
+                <div id="tab-privacy" class="tab-content">
+                    <textarea id="policy-privacy" class="form-input" rows="10"></textarea>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="settings-actions" style="display:flex; justify-content:space-between; align-items:center;">
+                <button type="button" class="btn btn-secondary" id="reset-defaults-btn"
+                    style="color:#ef4444; border-color:#ef4444;">
+                    <i class="fas fa-undo"></i> استعادة الافتراضي
+                </button>
+                <button type="submit" class="btn btn-primary" id="save-settings-btn">
+                    <i class="fas fa-save"></i> حفظ التغييرات
+                </button>
+            </div>
+
+            </form>
+    </div>
+    </main>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast">تم الحفظ بنجاح!</div>
+
+    <script type="module" src="../assets/js/firebase-config.js"></script>
+    <script src="../assets/js/ui-manager.js"></script>
+    <script type="module" src="../assets/js/admin/admin-settings.js"></script> <!-- Separated JS -->
+</body>
+
+</html>

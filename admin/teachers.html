@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة المعلمين - Ta3leemy Admin</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar"></aside>
+
+        <main class="main-content">
+            <header class="top-bar"></header>
+
+            <div class="page-content">
+                <div class="content-card">
+                    <div class="filters-bar">
+                        <div class="search-input-group">
+                            <input type="text" id="search-input" placeholder="بحث بالاسم أو البريد..."
+                                class="form-input"
+                                style="background:#0f172a; border:1px solid #334155; padding:10px; border-radius:8px; color:white; width:100%;">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>الاسم</th>
+                                    <th>البريد الإلكتروني</th>
+                                    <th>اسم المنصة</th>
+                                    <th>الحالة</th>
+                                    <th>تاريخ التسجيل</th>
+                                    <th>إجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="teachers-table-body">
+                                <tr>
+                                    <td colspan="6" style="text-align:center; padding:2rem;">جاري التحميل...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Assign Agent Modal -->
+    <div id="assign-agent-modal" class="modal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000; justify-content:center; align-items:center;">
+        <div class="modal-content"
+            style="background:#0f172a; padding:2rem; border-radius:12px; width:90%; max-width:500px; border:1px solid #334155;">
+            <h3 id="assign-modal-title" style="margin-bottom:1.5rem;">تعيين مساعد</h3>
+            <input type="hidden" id="assign-teacher-id">
+
+            <div class="form-group" style="margin-bottom:1.5rem;">
+                <label style="display:block; margin-bottom:0.5rem; color:#cbd5e1;">اختر المساعد</label>
+                <select id="agent-select"
+                    style="width:100%; padding:10px; background:#1e293b; border:1px solid #334155; color:white; border-radius:8px;">
+                    <option>Loading...</option>
+                </select>
+            </div>
+
+            <div style="display:flex; justify-content:flex-end; gap:10px;">
+                <button onclick="document.getElementById('assign-agent-modal').style.display='none'"
+                    style="padding:10px 20px; background:transparent; border:1px solid #334155; color:white; border-radius:8px; cursor:pointer;">إلغاء</button>
+                <button id="save-assignment-btn"
+                    style="padding:10px 20px; background:#f59e0b; border:none; color:white; border-radius:8px; cursor:pointer;">حفظ
+                    التعيين</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Subscription Modal -->
+    <div id="subscription-modal" class="modal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000; justify-content:center; align-items:center;">
+        <div class="modal-content"
+            style="background:#0f172a; padding:2rem; border-radius:12px; width:90%; max-width:500px; border:1px solid #334155; position:relative;">
+            <h3 style="margin-bottom:1.5rem; color:white;">تفعيل اشتراك للمعلم</h3>
+            <input type="hidden" id="sub-teacher-id">
+
+            <div class="form-group" style="margin-bottom:1.5rem;">
+                <label style="display:block; margin-bottom:0.5rem; color:#94a3b8;">نوع الباقة (Tier)</label>
+                <select id="sub-plan-tier"
+                    style="width:100%; padding:10px; background:#1e293b; border:1px solid #334155; color:white; border-radius:8px;">
+                    <option value="basic">Basic (الأساسية)</option>
+                    <option value="pro" selected>Pro (المحترفين)</option>
+                    <option value="elite">Elite (النخبة)</option>
+                </select>
+            </div>
+
+            <div class="form-group" style="margin-bottom:1.5rem;">
+                <label style="display:block; margin-bottom:0.5rem; color:#94a3b8;">مدة الاشتراك</label>
+                <select id="sub-duration" onchange="updateSubPrice()"
+                    style="width:100%; padding:10px; background:#1e293b; border:1px solid #334155; color:white; border-radius:8px;">
+                    <option value="1">شهر</option>
+                    <option value="3">3 شهور</option>
+                    <option value="6">6 شهور</option>
+                    <option value="12">سنة</option>
+                    <option value="trial">تجريبي - 14 يوم (مجاني)</option>
+                </select>
+            </div>
+
+            <div class="form-group" style="margin-bottom:1.5rem;">
+                <label style="display:block; margin-bottom:0.5rem; color:#94a3b8;">المبلغ المدفوع (للتأكيد)</label>
+                <input type="number" id="sub-price"
+                    style="width:100%; padding:10px; background:#1e293b; border:1px solid #334155; color:white; border-radius:8px;"
+                    value="300">
+            </div>
+
+            <div style="display:flex; justify-content:flex-end; gap:10px;">
+                <button onclick="document.getElementById('subscription-modal').style.display='none'"
+                    style="padding:10px 20px; background:transparent; border:1px solid #334155; color:white; border-radius:8px; cursor:pointer;">إلغاء</button>
+                <button id="save-sub-btn" onclick="saveSubscription()"
+                    style="padding:10px 20px; background:#10b981; border:none; color:white; border-radius:8px; cursor:pointer; font-weight:bold;">
+                    تفعيل الاشتراك
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Financials Modal -->
+    <div id="financials-modal" class="modal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:1100; justify-content:center; align-items:center;">
+        <div class="modal-content"
+            style="background:#0f172a; padding:0; border-radius:16px; width:90%; max-width:700px; border:1px solid #334155; overflow:hidden; display:flex; flex-direction:column; max-height:85vh;">
+
+            <div
+                style="background:#1e293b; padding:15px 20px; border-bottom:1px solid #334155; display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="margin:0; color:white;"><i class="fas fa-coins" style="color:#f59e0b;"></i> المعاملات المالية
+                </h3>
+                <button onclick="document.getElementById('financials-modal').style.display='none'"
+                    style="background:none; border:none; color:#94a3b8; cursor:pointer;"><i
+                        class="fas fa-times"></i></button>
+            </div>
+
+            <div style="padding:20px; overflow-y:auto;">
+                <!-- Add Transaction Form -->
+                <div
+                    style="background:#1e293b; padding:15px; border-radius:10px; margin-bottom:20px; border:1px solid #334155;">
+                    <h4 style="color:#cbd5e1; margin-top:0; margin-bottom:10px; font-size:0.95rem;">إضافة معاملة جديدة
+                    </h4>
+                    <form id="add-transaction-form" style="display:flex; gap:10px; flex-wrap:wrap; align-items:end;">
+                        <input type="hidden" id="fin-teacher-id">
+                        <div style="flex:1; min-width:120px;">
+                            <label
+                                style="display:block; color:#94a3b8; font-size:0.8rem; margin-bottom:5px;">النوع</label>
+                            <select id="fin-type"
+                                style="width:100%; padding:8px; background:#0f172a; border:1px solid #334155; color:white; border-radius:6px;">
+                                <option value="invoice">فاتورة (تحصيل)</option>
+                                <option value="payment">إذن إضافة (له)</option>
+                                <option value="deduction">إذن خصم (عليه)</option>
+                            </select>
+                        </div>
+                        <div style="flex:1; min-width:100px;">
+                            <label
+                                style="display:block; color:#94a3b8; font-size:0.8rem; margin-bottom:5px;">المبلغ</label>
+                            <input type="number" id="fin-amount" required placeholder="0.00"
+                                style="width:100%; padding:8px; background:#0f172a; border:1px solid #334155; color:white; border-radius:6px;">
+                        </div>
+                        <div style="flex:2; min-width:200px;">
+                            <label style="display:block; color:#94a3b8; font-size:0.8rem; margin-bottom:5px;">السبب /
+                                الوصف</label>
+                            <input type="text" id="fin-reason" required placeholder="مثال: اشتراك شهر مارس"
+                                style="width:100%; padding:8px; background:#0f172a; border:1px solid #334155; color:white; border-radius:6px;">
+                        </div>
+                        <button type="submit" id="fin-submit-btn"
+                            style="padding:8px 20px; background:#10b981; border:none; color:white; border-radius:6px; cursor:pointer; height:36px;">
+                            <i class="fas fa-plus"></i> إضافة
+                        </button>
+                    </form>
+                </div>
+
+                <!-- History Table -->
+                <h4 style="color:#cbd5e1; margin-bottom:10px;">سجل المعاملات</h4>
+                <div class="table-container" style="max-height:300px; overflow-y:auto;">
+                    <table class="data-table" style="width:100%; font-size:0.9rem;">
+                        <thead style="position:sticky; top:0; background:#0f172a; z-index:1;">
+                            <tr>
+                                <th>النوع</th>
+                                <th>المبلغ</th>
+                                <th>السبب</th>
+                                <th>التاريخ</th>
+                                <th>بواسطة</th>
+                            </tr>
+                        </thead>
+                        <tbody id="fin-history-body">
+                            <tr>
+                                <td colspan="5" style="text-align:center;">جاري التحميل...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- View Profile Modal -->
+    <div id="view-profile-modal" class="modal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:1100; justify-content:center; align-items:center;">
+        <div class="modal-content"
+            style="background:#0f172a; padding:0; border-radius:16px; width:90%; max-width:600px; border:1px solid #334155; overflow:hidden; position:relative;">
+
+            <div
+                style="background:#1e293b; padding:20px; border-bottom:1px solid #334155; display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="margin:0; color:white;">ملف المعلم</h3>
+                <button onclick="document.getElementById('view-profile-modal').style.display='none'"
+                    style="background:none; border:none; color:#94a3b8; cursor:pointer;"><i
+                        class="fas fa-times"></i></button>
+            </div>
+
+            <div style="padding:25px; max-height:80vh; overflow-y:auto;">
+                <div style="text-align:center; margin-bottom:20px;">
+                    <div id="vp-avatar"
+                        style="width:100px; height:100px; background:#6366f1; border-radius:50%; margin:0 auto 15px; display:flex; align-items:center; justify-content:center; font-size:2.5rem; color:white; border:4px solid #1e293b; box-shadow:0 10px 15px -3px rgba(0,0,0,0.3);">
+                        M</div>
+                    <h2 id="vp-name" style="margin:0; color:white;">اسم المعلم</h2>
+                    <p id="vp-uid" style="color:#64748b; font-size:0.85rem; margin-top:5px; user-select:all;"></p>
+                </div>
+
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:20px;">
+                    <div style="background:#1e293b; padding:15px; border-radius:10px; border:1px solid #334155;">
+                        <label style="color:#64748b; font-size:0.8rem; display:block; margin-bottom:5px;">اسم
+                            المنصة</label>
+                        <div id="vp-platform" style="color:#cbd5e1; font-weight:bold;">-</div>
+                    </div>
+                    <div style="background:#1e293b; padding:15px; border-radius:10px; border:1px solid #334155;">
+                        <label style="color:#64748b; font-size:0.8rem; display:block; margin-bottom:5px;">رقم
+                            الهاتف</label>
+                        <div id="vp-phone" style="color:#cbd5e1; font-weight:bold;">-</div>
+                    </div>
+                    <div style="background:#1e293b; padding:15px; border-radius:10px; border:1px solid #334155;">
+                        <label style="color:#64748b; font-size:0.8rem; display:block; margin-bottom:5px;">البريد
+                            الإلكتروني</label>
+                        <div id="vp-email" style="color:#cbd5e1; font-weight:bold; word-break:break-all;">-</div>
+                    </div>
+                    <div style="background:#1e293b; padding:15px; border-radius:10px; border:1px solid #334155;">
+                        <label style="color:#64748b; font-size:0.8rem; display:block; margin-bottom:5px;">كلمة
+                            المرور</label>
+                        <div id="vp-password" style="color:#ef4444; font-weight:bold;">-</div>
+                    </div>
+                </div>
+
+                <div
+                    style="background:#1e293b; padding:15px; border-radius:10px; border:1px solid #334155; margin-bottom:20px;">
+                    <label style="color:#64748b; font-size:0.8rem; display:block; margin-bottom:5px;">رابط تطبيق
+                        الطلاب</label>
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        <input type="text" id="vp-link" readonly
+                            style="width:100%; background:#0f172a; border:1px solid #334155; color:#cbd5e1; padding:10px; border-radius:6px; direction:ltr; text-align:left;">
+                        <a id="vp-link-go" href="#" target="_blank"
+                            style="padding:10px 15px; background:#6366f1; color:white; border-radius:6px; text-decoration:none;"><i
+                                class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+
+                <!-- Referral Section -->
+                <div
+                    style="background:#1e293b; padding:15px; border-radius:10px; border:1px solid #334155; margin-bottom:20px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                        <h4 style="margin:0; color:white;"><i class="fas fa-users-cog" style="color:#f59e0b;"></i> نظام
+                            الإحالة</h4>
+                        <label class="switch" style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+                            <span style="color:#cbd5e1; font-size:0.9rem;">تفعيل النظام</span>
+                            <input type="checkbox" id="vp-referral-toggle">
+                            <span class="slider round"
+                                style="position:relative; display:inline-block; width:40px; height:20px; background-color:#334155; border-radius:20px; transition:.4s;"></span>
+                        </label>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px;">
+                        <div style="background:#0f172a; padding:10px; border-radius:8px;">
+                            <span style="color:#64748b; font-size:0.8rem;">تمت دعوته بواسطة:</span>
+                            <div id="vp-referred-by" style="color:#cbd5e1; font-weight:bold;">-</div>
+                        </div>
+                        <div style="background:#0f172a; padding:10px; border-radius:8px;">
+                            <span style="color:#64748b; font-size:0.8rem;">قام بدعوة (عدد):</span>
+                            <div id="vp-referral-count" style="color:#10b981; font-weight:bold;">0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/ui-manager.js"></script>
+    <script type="module" src="../assets/js/admin/admin-teachers.js"></script>
+    <script type="module" src="../assets/js/admin/impersonation.js"></script>
+    <script type="module">
+        import { initAdminUI } from '../assets/js/admin/admin-ui.js';
+        document.addEventListener('DOMContentLoaded', () => initAdminUI('المعلمون'));
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تذاكر دعم المعلمين - Ta3leemy Admin</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/admin/support.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar"></aside>
+
+        <main class="main-content">
+            <header class="top-bar"></header>
+
+            <div class="page-content">
+                <div class="chat-layout">
+                    <!-- Conversations List -->
+                    <div class="chat-sidebar">
+                        <div class="chat-search">
+                            <input type="text" id="search-teacher" placeholder="بحث عن معلم..." class="input-box"
+                                style="width:100%; padding:8px 15px; border-radius:8px;">
+                        </div>
+                        <div class="chat-list" id="conversations-list">
+                            <!-- JS Generated -->
+                            <div style="text-align:center; padding:20px; color:#64748b;">جاري التحميل...</div>
+                        </div>
+                    </div>
+
+                    <!-- Chat Area -->
+                    <div class="chat-main" id="chat-window">
+                        <!-- Header -->
+                        <div class="chat-header" id="chat-header" style="visibility:hidden;">
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <div class="avatar" id="current-avatar">T</div>
+                                <div>
+                                    <div class="name" id="current-name" style="color:white; font-weight:bold;">المعلم
+                                    </div>
+                                    <div style="font-size:0.8rem; color:#64748b; cursor:pointer;"
+                                        onclick="openTeacherProfile()">عرض الملف الشخصي</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Messages -->
+                        <div class="chat-messages" id="messages-container">
+                            <div class="empty-state">
+                                <i class="fas fa-comments" style="font-size:3rem; margin-bottom:15px; opacity:0.2;"></i>
+                                <p>اختر معلم لبدء المحادثة</p>
+                            </div>
+                        </div>
+
+                        <!-- Input -->
+                        <div class="chat-footer" id="chat-input-area" style="display:none;">
+                            <input type="text" id="message-input" class="input-box" placeholder="اكتب ردك هنا...">
+                            <button id="send-btn" class="send-btn"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="../assets/js/firebase-config.js"></script>
+    <script type="module" src="../assets/js/admin/admin-support.js"></script>
+    <script type="module" src="../assets/js/admin/admin-header.js"></script>
+    <script type="module">
+        import { initAdminUI } from '../assets/js/admin/admin-ui.js';
+        document.addEventListener('DOMContentLoaded', () => initAdminUI('الدعم الفني'));
+    </script>
+</body>
+
+</html>

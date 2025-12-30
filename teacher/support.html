@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الدعم الفني - Ta3leemy Teacher</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/teacher/support.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">Ta3leemy</div>
+            </div>
+            <div class="sidebar-menu">
+                <div class="menu-item" onclick="window.location.href='dashboard.html'"><i class="fas fa-home"></i>
+                    الرئيسية</div>
+                <div class="menu-item" onclick="window.location.href='subscriptions.html'"><i
+                        class="fas fa-play-circle"></i> الاشتراكات</div>
+                <div class="menu-item" onclick="window.location.href='students.html'"><i class="fas fa-users"></i>
+                    الطلاب</div>
+                <!-- Support Active -->
+                <div class="menu-item active" onclick="window.location.href='support.html'"><i
+                        class="fas fa-headset"></i> الدعم الفني</div>
+                <div class="menu-item" onclick="window.location.href='settings.html'"><i class="fas fa-user-cog"></i>
+                    الملف الشخصي</div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div style="display:flex; align-items:center; gap:1rem;">
+                    <button class="btn-icon mobile-only" id="open-sidebar"><i class="fas fa-bars"></i></button>
+                    <h3>الدعم الفني</h3>
+                </div>
+            </header>
+
+            <div class="page-content" style="display:flex; align-items:center; min-height:80vh;">
+
+                <div class="support-actions-container">
+                    <div class="support-card">
+                        <div class="icon-circle">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h2 style="color:white; margin-bottom:10px;">الدعم الفني</h2>
+                        <p style="color:#94a3b8; margin-bottom:30px;">نحن هنا لمساعدتك في أي وقت. اختر الوسيلة
+                            المناسبة.</p>
+
+                        <div style="display:flex; flex-direction:column; gap:15px;">
+                            <button class="support-btn btn-tickets" onclick="openTickets()">
+                                <i class="fas fa-ticket-alt"></i> تذاكر الدعم
+                            </button>
+
+                            <button class="support-btn btn-whatsapp" onclick="openWhatsapp()">
+                                <i class="fab fa-whatsapp"></i> تواصل معنا
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Chat View -->
+    <div class="chat-view" id="chat-view">
+        <header class="chat-header">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <button onclick="closeChat()" class="btn-icon" style="color:white;"><i
+                        class="fas fa-arrow-right"></i></button>
+                <h3 style="margin:0; color:white;">المحادثة مع الإدارة</h3>
+            </div>
+        </header>
+
+        <div class="chat-body" id="chat-body">
+            <!-- Messages -->
+            <div style="text-align:center; color:#64748b; margin-top:20px;">ابدأ المحادثة...</div>
+        </div>
+
+        <div class="chat-footer">
+            <input type="text" id="chat-input" class="chat-input" placeholder="اكتب رسالتك...">
+            <button class="btn-icon" id="send-btn"
+                style="background:#6366f1; width:45px; height:45px; border-radius:50%; display:flex; align-items:center; justify-content:center;">
+                <i class="fas fa-paper-plane" style="color:white;"></i>
+            </button>
+        </div>
+    </div>
+
+    <script type="module" src="../assets/js/teacher/support-chat.js"></script>
+</body>
+
+</html>

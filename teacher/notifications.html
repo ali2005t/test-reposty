@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الإشعارات - Ta3leemy Teacher</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">Ta3leemy Teacher</div>
+            </div>
+            <div class="sidebar-menu">
+                <div class="menu-item" onclick="window.location.href='dashboard.html'"><i class="fas fa-home"></i>
+                    الرئيسية</div>
+                <div class="menu-item" onclick="window.location.href='subscriptions.html'"><i
+                        class="fas fa-play-circle"></i> الاشتراكات</div>
+                <div class="menu-item" onclick="window.location.href='students.html'"><i class="fas fa-users"></i>
+                    الطلاب</div>
+                <div class="menu-item active"><i class="fas fa-bell"></i> الإشعارات</div>
+                <!-- Settings Submenu -->
+                <div class="menu-item" onclick="toggleSubmenu('settings-submenu')"
+                    style="margin-top:auto; border-top:1px solid rgba(255,255,255,0.05); display:flex; justify-content:space-between; align-items:center; cursor:pointer;">
+                    <span><i class="fas fa-cog"></i> الإعدادات</span>
+                    <i class="fas fa-chevron-down" style="font-size:0.8rem;"></i>
+                </div>
+                <div id="settings-submenu"
+                    style="display:block; background:rgba(0,0,0,0.2); padding-right:15px; margin-bottom:1rem;">
+                    <div class="menu-item" onclick="window.location.href='settings.html'"
+                        style="font-size:0.9rem; padding:10px;"><i class="fas fa-sliders-h"></i> إعدادات المنصة</div>
+                    <div class="menu-item active" style="font-size:0.9rem; padding:10px; color:white;"><i
+                            class="fas fa-bell"></i> الإشعارات</div>
+                    <div class="menu-item" onclick="window.location.href='profile.html'"
+                        style="font-size:0.9rem; padding:10px;"><i class="fas fa-user-circle"></i> الملف الشخصي</div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div style="display:flex; align-items:center; gap:1rem;">
+                    <button class="btn-icon mobile-only" id="open-sidebar"><i class="fas fa-bars"></i></button>
+                    <h3>إدارة الإشعارات</h3>
+                </div>
+            </header>
+
+            <div class="page-content">
+
+                <!-- Tabs -->
+                <div class="tabs-container"
+                    style="display:flex; gap:10px; margin-bottom:2rem; border-bottom:1px solid #334155;">
+                    <button class="tab-btn active" onclick="switchTab('inbox')" id="tab-inbox"
+                        style="padding:10px 20px; background:transparent; border:none; color:white; border-bottom:2px solid #6366f1; cursor:pointer; font-weight:bold;">
+                        <i class="fas fa-inbox"></i> الوارد (من الإدارة)
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('sent')" id="tab-sent"
+                        style="padding:10px 20px; background:transparent; border:none; color:#94a3b8; border-bottom:2px solid transparent; cursor:pointer; font-weight:bold;">
+                        <i class="fas fa-paper-plane"></i> المرسل (للطلاب)
+                    </button>
+                </div>
+
+                <!-- Inbox Section -->
+                <div id="section-inbox" class="content-section">
+                    <div class="content-card">
+                        <div class="card-header"
+                            style="padding:1.5rem; border-bottom:1px solid rgba(255,255,255,0.05);">
+                            <h3 style="margin:0;">إشعارات الإدارة</h3>
+                        </div>
+                        <div class="table-container">
+                            <div id="inbox-list" style="display:flex; flex-direction:column;">
+                                <!-- JS Loaded -->
+                                <div style="padding:2rem; text-align:center; color:#64748b;">
+                                    <i class="fas fa-spinner fa-spin"></i> جاري التحميل...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sent Section (Existing) -->
+                <div id="section-sent" class="content-section" style="display:none;">
+                    <!-- Send New Notification -->
+                    <div class="content-card" style="margin-bottom:2rem;">
+                        <div class="card-header"
+                            style="padding:1.5rem; border-bottom:1px solid rgba(255,255,255,0.05);">
+                            <h3 style="margin:0;">إرسال إشعار جديد</h3>
+                            <p style="color:#64748b;">قم بإرسال تنبيهات لطلابك لإبقائهم على اطلاع.</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group" style="margin-bottom:1.5rem;">
+                                <label style="display:block; margin-bottom:0.5rem; color:#94a3b8;">عنوان الإشعار</label>
+                                <input type="text" id="notif-title" class="form-input"
+                                    placeholder="مثال: محاضرة جديدة، تنبيه هام..."
+                                    style="width:100%; padding:10px; background:#0f172a; border:1px solid #334155; color:white; border-radius:8px;">
+                            </div>
+                            <div class="form-group" style="margin-bottom:1.5rem;">
+                                <label style="display:block; margin-bottom:0.5rem; color:#94a3b8;">نص الرسالة</label>
+                                <textarea id="notif-body" class="form-input" rows="3"
+                                    placeholder="اكتب رسالتك الجذابة هنا..."
+                                    style="width:100%; padding:10px; background:#0f172a; border:1px solid #334155; color:white; border-radius:8px; resize:vertical;"></textarea>
+                            </div>
+                            <button id="send-btn" class="btn"
+                                style="background:#6366f1; color:white; border:none; padding:12px 30px; border-radius:8px; font-weight:bold; cursor:pointer;">
+                                <i class="fas fa-paper-plane"></i> إرسال الإشعار
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- History -->
+                    <div class="content-card">
+                        <div class="card-header"
+                            style="padding:1.5rem; border-bottom:1px solid rgba(255,255,255,0.05);">
+                            <h3 style="margin:0;">سجل الإشعارات المرسلة</h3>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>العنوان</th>
+                                        <th>النص</th>
+                                        <th>تاريخ الإرسال</th>
+                                        <th>الحالة</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="history-list">
+                                    <tr>
+                                        <td colspan="4" style="text-align:center; padding:20px;">جاري التحميل...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script type="module">
+        import { auth, db } from '../assets/js/firebase-config.js';
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { collection, addDoc, query, where, getDocs, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { initHeader } from '../assets/js/header-manager.js';
+        import { getEffectiveUserUid } from '../assets/js/impersonation-manager.js';
+
+        let currentUid = null;
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                initHeader(user);
+                currentUid = await getEffectiveUserUid(user);
+                if (currentUid) {
+                    loadInbox();
+                    loadHistory();
+                }
+            } else {
+                window.location.href = '../auth/login.html';
+            }
+        });
+
+        // Toggle Tabs
+        window.switchTab = (tabName) => {
+            // Reset
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.style.color = '#94a3b8';
+                b.style.borderBottomColor = 'transparent';
+                b.classList.remove('active');
+            });
+            document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
+
+            // Activate
+            const btn = document.getElementById(`tab-${tabName}`);
+            const section = document.getElementById(`section-${tabName}`);
+
+            if (btn) {
+                btn.classList.add('active');
+                btn.style.color = 'white';
+                btn.style.borderBottomColor = '#6366f1';
+            }
+            if (section) section.style.display = 'block';
+        };
+
+        // Load Inbox (Admin Messages)
+        async function loadInbox() {
+            const container = document.getElementById('inbox-list');
+            if (!container) return;
+
+            try {
+                const q = query(
+                    collection(db, "notifications"),
+                    where("target", "in", ["all", "all_teachers", currentUid]),
+                    orderBy("createdAt", "desc")
+                );
+
+                const snap = await getDocs(q);
+                container.innerHTML = '';
+
+                if (snap.empty) {
+                    container.innerHTML = `
+                        <div style="padding:4rem; text-align:center; opacity:0.6;">
+                            <i class="fas fa-inbox fa-3x" style="margin-bottom:1rem;"></i>
+                            <p>صندوق الوارد فارغ</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                snap.forEach(doc => {
+                    const n = doc.data();
+                    const date = n.createdAt ? new Date(n.createdAt.seconds * 1000).toLocaleString('ar-EG') : '-';
+                    const icon = n.sender === 'admin' ? '<i class="fas fa-crown" style="color:#f59e0b;"></i>' : '<i class="fas fa-bell"></i>';
+
+                    container.innerHTML += `
+                        <div style="background:#0f172a; padding:1.5rem; border-radius:8px; margin-bottom:1rem; border:1px solid #334155; position:relative;">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                                <h4 style="margin:0; font-size:1.1rem; color:white;">${icon} ${n.title}</h4>
+                                <span style="font-size:0.8rem; color:#94a3b8;">${date}</span>
+                            </div>
+                            <p style="color:#cbd5e1; line-height:1.6; margin:0;">${n.body}</p>
+                        </div>
+                    `;
+                });
+
+            } catch (e) {
+                console.error(e);
+                // Fallback for missing index
+                if (e.code === 'failed-precondition') {
+                    console.log("Retry without OrderBy");
+                    const q2 = query(collection(db, "notifications"), where("target", "in", ["all", "all_teachers", currentUid]));
+                    // ... reuse render logic ...
+                }
+                container.innerHTML = '<p style="padding:20px; color:red; text-align:center;">حدث خطأ في تحميل الرسائل</p>';
+            }
+        }
+
+        // Send Logic
+        document.getElementById('send-btn').onclick = async () => {
+            const title = document.getElementById('notif-title').value;
+            const body = document.getElementById('notif-body').value;
+            const btn = document.getElementById('send-btn');
+
+            if (!title || !body) return alert('يرجى ملء جميع الحقول');
+
+            btn.disabled = true;
+            btn.innerHTML = 'جاري الإرسال...';
+
+            try {
+                await addDoc(collection(db, "notifications"), {
+                    title: title,
+                    body: body,
+                    teacherId: currentUid,
+                    target: 'all_students',
+                    createdAt: serverTimestamp(),
+                    isRead: false
+                });
+
+                alert('تم إرسال الإشعار بنجاح! 🚀');
+                document.getElementById('notif-title').value = '';
+                document.getElementById('notif-body').value = '';
+                loadHistory();
+
+            } catch (e) {
+                console.error(e);
+                alert('حدث خطأ أثناء الإرسال');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال الإشعار';
+            }
+        };
+
+        // Load History
+        async function loadHistory() {
+            try {
+                const q = query(
+                    collection(db, "notifications"),
+                    where("teacherId", "==", currentUid),
+                    orderBy("createdAt", "desc")
+                );
+                const snap = await getDocs(q);
+                const tbody = document.getElementById('history-list');
+                tbody.innerHTML = '';
+
+                if (snap.empty) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:20px;">لا توجد إشعارات سابقة</td></tr>';
+                    return;
+                }
+
+                snap.forEach(doc => {
+                    const data = doc.data();
+                    const date = data.createdAt ? new Date(data.createdAt.seconds * 1000).toLocaleString('ar-EG') : '-';
+
+                    const row = `
+                        <tr>
+                            <td style="font-weight:bold;">${data.title}</td>
+                            <td>${data.body}</td>
+                            <td>${date}</td>
+                            <td><span class="badge" style="background:#10b981; color:white; padding:2px 8px; border-radius:4px;">تم الإرسال</span></td>
+                        </tr>
+                    `;
+                    tbody.innerHTML += row;
+                });
+            } catch (e) {
+                console.error("Error loading history:", e); // Often index error if not created
+                // Fallback for no index
+                if (e.code === 'failed-precondition') {
+                    console.log("Needs index, trying without orderBy");
+                    // Simple fallback if index missing
+                    // ...
+                }
+            }
+        }
+
+        document.getElementById('open-sidebar').onclick = () => document.getElementById('sidebar').classList.toggle('active');
+
+        window.toggleSubmenu = function (id) {
+            const el = document.getElementById(id);
+            if (el) {
+                if (el.style.display === 'none' || el.style.display === '') {
+                    el.style.display = 'block';
+                } else {
+                    el.style.display = 'none';
+                }
+            }
+        };
+
+    </script>
+</body>
+
+</html>

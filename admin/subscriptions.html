@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة الاشتراكات - Ta3leemy Admin</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .sub-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .sub-trial {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .sub-active {
+            background: #10b981;
+            color: white;
+        }
+
+        .sub-expired {
+            background: #ef4444;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header" style="display:flex; justify-content:center; padding: 20px 0;">
+                <img src="../assets/images/icon title  and logo .png" alt="Ta3leemy"
+                    style="max-height: 50px; max-width: 90%; object-fit:contain;">
+            </div>
+            <div class="sidebar-menu">
+                <div class="menu-item" onclick="window.location.href='dashboard.html'"><i class="fas fa-home"></i>
+                    الرئيسية</div>
+                <div class="menu-item" onclick="window.location.href='teachers.html'"><i
+                        class="fas fa-chalkboard-teacher"></i> المعلمون</div>
+                <div class="menu-item" onclick="window.location.href='students.html'"><i
+                        class="fas fa-user-graduate"></i> الطلاب</div>
+                <div class="menu-item" onclick="window.location.href='courses.html'"><i class="fas fa-book"></i>
+                    الكورسات</div>
+                <div class="menu-item" onclick="window.location.href='packages.html'"><i class="fas fa-box-open"></i>
+                    الباقات</div>
+                <div class="menu-item active" onclick="window.location.href='subscriptions.html'"><i
+                        class="fas fa-file-invoice-dollar"></i> الاشتراكات</div>
+                <div class="menu-item" onclick="window.location.href='financials.html'"><i
+                        class="fas fa-dollar-sign"></i> المالية</div>
+                <div class="menu-item" onclick="window.location.href='app-requests.html'"><i
+                        class="fas fa-mobile-screen"></i> تجهيز التطبيقات</div>
+                <div class="menu-item" onclick="window.location.href='notifications.html'"><i class="fas fa-bell"></i>
+                    الإشعارات</div>
+                <div class="menu-item" onclick="window.location.href='banners.html'"><i class="fas fa-images"></i>
+                    البانرات</div>
+                <div class="menu-item" onclick="window.location.href='security.html'"><i class="fas fa-shield-alt"></i>
+                    الأمان</div>
+                <div class="menu-item" onclick="window.location.href='settings.html'"><i class="fas fa-cogs"></i>
+                    الإعدادات</div>
+            </div>
+            <div class="sidebar-footer">
+                <div class="menu-item" id="logout-btn" style="color:#ef4444;"><i class="fas fa-sign-out-alt"></i> خروج
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div style="display:flex; align-items:center; gap:1rem;">
+                    <button class="btn-icon mobile-only" id="open-sidebar"><i class="fas fa-bars"></i></button>
+                    <h3>اشتراكات المعلمين</h3>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <div class="content-card">
+                    <div class="filters-bar">
+                        <input type="text" id="search-sub" class="form-input" placeholder="بحث باسم المعلم..."
+                            style="background:#0f172a; border:1px solid #334155; padding:8px; border-radius:6px; color:white; width:100%; max-width:300px;">
+                    </div>
+
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>المعلم</th>
+                                    <th>الباقة الحالية</th>
+                                    <th>تاريخ الانتهاء</th>
+                                    <th>الحالة</th>
+                                    <th>إجمالي المدفوع</th>
+                                    <th>إجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="subs-table-body">
+                                <tr>
+                                    <td colspan="6" style="text-align:center;">جاري التحميل...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Subscription Modal -->
+    <div id="subscription-modal" class="modal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000; justify-content:center; align-items:center;">
+        <div class="modal-content"
+            style="background:#0f172a; padding:2rem; border-radius:12px; width:90%; max-width:500px; border:1px solid #334155; position:relative;">
+            <h3 style="margin-bottom:1.5rem; color:white;">تفعيل اشتراك للمعلم</h3>
+            <input type="hidden" id="sub-teacher-id">
+
+            <div class="form-group" style="margin-bottom:1.5rem;">
+                <label style="display:block; margin-bottom:0.5rem; color:#94a3b8;">نوع الباقة (Tier)</label>
+                <select id="sub-plan-tier"
+                    style="width:100%; padding:10px; background:#1e293b; border:1px solid #334155; color:white; border-radius:8px;">
+                    <option value="basic">Basic (الأساسية)</option>
+                    <option value="pro" selected>Pro (المحترفين)</option>
+                    <option value="elite">Elite (النخبة)</option>
+                </select>
+            </div>
+
+            <div class="form-group" style="margin-bottom:1.5rem;">
+                <label style="display:block; margin-bottom:0.5rem; color:#94a3b8;">مدة الاشتراك</label>
+                <select id="sub-duration" onchange="updateSubPrice()"
+                    style="width:100%; padding:10px; background:#1e293b; border:1px solid #334155; color:white; border-radius:8px;">
+                    <option value="1">شهر</option>
+                    <option value="3">3 شهور</option>
+                    <option value="6">6 شهور</option>
+                    <option value="12">سنة</option>
+                    <option value="trial">تجريبي - 14 يوم (مجاني)</option>
+                </select>
+            </div>
+
+            <div class="form-group" style="margin-bottom:1.5rem;">
+                <label style="display:block; margin-bottom:0.5rem; color:#94a3b8;">المبلغ المدفوع (للتأكيد)</label>
+                <input type="number" id="sub-price"
+                    style="width:100%; padding:10px; background:#1e293b; border:1px solid #334155; color:white; border-radius:8px;"
+                    value="300">
+            </div>
+
+            <div style="display:flex; justify-content:flex-end; gap:10px;">
+                <button onclick="document.getElementById('subscription-modal').style.display='none'"
+                    style="padding:10px 20px; background:transparent; border:1px solid #334155; color:white; border-radius:8px; cursor:pointer;">إلغاء</button>
+                <button id="save-sub-btn" onclick="saveSubscription()"
+                    style="padding:10px 20px; background:#10b981; border:none; color:white; border-radius:8px; cursor:pointer; font-weight:bold;">
+                    تفعيل الاشتراك
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="../assets/js/admin/admin-subscriptions.js"></script>
+    <script>
+        const btn = document.getElementById('open-sidebar');
+        const sb = document.getElementById('sidebar');
+        if (btn && sb) btn.onclick = () => sb.classList.toggle('active');
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>الدعم والمساعدة</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/student-desktop.css">
+    <script src="../assets/js/student-common.js" defer></script>
+    <style>
+        /* Clean Mobile-First Styles */
+        body {
+            background: #f8fafc;
+            padding-bottom: 80px;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .app-header {
+            background: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        .page-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0;
+        }
+
+        .ticket-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 12px 16px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+            border: 1px solid #f1f5f9;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        .ticket-card:active {
+            transform: scale(0.98);
+        }
+
+        .ticket-title {
+            font-weight: 600;
+            font-size: 1rem;
+            color: #1e293b;
+            margin-bottom: 5px;
+        }
+
+        .ticket-meta {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 60vh;
+            color: #94a3b8;
+            text-align: center;
+        }
+
+        .fab-add {
+            position: fixed;
+            bottom: 90px;
+            left: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--primary, #6366f1);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+            cursor: pointer;
+            z-index: 90;
+            transition: transform 0.2s;
+        }
+
+        .fab-add:active {
+            transform: scale(0.9);
+        }
+
+        /* Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+            border-top: 1px solid #f1f5f9;
+            z-index: 99;
+        }
+
+        .nav-item {
+            color: #94a3b8;
+            text-align: center;
+            text-decoration: none;
+            font-size: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .nav-item.active {
+            color: var(--primary, #6366f1);
+            font-weight: 600;
+        }
+
+        .nav-item i {
+            font-size: 1.4rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(2px);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            width: 85%;
+            max-width: 360px;
+            padding: 24px;
+            border-radius: 20px;
+            animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Chat View */
+        .chat-view {
+            position: fixed;
+            inset: 0;
+            background: #f8fafc;
+            z-index: 300;
+            display: none;
+            flex-direction: column;
+        }
+
+        .chat-view.active {
+            display: flex;
+        }
+
+        .chat-body {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            scroll-behavior: smooth;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .msg-me {
+            align-self: flex-start;
+            background: white;
+            color: #1e293b;
+            border-bottom-right-radius: 4px;
+            border: 1px solid #f1f5f9;
+        }
+
+        .msg-other {
+            align-self: flex-end;
+            background: var(--primary, #6366f1);
+            color: white;
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat-footer {
+            padding: 15px;
+            background: white;
+            display: flex;
+            gap: 12px;
+            border-top: 1px solid #f1f5f9;
+            align-items: center;
+        }
+
+        .chat-input {
+            flex: 1;
+            background: #f1f5f9;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 24px;
+            outline: none;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="app-header">
+        <h1 class="page-title">تذاكر الدعم الفني</h1>
+        <div class="user-avatar-sm"
+            style="width:32px; height:32px; background:var(--primary, #6366f1); border-radius:50%;"></div>
+    </header>
+
+    <div id="tickets-container">
+        <div class="empty-state">
+            <div style="font-size: 3rem; color: #e2e8f0; margin-bottom: 1rem;"><i class="fas fa-inbox"></i></div>
+            <p>لا توجد تذاكر حالياً</p>
+        </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <div class="fab-add" id="open-new-ticket"><i class="fas fa-plus"></i></div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home"></i> الرئيسية
+        </a>
+        <a href="my-courses.html" class="nav-item">
+            <i class="fas fa-layer-group"></i> مشترياتي
+        </a>
+        <a href="support.html" class="nav-item active">
+            <i class="fas fa-headset"></i> الدعم
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i> حسابي
+        </a>
+    </nav>
+
+    <!-- Create Ticket Modal -->
+    <div class="modal" id="new-ticket-modal">
+        <div class="modal-content">
+            <h3 style="margin-top:0; margin-bottom:20px; font-size:1.2rem;">تذكرة جديدة</h3>
+
+            <div style="margin-bottom:15px;">
+                <label
+                    style="display:block; margin-bottom:8px; font-weight:500; font-size:0.9rem; color:#64748b;">المعلم</label>
+                <select id="teacher-select"
+                    style="width:100%; padding:12px; border-radius:12px; border:1px solid #cbd5e1; outline:none; background:#f8fafc;">
+                    <option value="">جاري التحميل...</option>
+                </select>
+            </div>
+
+            <div style="margin-bottom:24px;">
+                <label style="display:block; margin-bottom:8px; font-weight:500; font-size:0.9rem; color:#64748b;">عنوان
+                    المشكلة</label>
+                <input type="text" id="ticket-title" placeholder="اكتب المشكلة باختصار"
+                    style="width:100%; padding:12px; border-radius:12px; border:1px solid #cbd5e1; outline:none; background:#f8fafc; box-sizing:border-box;">
+            </div>
+
+            <div style="display:flex; gap:12px;">
+                <button id="cancel-ticket"
+                    style="flex:1; padding:12px; border-radius:12px; border:none; background:#f1f5f9; color:#64748b; font-weight:600; cursor:pointer;">إلغاء</button>
+                <button id="create-ticket-btn"
+                    style="flex:1; padding:12px; border-radius:12px; border:none; background:var(--primary, #6366f1); color:white; font-weight:600; cursor:pointer;">إرسال</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat View Screen -->
+    <div class="chat-view" id="chat-view">
+        <header class="app-header">
+            <div style="display:flex; align-items:center; gap:15px;">
+                <i class="fas fa-arrow-right" id="close-chat"
+                    style="font-size:1.2rem; cursor:pointer; color:#64748b;"></i>
+                <div style="display:flex; flex-direction:column;">
+                    <h1 class="page-title" id="chat-page-title" style="font-size:1.1rem;">المحادثة</h1>
+                    <span style="font-size:0.75rem; color:#94a3b8;">الدعم الفني</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="chat-body" id="student-chat-body">
+            <!-- Messages will be injected here -->
+        </div>
+
+        <div class="chat-footer">
+            <input type="text" id="student-chat-input" class="chat-input" placeholder="اكتب رسالتك هنا...">
+            <button id="student-send-btn"
+                style="width:48px; height:48px; flex-shrink:0; border-radius:50%; background:var(--primary, #6366f1); color:white; border:none; font-size:1.1rem; cursor:pointer; box-shadow: 0 4px 6px rgba(99, 102, 241, 0.2);"><i
+                    class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { applyTheme } from '../assets/js/theme-loader.js';
+        applyTheme();
+    </script>
+    <script type="module" src="../assets/js/firebase-config.js"></script>
+    <script type="module" src="../assets/js/context-resolver.js"></script>
+    <script type="module" src="../assets/js/support-student.js"></script>
+</body>
+
+</html>

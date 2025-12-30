@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء أكواد تفعيل - Ta3leemy</title>
+
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/teacher/generate-codes.css">
+    <link rel="stylesheet" href="../assets/css/print.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <!-- Hidden Print Area -->
+    <div id="print-area"></div>
+
+    <div class="dashboard-layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header"><a href="#" class="logo">Ta3leemy</a></div>
+            <div class="sidebar-menu">
+                <div class="menu-item" onclick="window.location.href='dashboard.html'"><i class="fas fa-home"></i>
+                    الرئيسية</div>
+                <div class="menu-item" onclick="window.location.href='trainings.html'"><i
+                        class="fas fa-layer-group"></i> الدورات</div>
+                <div class="menu-item" onclick="window.location.href='lectures.html'"><i class="fas fa-video"></i>
+                    المحاضرات</div>
+                <div class="menu-item" onclick="window.location.href='students.html'"><i class="fas fa-users"></i>
+                    الطلاب</div>
+                <div class="menu-item active"><i class="fas fa-barcode"></i> الأكواد</div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <button class="btn-icon mobile-only" id="open-sidebar"><i class="fas fa-bars"></i></button>
+                    <h3>إنشاء أكواد تفعيل</h3>
+                </div>
+            </header>
+
+            <div class="page-content">
+
+                <div class="card">
+                    <div
+                        style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:1rem;">
+                        <h4 style="margin:0;">✨ توليد أكواد جديدة</h4>
+                        <span style="font-size:0.9rem; color:#64748b;">قم بإنشاء كروت شحن ومفاتيح وصول للطلاب</span>
+                    </div>
+
+                    <form id="generate-codes-form">
+
+                        <div class="form-grid-2">
+                            <div class="form-group">
+                                <label class="form-label">نوع الكود *</label>
+                                <select id="code-type" class="form-input">
+                                    <option value="training">دورة تدريبية كاملة (Course)</option>
+                                    <option value="unit">وحدة / فصل (Unit)</option>
+                                    <option value="lecture">محاضرة / فيديو (Lecture)</option>
+                                    <option value="exam">امتحان (Exam)</option>
+                                    <option value="book">ملزمة / كتاب (Book)</option>
+                                    <option value="wallet">شحن رصيد (Cash)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">عدد الأكواد المطلوبة</label>
+                                <input type="number" id="code-quantity" class="form-input" min="1" max="100" value="10"
+                                    required>
+                            </div>
+                        </div>
+
+                        <!-- Extra Options Row -->
+                        <div class="form-grid-2">
+                            <div class="form-group">
+                                <label class="form-label">تاريخ الانهاء (Expiry)</label>
+                                <input type="date" id="code-expiry" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">سعر الكود (ج.م)</label>
+                                <input type="number" id="code-price-input" class="form-input" placeholder="0.00"
+                                    value="0">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">لون الكارت (للطباعة)</label>
+                            <div
+                                style="display:flex; align-items:center; gap:15px; background:rgba(255,255,255,0.03); padding:10px; border-radius:10px;">
+                                <input type="color" id="card-color-picker" value="#22c55e"
+                                    style="height:40px; width:80px; cursor:pointer;">
+                                <span style="font-size:0.9rem; color:#94a3b8;">اختر لون الكروت المميز</span>
+                            </div>
+                        </div>
+
+                        <hr style="border:0; border-top:1px dashed rgba(255,255,255,0.1); margin: 1.5rem 0;">
+
+                        <!-- Content Selectors -->
+                        <div class="form-group" id="group-training">
+                            <label class="form-label">اختر الدورة التدريبية</label>
+                            <select id="select-training" class="form-input" required>
+                                <option value="">جاري التحميل...</option>
+                            </select>
+                        </div>
+
+                        <!-- Unit Selection -->
+                        <div class="form-group" id="group-unit" style="display:none;">
+                            <label class="form-label">اختر الكورس (الوحدة)</label>
+                            <select id="select-unit" class="form-input">
+                                <option value="">اختر الدورة أولاً...</option>
+                            </select>
+                        </div>
+
+                        <!-- Lecture Selection -->
+                        <div class="form-group" id="group-lecture" style="display:none;">
+                            <label class="form-label">اختر المحتوى (محاضرة / تقييم)</label>
+                            <select id="select-lecture" class="form-input">
+                                <option value="">اختر الوحدة أولاً...</option>
+                            </select>
+                        </div>
+
+                        <div class="form-footer" style="display:flex; justify-content:flex-end; margin-top: 2rem;">
+                            <button type="submit" class="btn btn-primary" id="gen-btn"
+                                style="width:100%; justify-content:center;">
+                                <i class="fas fa-magic"></i> توليد الأكواد فوراً
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Recent Batches -->
+                <div class="search-bar-container">
+                    <div
+                        style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                        <h3 style="margin:0;">📂 سجل الأكواد</h3>
+                        <div style="display:flex; gap:10px;">
+                            <button class="btn btn-secondary btn-sm" id="del-all-btn"
+                                style="background:rgba(239,68,68,0.2); color:#fca5a5; border-color:rgba(239,68,68,0.3);">
+                                <i class="fas fa-trash"></i> حذف الكل
+                            </button>
+                            <button class="btn btn-secondary btn-sm" id="print-btn">
+                                <i class="fas fa-print"></i> طباعة (Cards)
+                            </button>
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:10px; margin-top:15px; flex-wrap:wrap;">
+                        <input type="text" id="search-code" placeholder="بحث عن كود..." class="form-input"
+                            style="flex:1;">
+
+                        <!-- Batch Filter -->
+                        <select id="filter-batch" class="form-input" style="width:220px;">
+                            <option value="all">كل المجموعات (All)</option>
+                        </select>
+
+                        <select id="filter-status" class="form-input" style="width:150px;">
+                            <option value="all">الكل</option>
+                            <option value="unused">غير مستخدم</option>
+                            <option value="used">مستخدم</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>الكود</th>
+                                <th>النوع</th>
+                                <th>يفتح محتوى</th>
+                                <th>الحالة</th>
+                                <th>تاريخ التوليد</th>
+                                <th>السعر</th>
+                                <th>إجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="codes-table-body">
+                            <!-- JS Render -->
+                        </tbody>
+                    </table>
+                    <div id="loading-indicator" class="loading-state">
+                        <i class="fas fa-spinner fa-spin"></i> جاري التحميل...
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Template -->
+    <template id="code-row-template">
+        <tr>
+            <td class="row-index">1</td>
+            <td class="row-code"
+                style="font-family:monospace; font-size:1.1rem; color:var(--primary-color); font-weight:bold;">Code</td>
+            <td class="row-type">Type</td>
+            <td class="row-target">Target Name</td>
+            <td><span class="status-badge success row-status">Available</span></td>
+            <td class="row-date">Date</td>
+            <td class="row-price">0</td>
+            <td>
+                <button class="btn-icon-small copy-btn" title="نسخ"><i class="fas fa-copy"></i></button>
+                <button class="btn-icon-small delete-btn" style="color:red;" title="حذف"><i
+                        class="fas fa-trash"></i></button>
+            </td>
+        </tr>
+    </template>
+
+    <script type="module" src="../assets/js/firebase-config.js"></script>
+    <script type="module" src="../assets/js/dashboard.js"></script>
+    <script type="module" src="../assets/js/generate-codes.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>مشاهدة الفيديو - Ta3leemy</title>
+
+    <link rel="stylesheet" href="../assets/css/student.css">
+    <link rel="stylesheet" href="../assets/css/student.css">
+    <link rel="stylesheet" href="../assets/css/student-desktop.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="../assets/js/student-common.js" defer></script>
+    <!-- Plyr CSS -->
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+
+    <style>
+        /* Prevent direct interaction with Iframe (Blocks Right Click -> Copy URL) */
+        .plyr__video-embed iframe,
+        iframe {
+            pointer-events: none !important;
+        }
+
+        /* Ensure controls remain clickable */
+        .plyr__controls {
+            pointer-events: all;
+        }
+
+        /* Shield to capture clicks for Play/Pause if Plyr doesn't automatically */
+        .click-shield {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0);
+            cursor: pointer;
+        }
+
+        .video-container {
+            position: relative;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            width: 100%;
+            aspect-ratio: 16/9;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Customize Plyr for our Theme */
+        :root {
+            --plyr-color-main: hsl(39, 71%, 47%);
+            /* Your Primary Color */
+        }
+
+        .floating-watermark {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 1rem;
+            font-weight: bold;
+            z-index: 60;
+            pointer-events: none;
+            white-space: nowrap;
+            text-shadow: 0 0 5px black;
+            animation: moveWatermark 20s linear infinite alternate;
+        }
+
+        @keyframes moveWatermark {
+            0% {
+                top: 10%;
+                left: 10%;
+            }
+
+            25% {
+                top: 80%;
+                left: 20%;
+            }
+
+            50% {
+                top: 40%;
+                left: 80%;
+            }
+
+            75% {
+                top: 10%;
+                left: 50%;
+            }
+
+            100% {
+                top: 70%;
+                left: 10%;
+            }
+        }
+
+        /* Hide specific YouTube elements if possible via CSS over iframe (Hard due to cross-origin) */
+        /* But Plyr handles most of it by using specific parameters */
+    </style>
+</head>
+
+<body oncontextmenu="return false;">
+
+    <header class="app-header">
+        <div style="display:flex; align-items:center; gap:10px;">
+            <button onclick="window.history.back()"
+                style="background:none; border:none; color:var(--app-text); cursor:pointer;">
+                <i class="fas fa-arrow-right"></i>
+            </button>
+            <h1 class="app-title">مشاهدة المحاضرة</h1>
+        </div>
+    </header>
+
+    <main class="app-content" style="padding: 1rem; max-width: 1000px; margin: 0 auto;">
+
+        <div style="margin-bottom: 1rem;">
+            <h2 id="lecture-title" style="font-size: 1.2rem; color: var(--app-text); font-weight: bold;">جاري التحميل...
+            </h2>
+        </div>
+
+        <!-- Server Switcher (Placeholder for future) -->
+        <div id="server-switcher" style="display:none; margin-bottom:10px; gap:10px;">
+            <button class="server-btn active">سيرفر 1 (Youtube)</button>
+            <button class="server-btn">سيرفر 2 (Vimeo)</button>
+            <button class="server-btn">سيرفر 3 (Direct)</button>
+        </div>
+
+        <div class="video-container" id="video-embed-container">
+            <!-- Player Inject Location -->
+            <div id="player-wrapper" style="width:100%; height:100%;"></div>
+
+            <!-- Security Layer -->
+            <div class="floating-watermark" id="watermark"></div>
+        </div>
+
+        <p id="lecture-desc" style="color: var(--app-text-muted); font-size: 0.9rem; margin-top:1rem;">وصف المحاضرة
+            هنا...</p>
+
+    </main>
+
+    <!-- Security Script -->
+    <script>
+        // Disable Print Screen Key
+        document.addEventListener('keyup', (e) => {
+            if (e.key == 'PrintScreen') {
+                navigator.clipboard.writeText('');
+                alert('التقاط الشاشة غير مسموح به');
+                document.body.style.display = 'none';
+                setTimeout(() => document.body.style.display = 'block', 1000); // Blink
+            }
+        });
+
+        // Disable Context Menu
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        // Blur on background
+        window.addEventListener('blur', () => {
+            // Optional: Pause video or blur screen
+            document.body.style.opacity = '0.1';
+        });
+        window.addEventListener('focus', () => {
+            document.body.style.opacity = '1';
+        });
+    </script>
+
+    <style>
+        @media print {
+            html {
+                display: none !important;
+            }
+        }
+
+        .server-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .server-btn.active {
+            background: var(--plyr-color-main);
+            border-color: var(--plyr-color-main);
+        }
+    </style>
+
+    <!-- Plyr JS -->
+    <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>الرئيسية</span>
+        </a>
+        <a href="my-courses.html" class="nav-item">
+            <i class="fas fa-book-reader"></i>
+            <span>مشترياتي</span>
+        </a>
+        <a href="support.html" class="nav-item">
+            <i class="fas fa-headset"></i>
+            <span>الدعم</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>حسابي</span>
+        </a>
+    </nav>
+
+    <script type="module" src="../assets/js/firebase-config.js"></script>
+    <script type="module" src="../assets/js/context-resolver.js"></script>
+    <script type="module">
+        import { auth, db } from '../assets/js/firebase-config.js';
+        import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            document.addEventListener('keydown', function (event) {
+                if (event.keyCode == 123) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+
+            const params = new URLSearchParams(window.location.search);
+            const contentUrl = params.get('url');
+            const titleParam = params.get('title');
+
+            if (titleParam) document.getElementById('lecture-title').innerText = titleParam;
+
+            const wrapper = document.getElementById('player-wrapper');
+            const watermark = document.getElementById('watermark');
+            let player;
+
+            onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    const studentDoc = await getDoc(doc(db, "students", user.uid));
+                    let info = user.email;
+                    if (studentDoc.exists()) info = `${studentDoc.data().phone || ''} - ${studentDoc.data().fullName || ''}`;
+                    watermark.innerText = info;
+
+                    loadContent(contentUrl);
+                } else {
+                    window.location.href = 'login.html';
+                }
+            });
+
+            function loadContent(url) {
+                if (!url) {
+                    wrapper.innerText = "رابط الفيديو غير صالح";
+                    return;
+                }
+
+                // Destroy previous instance
+                if (player) {
+                    player.destroy();
+                    wrapper.innerHTML = '';
+                }
+
+                let youtubeId = null;
+                let vimeoId = null;
+
+                // Detect Type
+                if (url.includes('youtube.com') || url.includes('youtu.be')) {
+                    try {
+                        if (url.includes('embed/')) youtubeId = url.split('embed/')[1].split('?')[0];
+                        else if (url.includes('v=')) youtubeId = url.split('v=')[1].split('&')[0];
+                        else if (url.includes('youtu.be/')) youtubeId = url.split('youtu.be/')[1].split('?')[0];
+                    } catch (e) { }
+                } else if (url.includes('vimeo.com')) {
+                    try { vimeoId = url.split('/').pop(); } catch (e) { }
+                }
+
+                // Inject HTML based on Type for Plyr
+                if (youtubeId) {
+                    wrapper.innerHTML = `<div id="player" data-plyr-provider="youtube" data-plyr-embed-id="${youtubeId}"></div>`;
+                } else if (vimeoId) {
+                    wrapper.innerHTML = `<div id="player" data-plyr-provider="vimeo" data-plyr-embed-id="${vimeoId}"></div>`;
+                } else {
+                    // HTML5 Video
+                    // Check if it's an iframe (generic) or file
+                    // If it's a generic link not mp4/youtube/vimeo, we can't use Plyr easily.
+                    if (url.match(/\.(mp4|mov|webm|mkv)$/i) || url.includes('firebasestorage')) {
+                        wrapper.innerHTML = `<video id="player" playsinline controls data-poster=""><source src="${url}" type="video/mp4" /></video>`;
+                    } else {
+                        // Fallback to Iframe without Plyr if unknown source
+                        wrapper.innerHTML = `<iframe src="${url}" frameborder="0" allowfullscreen style="width:100%; height:100%;"></iframe>`;
+                        return; // Don't init Plyr
+                    }
+                }
+
+                // Initialize Plyr
+                player = new Plyr('#player', {
+                    controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'],
+                    youtube: {
+                        noCookie: true,
+                        rel: 0,
+                        showinfo: 0,
+                        iv_load_policy: 3,
+                        modestbranding: 1,
+                        controls: 0 // Hide native Youtube controls
+                    },
+                    speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2] }
+                });
+
+                // Add Shield and Prevent Context Menu
+                player.on('ready', event => {
+                    const p = event.detail.plyr;
+                    if (p.elements.container) {
+                        p.elements.container.addEventListener('contextmenu', e => e.preventDefault());
+
+                        // Add Click Shield (to Play/Pause while blocking Iframe)
+                        const shield = document.createElement('div');
+                        shield.className = 'click-shield';
+                        shield.style.zIndex = '2'; // Above Iframe, Below Controls
+                        shield.onclick = (e) => {
+                            // Only toggle if not clicking controls (though z-index should handle it)
+                            p.togglePlay();
+                        };
+                        // Insert as first child to be behind controls
+                        p.elements.container.prepend(shield);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

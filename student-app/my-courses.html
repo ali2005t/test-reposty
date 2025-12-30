@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>كورساتي - Ta3leemy</title>
+
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/student.css">
+    <link rel="stylesheet" href="../assets/css/student.css">
+    <link rel="stylesheet" href="../assets/css/student-desktop.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="../assets/js/student-common.js" defer></script>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-inner">
+            <div class="logo">كورساتي</div>
+            <div class="header-actions">
+                <!-- Add Profile Icon later -->
+            </div>
+        </div>
+    </header>
+
+    <!-- Bottom Nav -->
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>الرئيسية</span>
+        </a>
+        <a href="my-courses.html" class="nav-item active">
+            <i class="fas fa-book-reader"></i>
+            <span>مشترياتي</span>
+        </a>
+        <a href="support.html" class="nav-item">
+            <i class="fas fa-headset"></i>
+            <span>الدعم</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>حسابي</span>
+        </a>
+    </nav>
+
+    <style>
+        .tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 0 15px;
+        }
+
+        .tab {
+            padding: 8px 20px;
+            background: rgba(99, 102, 241, 0.1);
+            color: #1e293b;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: 1px solid transparent;
+            font-weight: bold;
+        }
+
+        .tab.active {
+            background: #6366f1;
+            color: white;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .note-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+        }
+
+        .note-icon {
+            width: 40px;
+            height: 40px;
+            background: #e0f2fe;
+            color: #0ea5e9;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin-left: 15px;
+        }
+    </style>
+
+    <!-- Content -->
+    <main class="app-content">
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('courses')">الكورسات</div>
+            <div class="tab" onclick="switchTab('notes')">الملازم</div>
+        </div>
+
+        <div id="loading" style="text-align:center; padding:2rem;">
+            <i class="fas fa-spinner fa-spin fa-2x" style="color:var(--app-accent);"></i>
+        </div>
+
+        <!-- Courses Section -->
+        <div id="courses-section">
+            <div id="my-courses-list" class="courses-list" style="display:none;"></div>
+            <div id="courses-empty" class="empty-state" style="display:none; text-align:center; margin-top:3rem;">
+                <i class="fas fa-box-open" style="font-size:3rem; opacity:0.5; margin-bottom:1rem;"></i>
+                <p>لست مشتركاً في أي كورس حالياً</p>
+                <button onclick="window.location.href='home.html'" class="app-btn-outline" style="margin-top:1rem;">تصفح
+                    الكورسات</button>
+            </div>
+        </div>
+
+        <!-- Notes Section -->
+        <div id="notes-section" style="display:none;">
+            <div id="my-notes-list" style="padding:0 15px;"></div>
+            <div id="notes-empty" class="empty-state" style="display:none; text-align:center; margin-top:3rem;">
+                <i class="fas fa-book-open" style="font-size:3rem; opacity:0.5; margin-bottom:1rem;"></i>
+                <p>لا توجد ملازم مشتراة</p>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="../assets/js/firebase-config.js"></script>
+    <script type="module" src="../assets/js/context-resolver.js"></script>
+    <script type="module">
+        import { auth, db } from '../assets/js/firebase-config.js';
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { collection, query, where, getDocs, doc, getDoc, documentId } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Expose switchTab globally
+        window.switchTab = (tab) => {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            if (tab === 'courses') {
+                document.querySelectorAll('.tab')[0].classList.add('active');
+                document.getElementById('courses-section').style.display = 'block';
+                document.getElementById('notes-section').style.display = 'none';
+            } else {
+                document.querySelectorAll('.tab')[1].classList.add('active');
+                document.getElementById('courses-section').style.display = 'none';
+                document.getElementById('notes-section').style.display = 'block';
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    await Promise.all([
+                        loadMyCourses(user.uid),
+                        loadMyNotes(user.uid)
+                    ]);
+                    document.getElementById('loading').style.display = 'none';
+                } else {
+                    window.location.href = 'login.html';
+                }
+            });
+        });
+
+        async function loadMyCourses(uid) {
+            const list = document.getElementById('my-courses-list');
+            const empty = document.getElementById('courses-empty');
+
+            try {
+                const q = query(collection(db, "enrollments"), where("studentId", "==", uid));
+                const snap = await getDocs(q);
+
+                if (snap.empty) {
+                    empty.style.display = 'block';
+                    list.style.display = 'none';
+                    return;
+                }
+
+                const promises = snap.docs.map(async (enrollDoc) => {
+                    const enrollData = enrollDoc.data();
+                    const courseDoc = await getDoc(doc(db, "courses", enrollData.courseId));
+                    if (courseDoc.exists()) {
+                        return { id: courseDoc.id, ...courseDoc.data() };
+                    }
+                    return null;
+                });
+
+                const courses = (await Promise.all(promises)).filter(c => c !== null);
+
+                if (courses.length === 0) {
+                    empty.style.display = 'block';
+                    list.style.display = 'none';
+                    return;
+                }
+
+                list.innerHTML = '';
+                list.style.display = 'grid';
+                empty.style.display = 'none';
+
+                courses.forEach(course => {
+                    const el = document.createElement('div');
+                    el.className = 'course-card';
+                    el.onclick = () => {
+                        const hasSlug = window.location.hash && window.location.hash.startsWith('#/');
+                        let url = `course-view.html?id=${course.id}`;
+                        if (hasSlug) {
+                            url += window.location.hash;
+                        } else {
+                            // Fallback if needed, but session usually handles it.
+                            // If we want to be safe:
+                            const tid = sessionStorage.getItem('currentTeacherId');
+                            if (tid) url += `&t=${tid}`;
+                        }
+                        window.location.href = url;
+                    };
+                    el.innerHTML = `
+                        <div class="card-img-placeholder" style="height:120px; background:#f1f5f9;">
+                            <img src="${course.thumbnail || '../assets/images/placeholder.jpg'}" onerror="this.src='../assets/images/placeholder.jpg'" style="width:100%; height:100%; object-fit:cover; border-radius:12px 12px 0 0;">
+                        </div>
+                        <div class="course-info">
+                            <h3 class="course-title" style="color:#1e293b;">${course.title}</h3>
+                            <div class="course-meta">
+                                <span style="font-size:0.8rem; color:#64748b;">${course.level || 'عام'}</span>
+                            </div>
+                        </div>
+                    `;
+                    list.appendChild(el);
+                });
+
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        async function loadMyNotes(uid) {
+            const list = document.getElementById('my-notes-list');
+            const empty = document.getElementById('notes-empty');
+
+            try {
+                // 1. Get Purchased IDs from User Profile
+                const userDoc = await getDoc(doc(db, "users", uid));
+                let purchased = [];
+                if (userDoc.exists()) {
+                    purchased = userDoc.data().purchasedItems || [];
+                }
+
+                if (purchased.length === 0) {
+                    empty.style.display = 'block';
+                    return;
+                }
+
+                // 2. Fetch Books/Notes logic (Chunking if many)
+                const chunks = [];
+                for (let i = 0; i < purchased.length; i += 10) {
+                    chunks.push(purchased.slice(i, i + 10));
+                }
+
+                const books = [];
+                for (const chunk of chunks) {
+                    const q = query(
+                        collection(db, "course_content"),
+                        where(documentId(), 'in', chunk)
+                    );
+                    const snaps = await getDocs(q);
+                    snaps.forEach(d => {
+                        const data = d.data();
+                        // Accept 'book' or generic 'file' if purchased? 
+                        // Usually type='book' for Mlazem.
+                        if (data.type === 'book' || data.type === 'note') {
+                            books.push({ id: d.id, ...data });
+                        }
+                    });
+                }
+
+                if (books.length === 0) {
+                    empty.style.display = 'block';
+                    return;
+                }
+
+                list.innerHTML = '';
+                empty.style.display = 'none';
+
+                books.forEach(book => {
+                    const el = document.createElement('div');
+                    el.className = 'note-card';
+                    el.onclick = () => window.open(book.fileUrl, '_blank');
+                    el.innerHTML = `
+                        <div style="display:flex; align-items:center;">
+                            <div class="note-icon">
+                                <i class="fas fa-file-pdf"></i>
+                            </div>
+                            <div class="note-info" style="margin-left:15px; margin-right:15px;">
+                                <h3 style="margin:0 0 5px 0; font-size:1rem; color:#1e293b;">${book.title}</h3>
+                                <p style="margin:0; font-size:0.85rem; color:#64748b;">${book.description || 'ملزمة PDF'}</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-external-link-alt" style="color:#cbd5e1; margin-left:10px;"></i>
+                    `;
+                    list.appendChild(el);
+                });
+
+            } catch (error) {
+                console.error("Notes Error", error);
+            }
+        }
+    </script>
+    <script type="module" src="../assets/js/student-home.js"></script>
+    <script type="module" src="../assets/js/notification-manager.js"></script>
+    <!-- SPA Router (Remove this line to disable no-refresh navigation) -->
+    <script src="../assets/js/router.js" defer></script>
+</body>
+
+</html>

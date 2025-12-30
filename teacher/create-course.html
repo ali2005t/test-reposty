@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إضافة كورس (فصل) - Ta3leemy</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header"><a href="#" class="logo">Ta3leemy</a></div>
+            <div class="sidebar-menu">
+                <div class="menu-item" onclick="window.location.href='dashboard.html'"><i class="fas fa-home"></i>
+                    الرئيسية</div>
+                <div class="menu-item active" onclick="window.location.href='trainings.html'"><i
+                        class="fas fa-layer-group"></i> الدورات</div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <button class="btn btn-secondary" onclick="window.history.back()"><i class="fas fa-arrow-right"></i>
+                        عودة</button>
+                    <h3>إضافة كورس (فصل)</h3>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <div class="card" style="max-width:800px; margin:0 auto; padding:2rem;">
+
+                    <form id="create-course-form">
+                        <input type="hidden" id="training-id">
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">الاسم <span style="color:red">*</span></label>
+                                <input type="text" id="course-title" class="form-input" required
+                                    placeholder="اسم الفصل/الكورس">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">سعر البيع أونلاين</label>
+                                <input type="number" id="course-price" class="form-input" placeholder="0">
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">نشر</label>
+                                <select id="course-status" class="form-input">
+                                    <option value="active">نشر</option>
+                                    <option value="draft">مسودة</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">عدد الأيام <span style="color:red">*</span></label>
+                                <input type="number" id="course-days" class="form-input" value="365">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">المرتبة (الترتيب)</label>
+                            <input type="number" id="course-rank" class="form-input" value="1">
+                        </div>
+
+                        <!-- Removed Lectures Input -->
+                        <!-- Removed Ratings Input -->
+
+                        <div class="form-group">
+                            <label class="form-label">صورة مصغرة (Thumbnal)</label>
+                            <input type="file" id="course-thumbnail" class="form-input">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">الوصف (اختياري)</label>
+                            <textarea id="course-desc" class="form-input" style="height:80px;"></textarea>
+                        </div>
+
+                        <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+                            <button type="button" class="btn btn-secondary"
+                                onclick="window.history.back()">إلغاء</button>
+                            <button type="submit" class="btn btn-primary" id="save-btn">
+                                <span id="btn-text">حفظ</span>
+                                <i class="fas fa-spinner fa-spin" id="btn-loader" style="display:none;"></i>
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="../assets/js/firebase-config.js"></script>
+    <script type="module" src="../assets/js/create-course.js"></script>
+</body>
+
+</html>

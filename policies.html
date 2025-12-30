@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>السياسات والقوانين - Ta3leemy</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/landing.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            background: #0f172a;
+            color: #f8fafc;
+            font-family: 'Tajawal', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background-image: radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.1) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(99, 102, 241, 0.1) 0px, transparent 50%);
+        }
+
+        .policy-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .policy-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 60px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #38bdf8;
+            margin: 0 0 40px 0;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 2.2rem;
+        }
+
+        p,
+        li {
+            line-height: 2;
+            color: #e2e8f0;
+            font-size: 1.15rem;
+            white-space: pre-line;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            color: #38bdf8;
+        }
+
+        @media(max-width: 768px) {
+            .policy-card {
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="policy-container">
+        <a href="index.html" class="back-link"><i class="fas fa-arrow-right"></i> العودة للرئيسية</a>
+
+        <div class="policy-card">
+            <h1 id="page-title">...</h1>
+            <div id="page-content">
+                <div style="text-align:center; color:#64748b;">
+                    <i class="fas fa-spinner fa-spin fa-2x"></i>
+                    <p>جاري التحميل...</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="module">
+        import { db } from './assets/js/firebase-config.js';
+        import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        (async () => {
+            const params = new URLSearchParams(window.location.search);
+            const type = params.get('type') || 'terms'; // 'terms' or 'privacy'
+
+            const titleMap = {
+                'terms': 'الشروط والأحكام',
+                'privacy': 'سياسة الخصوصية'
+            };
+
+            document.getElementById('page-title').innerText = titleMap[type];
+            document.title = `${titleMap[type]} - Ta3leemy`;
+
+            try {
+                const docRef = doc(db, "config", "general_settings");
+                const snap = await getDoc(docRef);
+
+                if (snap.exists()) {
+                    const data = snap.data();
+                    const content = type === 'terms' ? data.termsText : data.privacyText;
+
+                    if (content) {
+                        document.getElementById('page-content').innerHTML = `<p>${content}</p>`;
+                    } else {
+                        document.getElementById('page-content').innerHTML = `
+                            <div style="text-align:center; padding: 20px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                                <i class="fas fa-file-alt" style="font-size: 3rem; color: #475569; margin-bottom: 15px;"></i>
+                                <p>لم يتم إضافة محتوى لهذه الصفحة بعد.</p>
+                            </div>
+                        `;
+                    }
+                }
+            } catch (e) {
+                console.error("Error", e);
+                document.getElementById('page-content').innerText = "حدث خطأ أثناء تحميل المحتوى.";
+            }
+        })();
+    </script>
+</body>
+
+</html>

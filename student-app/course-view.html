@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>تفاصيل الكورس - Ta3leemy</title>
+
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/student.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/student-desktop.css">
+    <script src="../assets/js/student-common.js" defer></script>
+    <style>
+        /* Override for Clean White Theme matching screenshot */
+        body {
+            background-color: #f8fafc;
+        }
+
+        .app-header {
+            background: white !important;
+            color: #1e293b;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            position: relative !important;
+            /* Not absolute over image */
+            height: 60px;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .btn-icon {
+            background: transparent !important;
+            color: #1e293b !important;
+            width: auto !important;
+            height: auto !important;
+            font-size: 1.2rem;
+        }
+
+        .course-header-img {
+            width: 100%;
+            height: 180px;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            object-fit: cover;
+            margin-bottom: 0px;
+        }
+
+        .course-info-section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        h1#course-title {
+            font-size: 1.3rem;
+            color: #1e293b;
+            margin: 0;
+        }
+
+        h3 {
+            color: #1e293b;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            padding: 0 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="app-header">
+        <div class="header-content">
+            <a href="home.html" class="btn-icon"
+                style="text-decoration:none; display:flex; align-items:center; justify-content:center;">
+                <i class="fas fa-arrow-right"></i>
+            </a>
+            <span style="font-weight:bold;">المناهج</span>
+            <a href="notifications.html" class="btn-icon"
+                style="text-decoration:none; display:flex; align-items:center; justify-content:center;">
+                <i class="fas fa-bell"></i>
+            </a>
+        </div>
+    </header>
+
+    <div class="course-header-img" id="course-img-placeholder">
+        <img src="../assets/images/placeholder-course.png" style="max-height:100px; opacity:0.5;" alt="Course Image">
+    </div>
+
+    <div class="course-info-section">
+        <h1 id="course-title">جاري التحميل...</h1>
+        <p id="course-desc" style="color:#64748b; font-size:0.9rem; margin-top:5px;">...</p>
+
+        <div id="enroll-section" style="margin-top:15px; display:none;">
+            <button id="enroll-btn" class="app-btn" style="background:var(--primary-color); width:100%;">
+                <i class="fas fa-lock"></i> اشترك الآن (أدخل الكود)
+            </button>
+        </div>
+
+        <div id="enrollment-status" style="margin-top:10px;"></div>
+    </div>
+
+    <!-- Content Area (Tabs & List handled by JS) -->
+    <div id="content-list" style="padding-bottom: 80px;">
+        <!-- Injected by JS -->
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>الرئيسية</span>
+        </a>
+        <a href="my-courses.html" class="nav-item">
+            <i class="fas fa-book-reader"></i>
+            <span>مشترياتي</span>
+        </a>
+        <a href="support.html" class="nav-item">
+            <i class="fas fa-headset"></i>
+            <span>الدعم</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>حسابي</span>
+        </a>
+    </nav>
+
+    <!-- Fix: JS injects tabs/content. We need to ensure container is ready. -->
+
+    <!-- Code Entry Modal -->
+    <div id="code-modal" class="modal-overlay" style="display:none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>تفعيل المحتوى</h3>
+                <button class="close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <p>لفتح هذا المحتوى، يرجى إدخال كود التفعيل الخاص به.</p>
+                <div class="form-group">
+                    <input type="text" id="access-code-input" class="form-input" placeholder="أدخل الكود هنا...">
+                </div>
+                <div id="modal-msg" style="color:red; font-size:0.9rem; margin-bottom:10px;"></div>
+                <button id="verify-code-btn" class="app-btn" style="width:100%;">تفعيل الآن</button>
+            </div>
+        </div>
+    </div>
+    <style>
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-card {
+            background: white;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 16px;
+            padding: 25px;
+            animation: slideUp 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 10px;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            padding: 0;
+            font-size: 1.1rem;
+            color: #1e293b;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+            background: #f8fafc;
+        }
+
+        .form-input:focus {
+            border-color: #6366f1;
+            background: white;
+            outline: none;
+        }
+
+        .app-btn {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.4);
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .app-btn:active {
+            transform: scale(0.98);
+        }
+
+        .close-modal {
+            background: #f1f5f9;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            cursor: pointer;
+        }
+    </style>
+
+    <script type="module" src="../assets/js/firebase-config.js"></script>
+    <script type="module" src="../assets/js/context-resolver.js"></script>
+    <script type="module" src="../assets/js/student-course-view.js"></script>
+    <!-- SPA Router (Remove this line to disable no-refresh navigation) -->
+    <script src="../assets/js/router.js" defer></script>
+</body>
+
+</html>

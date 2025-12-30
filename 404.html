@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - الصفحة غير موجودة</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="assets/css/error-page.css">
+</head>
+
+<body>
+
+    <!-- Background Elements -->
+    <div class="bg-animation"></div>
+    <div class="float-shape s1"></div>
+    <div class="float-shape s2"></div>
+    <div class="float-shape s3"></div>
+
+    <!-- Redirect Loader (Shown initially for SPA routing check) -->
+    <div id="redirect-content" class="loader-container">
+        <div class="orbit-spinner"></div>
+        <p class="loader-text">جاري البحث عن المسار...</p>
+    </div>
+
+    <!-- 404 Content (Hidden initially) -->
+    <div id="error-content" class="container" style="display: none;">
+        <div class="error-code">404</div>
+        <h1 class="error-title">عذراً، الطريق مسدود!</h1>
+        <p class="error-desc">
+            الصفحة التي تبحث عنها قد تكون اختفت في الثقب الأسود، أو أن الرابط غير صحيح.
+            لا تقلق، يمكنك العودة للأمان.
+        </p>
+
+        <div class="btn-group">
+            <a href="/" onclick="handleHomeLink(event)" class="btn btn-primary">
+                <i class="fas fa-rocket"></i> الرئيسية
+            </a>
+            <button onclick="window.history.back()" class="btn btn-secondary">
+                <i class="fas fa-arrow-right"></i> السابق
+            </button>
+        </div>
+    </div>
+
+    <script src="assets/js/error-page.js"></script>
+</body>
+
+</html>
