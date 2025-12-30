@@ -1,0 +1,131 @@
+/* Teacher Support Page Styles */
+
+.support-actions-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 400px;
+    margin: 50px auto;
+    text-align: center;
+}
+
+.support-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    border: none;
+}
+
+.support-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-tickets {
+    background: #f59e0b;
+    color: white;
+}
+
+.btn-whatsapp {
+    background: #6366f1;
+    color: white;
+}
+
+.support-card {
+    background: #1e293b;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.icon-circle {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 2.5rem;
+    color: #f59e0b;
+}
+
+/* Chat View Overlay */
+.chat-view {
+    position: fixed;
+    inset: 0;
+    background: #0f172a;
+    z-index: 1000;
+    display: none;
+    flex-direction: column;
+}
+
+.chat-view.active {
+    display: flex;
+}
+
+.chat-header {
+    padding: 15px 20px;
+    background: #1e293b;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #334155;
+}
+
+.chat-body {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.message {
+    max-width: 80%;
+    padding: 12px 18px;
+    border-radius: 12px;
+    line-height: 1.5;
+    color: white;
+    font-size: 0.95rem;
+}
+
+.msg-me {
+    align-self: flex-start;
+    background: #334155;
+    border-bottom-right-radius: 2px;
+}
+
+.msg-other {
+    align-self: flex-end;
+    background: #6366f1;
+    border-bottom-left-radius: 2px;
+}
+
+.chat-footer {
+    padding: 15px;
+    background: #1e293b;
+    border-top: 1px solid #334155;
+    display: flex;
+    gap: 10px;
+}
+
+.chat-input {
+    flex: 1;
+    background: #0f172a;
+    border: 1px solid #334155;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 25px;
+    outline: none;
+}

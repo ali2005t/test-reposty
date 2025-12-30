@@ -1,0 +1,201 @@
+/* 
+   Student Desktop Theme - Off-Canvas Sidebar
+   Applied only on screens wider than 1024px
+*/
+
+@media (min-width: 1024px) {
+
+    /* --- General Layout --- */
+    body {
+        background-color: #f8fafc;
+        /* Lighter background */
+        padding-top: 2rem;
+        /* Space for top bar/button */
+    }
+
+    /* Center Content */
+    .app-content {
+        max-width: 1000px !important;
+        margin: 0 auto !important;
+        padding-bottom: 2rem !important;
+    }
+
+    /* --- Sidebar (Transforming Bottom Nav) --- */
+    .bottom-nav {
+        position: fixed !important;
+        top: 0;
+        right: 0;
+        /* RTL Sidebar starts from Right */
+        width: 300px !important;
+        height: 100vh !important;
+        background: white !important;
+        border-top: none !important;
+        border-right: none !important;
+        border-left: 1px solid #e2e8f0;
+
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        padding: 5rem 1.5rem 2rem !important;
+        /* Top padding for toggle button */
+        box-shadow: -5px 0 20px rgba(0, 0, 0, 0.05);
+        z-index: 2000;
+
+        /* OFF-CANVAS LOGIC */
+        transform: translateX(110%);
+        /* Hidden to the right */
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        opacity: 0;
+    }
+
+    /* When Active (Toggled) */
+    .bottom-nav.sidebar-open {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    /* Nav Items Styling */
+    .nav-item {
+        flex-direction: row !important;
+        width: 100%;
+        padding: 1rem !important;
+        margin-bottom: 0.8rem;
+        border-radius: 12px;
+        color: #64748b;
+        transition: all 0.2s ease;
+        justify-content: flex-start !important;
+        gap: 15px;
+        font-size: 1.1rem !important;
+        border: 1px solid transparent;
+    }
+
+    .nav-item:hover {
+        background: #f1f5f9;
+        color: var(--app-primary);
+        transform: translateX(-5px);
+    }
+
+    .nav-item.active {
+        background: rgba(99, 102, 241, 0.08) !important;
+        color: var(--app-primary) !important;
+        font-weight: 700;
+        border: 1px solid rgba(99, 102, 241, 0.2);
+    }
+
+    .nav-item i {
+        font-size: 1.3rem !important;
+        width: 35px;
+        text-align: center;
+        margin-bottom: 0 !important;
+    }
+
+    .nav-item span {
+        display: inline-block !important;
+    }
+
+
+    /* --- Menu Toggle Button (Desktop Only) --- */
+    #desktop-menu-btn {
+        display: flex !important;
+        /* Visible on Desktop */
+        position: fixed;
+        top: 2rem;
+        right: 2rem;
+        z-index: 2100;
+        /* Above Sidebar */
+        width: 50px;
+        height: 50px;
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        transition: all 0.2s;
+        color: #1e293b;
+    }
+
+    #desktop-menu-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    #desktop-menu-btn i {
+        font-size: 1.5rem;
+    }
+
+    /* --- Overlay Backdrop --- */
+    #sidebar-overlay {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(15, 23, 42, 0.4);
+        /* Dark backdrop */
+        backdrop-filter: blur(2px);
+        z-index: 1900;
+        /* Below Sidebar */
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+    }
+
+    #sidebar-overlay.active {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+
+    /* --- Content Adjustments --- */
+    .app-header {
+        display: none !important;
+        /* Clean look, only content and menu btn */
+    }
+
+    /* Courses List Grid */
+    #courses-list,
+    .courses-list,
+    .courses-grid {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+        gap: 25px !important;
+    }
+
+    .training-row {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        padding: 0 !important;
+        overflow: hidden;
+        border: 1px solid #e2e8f0;
+        transition: transform 0.3s !important;
+        height: 100%;
+    }
+
+    .training-row:hover {
+        transform: translateY(-5px);
+    }
+
+    .training-logo {
+        width: 100% !important;
+        height: 150px !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+        font-size: 3rem !important;
+    }
+
+    .training-info {
+        padding: 1.2rem !important;
+        width: 100%;
+        text-align: right !important;
+    }
+
+    /* Video Player Layout */
+    .video-page-container {
+        display: grid;
+        grid-template-columns: 2.5fr 1fr;
+        gap: 2rem;
+    }
+}
